@@ -5,7 +5,7 @@
 <meta name="google-adsense-account" content="ca-pub-8683179294620438">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438" crossorigin="anonymous"></script>
-<title>اللجنة الولائية لعمال التربية - أم البواقي </title>
+<title>اللجنة الولائية لعمال التربية - أم البواقي | الملف النهائي</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
@@ -141,6 +141,9 @@ nav .links button{font-size:12px;padding:6px 10px}
 .section{max-width:1300px}
 .cards{grid-template-columns:repeat(4,1fr)}
 }
+/* تنسيق زر البث المباشر */
+.live-badge{display:inline-block;background:#ff4444;color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800;animation:pulse 1.5s infinite;margin-bottom:8px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 </style>
 </head>
 <body>
@@ -168,8 +171,9 @@ nav .links button{font-size:12px;padding:6px 10px}
 <div class="cd-box"><b id="s">00</b><span>ثانية</span></div>
 </div>
 <div class="btns">
-<button class="btn btn-gold" onclick="showPage('register')">📝 سجل الآن قبل 01 سبتمبر</button>
+<button class="btn btn-gold" onclick="showPage('register')">📝 سجل الآن</button>
 <button class="btn btn-white" onclick="document.getElementById('trips').scrollIntoView({behavior:'smooth'})">🧭 اكتشف الرحلات</button>
+<button class="btn" id="btnWatchLive" onclick="showPage('lottery')" style="display:none;background:linear-gradient(135deg,#ff4444,#ff6b35);color:white;box-shadow:0 6px 18px rgba(255,68,68,0.4)">📺 متابعة القرعة المباشرة</button>
 </div>
 </div>
 </section>
@@ -217,7 +221,9 @@ nav .links button{font-size:12px;padding:6px 10px}
 <div style="font-size:60px">🎉</div><h2 style="color:#0f2c4a">تم التسجيل بنجاح!</h2>
 <p style="margin:10px 0">يا <b id="nameOk"></b> رقمك:</p>
 <div style="background:#0f2c4a;color:#f7b633;padding:12px;border-radius:12px;font-size:20px;font-weight:900" id="code">OEB-2026-XXXX</div>
-<br><button class="btn" style="background:#0f2c4a;color:white" onclick="showPage('home')">العودة للرئيسية</button>
+<br><button class="btn" style="background:#0f2c4a;color:white" onclick="resetForm()">تسجيل آخر 📝</button>
+<br><br>
+<button class="btn btn-white" style="width:100%;border:2px solid #e2ecf7" onclick="showPage('home')">⬅️ الرجوع للرئيسية</button>
 </div>
 </div>
 </div>
@@ -269,7 +275,14 @@ nav .links button{font-size:12px;padding:6px 10px}
 <h3 style="text-align:center;margin-bottom:16px;color:#0f2c4a">تسجيل الدخول</h3>
 <div class="input-group"><label>اسم المستخدم</label><input id="adminUser" type="text" placeholder="admin"></div><br>
 <div class="input-group"><label>كلمة السر</label><input id="adminPass" type="password" placeholder="••••••••"></div><br>
-<button class="btn btn-gold" style="width:100%" onclick="adminLogin()">دخول 🔓</button><br><br>
+<button class="btn btn-gold" style="width:100%" onclick="adminLogin()">دخول 🔓</button>
+<br><br>
+<div id="adminControls" style="display:none; text-align:center; margin-top:10px">
+    <button class="btn" id="btnStartLive" onclick="startLiveMode()" style="background:#ff4444;color:white;width:100%;margin-bottom:8px">🔴 تفعيل البث المباشر</button>
+    <button class="btn" id="btnStopLive" onclick="stopLiveMode()" style="background:#666;color:white;width:100%;display:none">⏹️ إيقاف البث المباشر</button>
+    <div id="liveStatus" style="color:#f7b633;font-weight:800;margin-top:8px;display:none">🟢 البث المباشر مفعل حالياً</div>
+</div>
+<br>
 <button class="btn btn-white" style="width:100%;border:2px solid #e2ecf7" onclick="showPage('home')">⬅️ الرجوع للرئيسية</button>
 </div>
 </div>
@@ -278,7 +291,19 @@ nav .links button{font-size:12px;padding:6px 10px}
 <div class="lot-wrap">
 <div class="lot-grid">
 <div class="lpanel"><h3>👥 المشاركون (<span id="count">0</span>)</h3><select id="filterTrip" onchange="renderList()" style="width:100%;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);color:white;padding:7px;border-radius:8px;margin-bottom:8px"><option value="الكل">كل الرحلات</option><option>جيجل</option><option>القالة</option><option>تونس</option><option>العمرة</option></select><div class="llist" id="plist"></div><div style="display:flex;gap:6px;margin-top:8px"><input id="newName" placeholder="اسم جديد + Enter" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white"><button onclick="addPerson()" style="background:#1b6ca8;border:none;color:white;padding:7px 10px;border-radius:8px;font-weight:800;cursor:pointer">+</button></div></div>
-<div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center"><div class="top-name-box"><small style="color:#f7b633;font-size:12px;font-weight:800">⬆️ الاسم واللقب في الأعلى ⬆️</small><div id="currentName">اضغط ابدأ القرعة</div><div id="currentEt">سيظهر هنا</div></div><div style="font-size:70px">🎰</div><button class="big-btn-lot" id="startBtn" onclick="startLottery()">🎰 ابدأ القرعة</button><div class="winner-card-lot" id="winnerCard"><h1 style="font-size:36px;color:#ff6b00">🎉 مبروك 🎉</h1><h2 id="wName" style="font-size:28px;color:#0f2c4a;margin:8px 0">محمد أحمد</h2><p id="wEt" style="color:#5a7a9a">ابتدائية - أم البواقي</p><div id="wTrip" style="background:#0f2c4a;color:#f7b633;padding:6px 14px;border-radius:20px;font-weight:800;margin-top:8px;display:inline-block">جيجل</div><div style="margin-top:12px;display:flex;gap:8px;justify-content:center"><button onclick="acceptWinner()" style="background:#0f2c4a;color:white;border:none;padding:9px 16px;border-radius:20px;font-weight:800;cursor:pointer">✅ تأكيد</button><button onclick="rejectWinner()" style="background:#eee;border:none;padding:9px 14px;border-radius:20px;cursor:pointer">إلغاء</button></div></div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+<div class="top-name-box">
+    <div id="liveIndicator" style="display:none;margin-bottom:8px">
+        <span class="live-badge">🔴 بث مباشر</span>
+        <span style="color:#8ecaff;font-size:12px">يتحدث تلقائياً كل 3 ثوانٍ</span>
+    </div>
+    <small style="color:#f7b633;font-size:12px;font-weight:800">⬆️ الاسم واللقب في الأعلى ⬆️</small>
+    <div id="currentName">اضغط ابدأ القرعة</div>
+    <div id="currentEt">سيظهر هنا</div>
+</div>
+<div style="font-size:70px">🎰</div>
+<button class="big-btn-lot" id="startBtn" onclick="startLottery()">🎰 ابدأ القرعة</button>
+<div class="winner-card-lot" id="winnerCard"><h1 style="font-size:36px;color:#ff6b00">🎉 مبروك 🎉</h1><h2 id="wName" style="font-size:28px;color:#0f2c4a;margin:8px 0">محمد أحمد</h2><p id="wEt" style="color:#5a7a9a">ابتدائية - أم البواقي</p><div id="wTrip" style="background:#0f2c4a;color:#f7b633;padding:6px 14px;border-radius:20px;font-weight:800;margin-top:8px;display:inline-block">جيجل</div><div style="margin-top:12px;display:flex;gap:8px;justify-content:center"><button onclick="acceptWinner()" style="background:#0f2c4a;color:white;border:none;padding:9px 16px;border-radius:20px;font-weight:800;cursor:pointer">✅ تأكيد</button><button onclick="rejectWinner()" style="background:#eee;border:none;padding:9px 14px;border-radius:20px;cursor:pointer">إلغاء</button></div></div></div>
 <div class="lpanel"><h3>🏆 الفائزون (<span id="wcount">0</span>)</h3><div class="llist" id="wlist"><div style="text-align:center;color:#6a8aaa;padding:18px">لا يوجد فائزون بعد</div></div><div style="margin-top:10px"><button onclick="exportWinners()" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer">📥 تصدير النتائج Excel</button></div></div>
 </div>
 </div>
@@ -288,6 +313,14 @@ nav .links button{font-size:12px;padding:6px 10px}
 <div id="mabrouk"><div style="font-size:50px">🎉</div><h2>مبروك</h2><h1 id="mabroukName" style="color:#ff7b00;margin-top:8px"></h1></div>
 
 <script>
+// ============================================================
+// 0. تعريف GOOGLE_SHEET_URL أولاً (مهم جداً!)
+// ============================================================
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwQBdzBIeamKO1mTe9wWm_FRzLPt5hLeD6QolOQdUsyRtJQ5wnYOCO_CpquVVWsM1Sx7Q/exec";
+
+// ============================================================
+// 1. دوال التنقل وعرض الصفحات
+// ============================================================
 function showPage(p){
 try{
 document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
@@ -296,16 +329,155 @@ let pg=document.getElementById('page-'+p);
 if(pg) pg.classList.add('active');
 let btn=document.getElementById('btn-'+(p==='lottery'?'lot':p==='admin'?'admin':p==='contact'?'contact':p));
 if(btn) btn.classList.add('active');
+
+// عند فتح صفحة التسجيل، تأكد من ظهور الاستمارة الفارغة
+if(p==='register'){
+resetFormSilent();
+}
+
+// عند فتح صفحة القرعة، تحقق من حالة البث المباشر
+if(p==='lottery'){
+checkLiveModeAndUpdate();
+}
+
 window.scrollTo({top:0,behavior:'smooth'});
 }catch(err){}
 }
+
+// ============================================================
+// 2. دوال المديرين وتسجيل الدخول
+// ============================================================
 function adminLogin(){
 let u=document.getElementById('adminUser').value.trim();
 let pw=document.getElementById('adminPass').value.trim();
 if(u==='admin' && pw==='admin2026'){
+document.getElementById('adminControls').style.display='block';
+checkLiveStatusForAdmin();
+// ✅ توجيه المدير إلى صفحة القرعة
 showPage('lottery');
+} else {
+alert('❌ اسم المستخدم أو كلمة السر غير صحيحة');
 }
 }
+
+function checkLiveStatusForAdmin(){
+fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
+.then(r=>r.json())
+.then(data=>{
+if(data.live === 'true'){
+document.getElementById('btnStartLive').style.display='none';
+document.getElementById('btnStopLive').style.display='block';
+document.getElementById('liveStatus').style.display='block';
+document.getElementById('liveStatus').innerHTML='🟢 البث المباشر مفعل حالياً';
+} else {
+document.getElementById('btnStartLive').style.display='block';
+document.getElementById('btnStopLive').style.display='none';
+document.getElementById('liveStatus').style.display='none';
+}
+})
+.catch(()=>{});
+}
+
+function startLiveMode(){
+fetch(GOOGLE_SHEET_URL + '?action=setLive&value=true')
+.then(()=>{
+document.getElementById('btnStartLive').style.display='none';
+document.getElementById('btnStopLive').style.display='block';
+document.getElementById('liveStatus').style.display='block';
+document.getElementById('liveStatus').innerHTML='🟢 البث المباشر مفعل حالياً';
+document.getElementById('btnWatchLive').style.display='inline-block';
+alert('✅ تم تفعيل البث المباشر للقرعة!');
+})
+.catch(()=>alert('❌ حدث خطأ، تأكد من اتصال الإنترنت'));
+}
+
+function stopLiveMode(){
+fetch(GOOGLE_SHEET_URL + '?action=setLive&value=false')
+.then(()=>{
+document.getElementById('btnStartLive').style.display='block';
+document.getElementById('btnStopLive').style.display='none';
+document.getElementById('liveStatus').style.display='none';
+document.getElementById('btnWatchLive').style.display='none';
+alert('⏹️ تم إيقاف البث المباشر');
+})
+.catch(()=>alert('❌ حدث خطأ، تأكد من اتصال الإنترنت'));
+}
+
+// ============================================================
+// 3. دوال البث المباشر للمستخدمين
+// ============================================================
+let liveInterval = null;
+let isLiveMode = false;
+let isAdminView = false;
+
+function checkLiveModeAndUpdate(){
+// التحقق مما إذا كان المستخدم هو مدير (من خلال وجود أزرار التحكم)
+isAdminView = document.querySelector('.big-btn-lot') !== null && 
+              document.getElementById('startBtn') && 
+              document.getElementById('startBtn').style.display !== 'none';
+
+// إظهار/إخفاء مؤشر البث المباشر
+fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
+.then(r=>r.json())
+.then(data=>{
+if(data.live === 'true'){
+isLiveMode = true;
+document.getElementById('liveIndicator').style.display='block';
+// إخفاء أزرار التحكم عن المستخدمين العاديين
+if(!isAdminView){
+document.getElementById('startBtn').style.display='none';
+document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b=>b.style.display='none');
+}
+// بدء التحديث التلقائي
+if(!liveInterval){
+liveInterval = setInterval(updateLiveData, 3000);
+}
+updateLiveData();
+} else {
+isLiveMode = false;
+document.getElementById('liveIndicator').style.display='none';
+if(liveInterval){
+clearInterval(liveInterval);
+liveInterval = null;
+}
+// إظهار أزرار التحكم للمدير فقط
+if(isAdminView){
+document.getElementById('startBtn').style.display='block';
+document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b=>b.style.display='inline-block');
+}
+}
+})
+.catch(()=>{});
+}
+
+function updateLiveData(){
+// جلب أحدث البيانات من Google Sheets
+fetch(GOOGLE_SHEET_URL + '?action=getLiveData')
+.then(r=>r.json())
+.then(data=>{
+if(data.currentName){
+document.getElementById('currentName').innerText = data.currentName;
+document.getElementById('currentEt').innerText = data.currentEt || '';
+}
+if(data.winners){
+// تحديث قائمة الفائزين
+let wl = document.getElementById('wlist');
+wl.innerHTML = '';
+data.winners.forEach((w,i)=>{
+let d = document.createElement('div');
+d.className = 'win-item';
+d.innerHTML = `<div style="background:#f7b633;color:#3a2400;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px">${i+1}</div><div><b>${w.name}</b><br><small>${w.trip}</small></div>`;
+wl.appendChild(d);
+});
+document.getElementById('wcount').innerText = data.winners.length;
+}
+})
+.catch(()=>{});
+}
+
+// ============================================================
+// 4. دوال العد التنازلي
+// ============================================================
 function updateCD(){
 let target=new Date('2026-09-01T16:00:00');
 let diff=target-new Date();
@@ -315,8 +487,9 @@ else{d.innerText=h.innerText=m.innerText=s.innerText='0';}
 }
 setInterval(updateCD,1000);updateCD();
 
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwQBdzBIeamKO1mTe9wWm_FRzLPt5hLeD6QolOQdUsyRtJQ5wnYOCO_CpquVVWsM1Sx7Q/exec";
-
+// ============================================================
+// 5. دوال التسجيل
+// ============================================================
 function submitForm(){
 try{
 let nom=document.getElementById('nom').value.trim();
@@ -338,20 +511,72 @@ fetch(GOOGLE_SHEET_URL,{method:'POST', mode:'no-cors', body:JSON.stringify(formD
 }catch(err){alert('خطأ:'+err.message);}
 }
 
+function resetForm(){
+document.getElementById('formArea').style.display='block';
+document.getElementById('successArea').style.display='none';
+document.getElementById('nom').value='';
+document.getElementById('matricule').value='';
+document.getElementById('etab').value='';
+document.getElementById('tel').value='';
+document.getElementById('ccp').value='';
+document.getElementById('cle').value='';
+document.getElementById('typeTrip').value='';
+document.getElementById('baladiya').value='';
+}
+
+function resetFormSilent(){
+document.getElementById('formArea').style.display='block';
+document.getElementById('successArea').style.display='none';
+document.getElementById('nom').value='';
+document.getElementById('matricule').value='';
+document.getElementById('etab').value='';
+document.getElementById('tel').value='';
+document.getElementById('ccp').value='';
+document.getElementById('cle').value='';
+document.getElementById('typeTrip').value='';
+document.getElementById('baladiya').value='';
+}
+
+// ============================================================
+// 6. دوال القرعة
+// ============================================================
 let participants=[{name:"أحمد بوزيد", etab:"ابتدائية ابن باديس", trip:"جيجل"},{name:"فاطمة الزهراء", etab:"متوسطة 8 ماي", trip:"القالة"},{name:"محمد لمين", etab:"ثانوية زيغود يوسف", trip:"العمرة"},{name:"خديجة بن عيسى", etab:"ابتدائية الشهيد عميروش", trip:"تونس"},{name:"يوسف قاسمي", etab:"متوسطة العقيد عميروش", trip:"جيجل"},{name:"سعاد مرابط", etab:"ثانوية هواري بومدين", trip:"القالة"},{name:"عبد الرحمن", etab:"ابتدائية الأمير عبد القادر", trip:"العمرة"},{name:"ليلى حمدي", etab:"متوسطة مالك بن نبي", trip:"تونس"},{name:"كريم بوعلام", etab:"ابتدائية 1 نوفمبر", trip:"جيجل"},{name:"نورة بلقاسم", etab:"ثانوية ابن خلدون", trip:"العمرة"}];
 let winners=[], isRolling=false, currentPick=null;
+
 function renderList(){let f=document.getElementById('filterTrip').value;let list=document.getElementById('plist'); list.innerHTML='';let filtered=participants.filter(p=> f==='الكل' || p.trip.includes(f));document.getElementById('count').innerText=filtered.length;filtered.forEach(p=>{let d=document.createElement('div'); d.className='person'+(winners.find(w=>w.name===p.name)?' winner':'');d.innerHTML=`<span><b>${p.name}</b><br><small style="opacity:0.6">${p.trip}</small></span><span>${winners.find(w=>w.name===p.name)?'🏆':''}</span>`;list.appendChild(d);});}
+
 function addPerson(){let inp=document.getElementById('newName'); let v=inp.value.trim(); if(!v) return; participants.unshift({name:v, etab:"مؤسسة جديدة", trip:"جيجل"}); inp.value=''; renderList();}
 document.getElementById('newName').addEventListener('keydown',e=>{if(e.key==='Enter')addPerson()});
+
 function startLottery(){if(isRolling) return;let available=participants.filter(p=>!winners.find(w=>w.name===p.name));if(available.length===0){alert('انتهت القائمة');return;}isRolling=true; document.getElementById('startBtn').disabled=true;document.getElementById('winnerCard').style.display='none';let slotName=document.getElementById('currentName');let slotEt=document.getElementById('currentEt');let ticks=0, maxTicks=30;let iv=setInterval(()=>{let rnd=available[Math.floor(Math.random()*available.length)];slotName.innerText=rnd.name;slotEt.innerText=rnd.etab+' - '+rnd.trip;ticks++;if(ticks>=maxTicks){clearInterval(iv); finishPick(rnd);}},100);}
+
 function finishPick(p){currentPick=p;document.getElementById('currentName').innerText=p.name;document.getElementById('currentEt').innerText=p.etab+' - '+p.trip;document.getElementById('currentName').style.color='#f7b633';document.getElementById('wName').innerText=p.name;document.getElementById('wEt').innerText=p.etab;document.getElementById('wTrip').innerText=p.trip;document.getElementById('winnerCard').style.display='block';fireworks(p.name);isRolling=false; document.getElementById('startBtn').disabled=false;document.getElementById('startBtn').innerText='🎰 قرعة جديدة';}
+
 function acceptWinner(){if(!currentPick) return;winners.unshift({...currentPick, time:new Date().toLocaleTimeString('ar-DZ')});renderWinners(); renderList();document.getElementById('winnerCard').style.display='none';document.getElementById('currentName').innerText='تم حفظ '+currentPick.name+' ✅';document.getElementById('currentName').style.color='white';currentPick=null;}
+
 function rejectWinner(){document.getElementById('winnerCard').style.display='none'; document.getElementById('currentName').innerText='تم الإلغاء'; isRolling=false;}
+
 function renderWinners(){let wl=document.getElementById('wlist'); document.getElementById('wcount').innerText=winners.length;if(winners.length===0) return;wl.innerHTML='';winners.forEach((w,i)=>{let d=document.createElement('div'); d.className='win-item';d.innerHTML=`<div style="background:#f7b633;color:#3a2400;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px">${i+1}</div><div><b>${w.name}</b><br><small>${w.trip}</small></div>`;wl.appendChild(d);});}
+
 function exportWinners(){if(winners.length===0){alert('لا يوجد فائزون');return;}let csv='الاسم,المؤسسة,الرحلة,الوقت\n'; winners.forEach(w=>csv+=`${w.name},${w.etab},${w.trip},${w.time}\n`);let blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); let url=URL.createObjectURL(blob);let a=document.createElement('a'); a.href=url; a.download='نتائج_القرعة_ام_البواقي.csv'; a.click();}
+
+// ============================================================
+// 7. دوال الألعاب النارية
+// ============================================================
 const canvas=document.getElementById('fireworks');const ctx=canvas.getContext('2d');function resize(){canvas.width=window.innerWidth; canvas.height=window.innerHeight;}window.addEventListener('resize',resize); resize();let particles=[];function fireworks(name){canvas.style.display='block';let mab=document.getElementById('mabrouk');document.getElementById('mabroukName').innerText=name;mab.classList.add('show');particles=[];for(let i=0;i<10;i++){setTimeout(()=>createFirework(Math.random()*canvas.width, Math.random()*canvas.height*0.5+80), i*160);}setTimeout(()=>{canvas.style.display='none'; mab.classList.remove('show'); particles=[];},4000);(function loop(){ctx.fillStyle='rgba(7,15,37,0.18)'; ctx.fillRect(0,0,canvas.width,canvas.height);let alive=false;particles.forEach(p=>{p.x+=p.vx; p.y+=p.vy; p.vy+=0.06; p.life-=0.012; if(p.life>0){alive=true; ctx.globalAlpha=p.life; ctx.fillStyle=p.color; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();}});if(alive) requestAnimationFrame(loop); else ctx.clearRect(0,0,canvas.width,canvas.height);})();}
 function createFirework(x,y){let colors=['#f7b633','#ff7b00','#ff3b3b','#2ec4b6','#ffffff','#a78bfa'];let col=colors[Math.floor(Math.random()*colors.length)];for(let i=0;i<90;i++){let ang=Math.random()*Math.PI*2; let sp=Math.random()*7+1; particles.push({x,y,vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp, size:Math.random()*3.5+1, color:col, life:1});}}
+
+// ============================================================
+// 8. التحميل الأولي
+// ============================================================
 renderList();
+
+// التحقق من حالة البث المباشر عند تحميل الصفحة
+setTimeout(() => {
+checkLiveModeAndUpdate();
+// التحقق كل 10 ثوانٍ من حالة البث (للمستخدمين الذين يبقون في الصفحة)
+setInterval(checkLiveModeAndUpdate, 10000);
+}, 1000);
 </script>
 </body>
 </html>
