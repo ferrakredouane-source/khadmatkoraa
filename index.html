@@ -2,10 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-adsense-account" content="ca-pub-8683179294620438">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438"
-     crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438" crossorigin="anonymous"></script>
 <title>اللجنة الولائية لعمال التربية - أم البواقي | الملف النهائي</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -86,10 +85,11 @@ canvas#fireworks{position:fixed;top:0;left:0;width:100%;height:100%;pointer-even
 <div class="mabrouk" id="mabrouk">🎉 مبروك 🎉<span id="mabroukName"></span></div>
 
 <nav>
-<div class="logo">🏖️ اللجنة الولائية للخدمات الاجتماعية أم البواقي</div>
+<div class="logo">🏖️ لجنة أم البواقي</div>
 <div class="links">
 <button id="btn-home" class="active" onclick="showPage('home')">🏠 الرئيسية</button>
 <button id="btn-reg" onclick="showPage('register')">📝 التسجيل</button>
+<button id="btn-lot" class="lot-btn" onclick="showPage('lottery')">🎰 القرعة</button>
 <button id="btn-admin" onclick="showPage('admin')" style="background:#1a1a2e;border:1px solid #f7b633;color:#f7b633">🔐 المديرين</button>
 </div>
 </nav>
@@ -110,7 +110,7 @@ canvas#fireworks{position:fixed;top:0;left:0;width:100%;height:100%;pointer-even
 </div>
 <div class="btns">
 <button class="btn btn-gold" onclick="showPage('register')">📝 سجل الآن قبل 01 سبتمبر</button>
-
+<button class="btn btn-lot" onclick="showPage('lottery')">🎰 إجراء القرعة المباشرة</button>
 <button class="btn btn-white" onclick="document.getElementById('trips').scrollIntoView({behavior:'smooth'})">🏖️ اكتشف الرحلات</button>
 </div>
 </div>
@@ -127,9 +127,7 @@ canvas#fireworks{position:fixed;top:0;left:0;width:100%;height:100%;pointer-even
 <div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"><div class="card-body"><span class="tag">الأكثر طلبا</span><h3>جيجل - المنار</h3><p>5 أيام / إقامة كاملة</p><b>18,000 دج</b></div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=600"><div class="card-body"><span class="tag">عائلات</span><h3>القالة</h3><p>شقق مجهزة</p><b>22,000 دج</b></div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تونس - سوسة</h3><p>7 أيام منظمة</p><b>55,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1527838832700-5059252407fa?w=600&q=80&auto=format&fit=crop"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تركيا - إسطنبول</h3><p>7 أيام - آيا صوفيا والبوسفور</p><b>95,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600&q=80&auto=format&fit=crop"><div class="card-body"><span class="tag" style="background:#ff4d6d;color:white">جديد 2026</span><h3>مصر - القاهرة والأهرامات</h3><p>6 أيام - الأهرامات والنيل</p><b>75,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600&q=80&auto=format&fit=crop"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة المباركة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة المباركة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
 </div>
 </section>
 <footer>© 2026 اللجنة الولائية لعمال التربية - أم البواقي - بجانب مديرية التربية</footer>
@@ -149,8 +147,12 @@ canvas#fireworks{position:fixed;top:0;left:0;width:100%;height:100%;pointer-even
 <div class="input-group"><label>رقم التعريف الوظيفي *</label><input id="matricule" type="text" placeholder="رقم الموظف"></div>
 <div class="input-group"><label>المؤسسة التربوية *</label><input id="etab" type="text" placeholder="ابتدائية / متوسطة / ثانوية ..."></div>
 <div class="input-group"><label>رقم الهاتف *</label><input id="tel" type="tel" placeholder="06XX XX XX XX"></div>
-<div class="input-group"><label>نوع الرحلة *</label><select id="typeTrip"><option value="">-- اختر --</option><option>جيجل - المنار</option><option>القالة - الطارف</option><option>تونس - سوسة</option><option>تركيا</option><option>العمرة المباركة 🕋</option></select></div>
-<div class="input-group"><label>بلدية الإقامة</label><input type="text" placeholder="أم البواقي، عين البيضاء..."></div>
+<div class="input-group"><label>رقم الحساب الجاري CCP *</label><input id="ccp" type="text" placeholder="مثال: 12345678"></div>
+<div class="input-group"><label>المفتاح Clé *</label><input id="cle" type="text" placeholder="مثال: 12" maxlength="2"></div>
+<div class="input-group"><label>نوع الرحلة *</label><select id="typeTrip"><option value="">-- اختر --</option><option>جيجل - المنار</option><option>القالة - الطارف</option><option>تونس - سوسة</option><option>تركيا</option><option>مصر</option><option>العمرة المباركة 🕋</option></select></div>
+<div class="input-group"><label>بلدية الإقامة *</label><select id="baladiya"><option value="">-- اختر بلدية أم البواقي --</option>
+<option>أم البواقي</option><option>عين البيضاء</option><option>عين مليلة</option><option>عين الفكرون</option><option>عين بابوش</option><option>عين الزيتون</option><option>عين الديس</option><option>بئر الشهداء</option><option>بئر الشحم</option><option>العامرية</option><option>بريش</option><option>الحرميلية</option><option>هنشير تومغني</option><option>الجازية</option><option>الضلعة</option><option>عين كرشة</option><option>أولاد حملة</option><option>أولاد زواي</option><option>أولاد قاسم</option><option>فكيرينة</option><option>قصر الصباحي</option><option>مسكيانة</option><option>وادي نيني</option><option>الرحية</option><option>سوق نعمان</option><option>الزرق</option><option>بوغرارة السعودي</option><option>عين ببوش</option><option>سيدي ارغيس</option>
+</select></div>
 </div>
 <br><button class="btn btn-gold" style="width:100%" onclick="submitForm()">تأكيد التسجيل ✔️</button><br><br>
 <button class="btn btn-white" style="width:100%;border:2px solid #e2ecf7" onclick="showPage('home')">⬅️ الرجوع للرئيسية</button>
@@ -227,14 +229,16 @@ canvas#fireworks{position:fixed;top:0;left:0;width:100%;height:100%;pointer-even
 
 <script>
 function showPage(p){
+try{
 document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
 document.querySelectorAll('nav .links button').forEach(e=>e.classList.remove('active'));
-let page=document.getElementById('page-'+p);
-if(page) page.classList.add('active');
-let btnId = 'btn-' + (p==='lottery'?'lot':p);
+let pg=document.getElementById('page-'+p);
+if(pg) pg.classList.add('active');
+let btnId='btn-'+(p==='lottery'?'lot':p==='admin'?'admin':p);
 let btn=document.getElementById(btnId);
 if(btn) btn.classList.add('active');
 window.scrollTo({top:0,behavior:'smooth'});
+}catch(err){console.error(err);}
 }
 function adminLogin(){
 let u=document.getElementById('adminUser').value.trim();
@@ -245,7 +249,7 @@ msg.style.display='none';
 showPage('lottery');
 }else{
 msg.style.display='block';
-msg.innerText='❌ اسم المستخدم أو كلمة السر خاطئة (جرب admin / admin2026)';
+msg.innerText='❌ خطأ في الدخول (جرب admin / admin2026)';
 }
 }
 function updateCD(){
@@ -260,17 +264,67 @@ s.innerText=Math.floor((diff%60000)/1000);
 }else{d.innerText=h.innerText=m.innerText=s.innerText='0';}
 }
 setInterval(updateCD,1000);updateCD();
+
+
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxLknKYDmdK2VsztwFeT5Fhocf1wMhyeXXQl_Ot8OibjqJrI_aR8Df7Q-Vofe1CSa6H/exec";
+
 function submitForm(){
+try{
 let nom=document.getElementById('nom').value.trim();
 let mat=document.getElementById('matricule').value.trim();
+let etab=document.getElementById('etab').value.trim();
 let tel=document.getElementById('tel').value.trim();
+let ccp=document.getElementById('ccp').value.trim();
+let cle=document.getElementById('cle').value.trim();
 let trip=document.getElementById('typeTrip').value;
-if(!nom||!mat||!tel||!trip){alert('الرجاء ملء الحقول الإجبارية *');return;}
+let baladiya=document.getElementById('baladiya').value;
+
+if(!nom||!mat||!tel||!trip||!ccp||!cle||!baladiya||!etab){alert('الرجاء ملء جميع الحقول الإجبارية *');return;}
+
 let code='OEB-2026-'+Math.floor(1000+Math.random()*9000);
 document.getElementById('code').innerText=code;
 document.getElementById('nameOk').innerText=nom;
 document.getElementById('formArea').style.display='none';
 document.getElementById('successArea').style.display='block';
+
+let formData = {nom:nom, matricule:mat, etab:etab, tel:tel, ccp:ccp, cle:cle, trip:trip, baladiya:baladiya, code:code, date:new Date().toLocaleString('ar-DZ')};
+
+// الطريقة 1: JSON (التي كودك يقرأها في postData.contents)
+fetch(GOOGLE_SHEET_URL, {
+  method:'POST',
+  mode:'no-cors',
+  body: JSON.stringify(formData)
+});
+
+// الطريقة 2: Form POST عبر iframe (التي كودك يقرأها في e.parameter) - مضمونة
+setTimeout(()=>{
+  try{
+    let iframeName = 'gsheet_iframe_' + Date.now();
+    let iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    let form = document.createElement('form');
+    form.method = 'POST';
+    form.action = GOOGLE_SHEET_URL;
+    form.target = iframeName;
+    form.style.display = 'none';
+    for(let k in formData){
+      let inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.name = k;
+      inp.value = formData[k];
+      form.appendChild(inp);
+    }
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(()=>{ try{ document.body.removeChild(form); document.body.removeChild(iframe); }catch(e){} }, 3000);
+  }catch(e){ console.log(e); }
+}, 300);
+
+}catch(err){
+alert('حدث خطأ: '+err.message);
+}
 }
 // LOTTERY LOGIC
 let participants=[
