@@ -314,7 +314,7 @@ nav .links button{font-size:12px;padding:6px 10px}
 
 <script>
 // ============================================================
-// 0. تعريف GOOGLE_SHEET_URL أولاً (مهم جداً!)
+// 0. تعريف GOOGLE_SHEET_URL
 // ============================================================
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwQBdzBIeamKO1mTe9wWm_FRzLPt5hLeD6QolOQdUsyRtJQ5wnYOCO_CpquVVWsM1Sx7Q/exec";
 
@@ -330,12 +330,10 @@ if(pg) pg.classList.add('active');
 let btn=document.getElementById('btn-'+(p==='lottery'?'lot':p==='admin'?'admin':p==='contact'?'contact':p));
 if(btn) btn.classList.add('active');
 
-// عند فتح صفحة التسجيل، تأكد من ظهور الاستمارة الفارغة
 if(p==='register'){
 resetFormSilent();
 }
 
-// عند فتح صفحة القرعة، تحقق من حالة البث المباشر
 if(p==='lottery'){
 checkLiveModeAndUpdate();
 }
@@ -345,7 +343,7 @@ window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ============================================================
-// 2. دوال المديرين وتسجيل الدخول
+// 2. دوال المديرين
 // ============================================================
 function adminLogin(){
 let u=document.getElementById('adminUser').value.trim();
@@ -353,7 +351,6 @@ let pw=document.getElementById('adminPass').value.trim();
 if(u==='admin' && pw==='admin2026'){
 document.getElementById('adminControls').style.display='block';
 checkLiveStatusForAdmin();
-// ✅ توجيه المدير إلى صفحة القرعة
 showPage('lottery');
 } else {
 alert('❌ اسم المستخدم أو كلمة السر غير صحيحة');
@@ -369,10 +366,12 @@ document.getElementById('btnStartLive').style.display='none';
 document.getElementById('btnStopLive').style.display='block';
 document.getElementById('liveStatus').style.display='block';
 document.getElementById('liveStatus').innerHTML='🟢 البث المباشر مفعل حالياً';
+document.getElementById('btnWatchLive').style.display='inline-block';
 } else {
 document.getElementById('btnStartLive').style.display='block';
 document.getElementById('btnStopLive').style.display='none';
 document.getElementById('liveStatus').style.display='none';
+document.getElementById('btnWatchLive').style.display='none';
 }
 })
 .catch(()=>{});
@@ -404,44 +403,33 @@ alert('⏹️ تم إيقاف البث المباشر');
 }
 
 // ============================================================
-// 3. دوال البث المباشر للمستخدمين
+// 3. دوال البث المباشر للمستخدمين (تعمل لجميع الأجهزة)
 // ============================================================
 let liveInterval = null;
-let isLiveMode = false;
-let isAdminView = false;
 
 function checkLiveModeAndUpdate(){
-// التحقق مما إذا كان المستخدم هو مدير (من خلال وجود أزرار التحكم)
-isAdminView = document.querySelector('.big-btn-lot') !== null && 
-              document.getElementById('startBtn') && 
-              document.getElementById('startBtn').style.display !== 'none';
-
-// إظهار/إخفاء مؤشر البث المباشر
 fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
 .then(r=>r.json())
 .then(data=>{
 if(data.live === 'true'){
-isLiveMode = true;
 document.getElementById('liveIndicator').style.display='block';
 // إخفاء أزرار التحكم عن المستخدمين العاديين
-if(!isAdminView){
 document.getElementById('startBtn').style.display='none';
 document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b=>b.style.display='none');
-}
 // بدء التحديث التلقائي
 if(!liveInterval){
 liveInterval = setInterval(updateLiveData, 3000);
 }
 updateLiveData();
 } else {
-isLiveMode = false;
 document.getElementById('liveIndicator').style.display='none';
 if(liveInterval){
 clearInterval(liveInterval);
 liveInterval = null;
 }
-// إظهار أزرار التحكم للمدير فقط
-if(isAdminView){
+// إظهار أزرار التحكم للمدير فقط (سيتم إظهارها عند دخوله)
+// نتحقق إذا كان المستخدم مديراً من خلال وجود adminControls
+if(document.getElementById('adminControls').style.display === 'block'){
 document.getElementById('startBtn').style.display='block';
 document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b=>b.style.display='inline-block');
 }
@@ -451,7 +439,6 @@ document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b=
 }
 
 function updateLiveData(){
-// جلب أحدث البيانات من Google Sheets
 fetch(GOOGLE_SHEET_URL + '?action=getLiveData')
 .then(r=>r.json())
 .then(data=>{
@@ -460,7 +447,6 @@ document.getElementById('currentName').innerText = data.currentName;
 document.getElementById('currentEt').innerText = data.currentEt || '';
 }
 if(data.winners){
-// تحديث قائمة الفائزين
 let wl = document.getElementById('wlist');
 wl.innerHTML = '';
 data.winners.forEach((w,i)=>{
@@ -574,9 +560,24 @@ renderList();
 // التحقق من حالة البث المباشر عند تحميل الصفحة
 setTimeout(() => {
 checkLiveModeAndUpdate();
-// التحقق كل 10 ثوانٍ من حالة البث (للمستخدمين الذين يبقون في الصفحة)
-setInterval(checkLiveModeAndUpdate, 10000);
+// التحقق كل 5 ثوانٍ من حالة البث
+setInterval(checkLiveModeAndUpdate, 5000);
 }, 1000);
+
+// التحقق من حالة البث المباشر في الصفحة الرئيسية أيضاً
+// حتى يظهر زر "متابعة القرعة المباشرة" فوراً
+setInterval(() => {
+fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
+.then(r=>r.json())
+.then(data=>{
+if(data.live === 'true'){
+document.getElementById('btnWatchLive').style.display='inline-block';
+} else {
+document.getElementById('btnWatchLive').style.display='none';
+}
+})
+.catch(()=>{});
+}, 5000);
 </script>
 </body>
 </html>
