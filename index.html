@@ -5,6 +5,8 @@
 <meta name="google-adsense-account" content="ca-pub-8683179294620438">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438" crossorigin="anonymous"></script>
+<!-- ✅ إضافة مكتبة SheetJS لإنشاء ملفات Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <title>اللجنة الولائية لعمال التربية - أم البواقي | الملف النهائي</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -82,7 +84,6 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .contact-card p{color:#5a7a9a;font-size:15px;direction:ltr}
 .contact-card .ar{color:#5a7a9a;font-size:15px;direction:rtl}
 
-/* تنسيق لوحة التحكم */
 .dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0}
 .dash-card{background:white;border-radius:16px;padding:20px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06)}
 .dash-card .num{font-size:36px;font-weight:900;color:#0f2c4a;display:block}
@@ -100,8 +101,73 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 
 .dashboard-hero{background:linear-gradient(135deg,#0f2c4a,#1b6ca8);padding:95px 20px 35px;text-align:center;color:white}
-
 .admin-login-box{max-width:480px;margin:auto;background:white;border-radius:20px;padding:26px;box-shadow:0 18px 50px rgba(0,0,0,0.1)}
+
+/* تنسيق أدوات القرعة */
+.lot-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.lot-controls input{width:80px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:white;text-align:center;font-size:16px}
+.lot-controls label{color:#8ecaff;font-size:14px;display:flex;align-items:center;gap:6px}
+
+.winners-lists-right{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:12px;height:100%;display:flex;flex-direction:column;gap:10px}
+.winners-lists-right .list-box{flex:1}
+.winners-lists-right .list-box h4{color:#8ecaff;font-size:14px;margin-bottom:6px;display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:4px}
+.winners-lists-right .list-box .llist{max-height:200px;overflow:auto}
+.winners-lists-right .list-box .empty-msg{text-align:center;color:#6a8aaa;padding:10px;font-size:13px}
+.win-item-sm{background:rgba(255,255,255,0.06);border-radius:8px;padding:5px 10px;margin-bottom:4px;display:flex;justify-content:space-between;font-size:13px}
+.win-item-sm .name{color:white}
+.win-item-sm .trip{color:#8ecaff;font-size:11px}
+.win-item-sm.reserve{border-right:3px solid #f7b633}
+.win-item-sm.winner-item{border-right:3px solid #2ec4b6}
+
+.lot-right-panel{display:flex;flex-direction:column;gap:12px}
+.lot-right-panel .lpanel{flex:1}
+.lot-right-panel .winners-lists-right{flex-shrink:0}
+
+@keyframes slotSpin {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.slot-animation { animation: slotSpin 0.15s ease-in-out; }
+@keyframes winnerReveal {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.winner-reveal { animation: winnerReveal 0.6s ease-out; }
+
+.print-btn{background:#2ec4b6;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
+.print-btn:hover{background:#1a9e8f}
+.excel-btn{background:#1d6f42;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
+.excel-btn:hover{background:#155a34}
+
+@media print {
+    nav, .ticker, .btns, .lot-controls, #winnerCard, #fireworks, #mabrouk,
+    .dash-actions, .lot-grid .lpanel:first-child, .lot-grid .lpanel:last-child,
+    .lot-grid > div:last-child .lpanel, .dashboard-grid, #recentRegistrations,
+    #liveStatusDashboard, #dashStartLive, #dashStopLive, .btn, .print-btn,
+    .big-btn-lot, #startLotteryBtn, .lot-controls, .top-name-box > .lot-controls,
+    .top-name-box > div:not(.winners-lists-right), .top-name-box > small,
+    .top-name-box > #slotDisplay, .top-name-box > #liveIndicator,
+    .top-name-box > #batchResult, .top-name-box > #progressBar,
+    .top-name-box > #progressText, .top-name-box > #currentName {
+        display: none !important;
+    }
+    body { background: white !important; }
+    .lot-wrap { padding: 0 !important; background: white !important; }
+    .lot-grid { display: block !important; max-width: 100% !important; }
+    .lot-right-panel { width: 100% !important; }
+    .winners-lists-right { border: 2px solid #0f2c4a !important; background: white !important; }
+    .winners-lists-right .list-box .llist { max-height: none !important; }
+    .win-item-sm { background: #f5f5f5 !important; border-bottom: 1px solid #ddd !important; }
+    .win-item-sm .name { color: #0f2c4a !important; }
+    .win-item-sm .trip { color: #1b6ca8 !important; }
+    .winners-lists-right .list-box h4 { color: #0f2c4a !important; }
+    .winners-lists-right .list-box .empty-msg { color: #999 !important; }
+    .win-item-sm.winner-item { border-right: 4px solid #2ec4b6 !important; }
+    .win-item-sm.reserve { border-right: 4px solid #f7b633 !important; }
+    #page-lottery .lot-wrap { padding-top: 20px !important; }
+}
 </style>
 </head>
 <body>
@@ -115,9 +181,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </nav>
 
-<!-- ============================================================ -->
 <!-- الصفحة الرئيسية -->
-<!-- ============================================================ -->
 <div id="page-home" class="page active">
 <div class="ticker"><span>📢 آخر أجل للتسجيل: 01 سبتمبر 2026 على الساعة 16:00 • قرعة علنية وشفافة يوم 05 سبتمبر بمقر مديرية التربية •</span></div>
 <section class="hero">
@@ -157,9 +221,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <footer>© 2026 اللجنة الولائية لعمال التربية -أم البواقي- بجانب ابتدائية اليازيد محمد الصالح</footer>
 </div>
 
-<!-- ============================================================ -->
 <!-- صفحة التسجيل -->
-<!-- ============================================================ -->
 <div id="page-register" class="page">
 <div class="register-hero">
 <h1 style="font-size:38px">📝 استمارة التسجيل في القرعة</h1>
@@ -202,9 +264,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- صفحة اتصل بنا -->
-<!-- ============================================================ -->
 <div id="page-contact" class="page">
 <div class="register-hero">
 <h1 style="font-size:38px">📞 اتصل بنا</h1>
@@ -228,9 +288,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- صفحة تسجيل الدخول (المديرين) -->
-<!-- ============================================================ -->
+<!-- صفحة تسجيل الدخول -->
 <div id="page-admin" class="page">
 <div class="dashboard-hero"><h1 style="font-size:38px">🔐 دخول المديرين</h1><p style="margin-top:8px;opacity:0.9">خاص بإدارة اللجنة</p></div>
 <div class="form-wrap" style="max-width:480px">
@@ -275,6 +333,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div class="dash-actions">
 <button class="btn btn-gold" onclick="showPage('lottery')">🎰 إجراء القرعة</button>
 <button class="btn btn-white" style="border:2px solid #e2ecf7" onclick="exportAllData()">📥 تصدير كل البيانات</button>
+<button class="btn excel-btn" onclick="exportParticipantsExcel()">📊 تحميل المشاركين Excel</button>
 </div>
 </div>
 
@@ -290,12 +349,11 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- صفحة القرعة -->
-<!-- ============================================================ -->
 <div id="page-lottery" class="page">
 <div class="lot-wrap">
 <div class="lot-grid">
+<!-- الجهة اليسرى: المشاركون -->
 <div class="lpanel"><h3>👥 المشاركون (<span id="count">0</span>)</h3>
 <select id="filterTrip" onchange="filterParticipants()" style="width:100%;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);color:white;padding:7px;border-radius:8px;margin-bottom:8px">
 <option value="الكل">كل الرحلات</option>
@@ -313,21 +371,80 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <input id="newName" placeholder="اسم جديد + Enter" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white">
 <button onclick="addPerson()" style="background:#1b6ca8;border:none;color:white;padding:7px 10px;border-radius:8px;font-weight:800;cursor:pointer">+</button>
 </div>
-<div style="margin-top:8px">
-<button onclick="showPage('dashboard')" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer">📊 العودة للوحة التحكم</button>
+</div>
+
+<!-- القسم الأوسط - القرعة -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;width:100%">
+<div class="top-name-box" style="width:100%">
+    <div id="liveIndicator" style="display:none;margin-bottom:8px">
+        <span class="live-badge">🔴 بث مباشر</span>
+        <span style="color:#8ecaff;font-size:12px">يتحدث تلقائياً كل 3 ثوانٍ</span>
+    </div>
+    
+    <div class="lot-controls" id="lotControls">
+        <label>🏆 عدد الفائزين:
+            <input type="number" id="winnersCount" value="3" min="1" max="20">
+        </label>
+        <label>📋 عدد الاحتياط:
+            <input type="number" id="reserveCount" value="2" min="0" max="10">
+        </label>
+        <button class="btn btn-gold" onclick="startLottery()" style="padding:8px 20px;font-size:14px" id="startLotteryBtn">🎰 بدء القرعة</button>
+    </div>
+    
+    <div id="slotDisplay" style="width:100%;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:10px">
+        <div id="slotName" style="font-size:48px;font-weight:900;color:#f7b633;min-height:60px;transition:all 0.1s">اضغط "بدء القرعة"</div>
+        <div id="slotStatus" style="font-size:18px;color:#8ecaff;margin-top:6px;min-height:30px">🔮 سيبدأ الاختيار...</div>
+    </div>
+    
+    <div style="width:100%;max-width:400px;background:rgba(255,255,255,0.05);border-radius:10px;height:8px;overflow:hidden;display:none" id="progressBar">
+        <div style="height:100%;width:0%;background:linear-gradient(90deg,#f7b633,#ff6b35);border-radius:10px;transition:width 0.3s" id="progressFill"></div>
+    </div>
+    <div style="font-size:13px;color:#6a8aaa;min-height:20px" id="progressText"></div>
+</div>
+
+<div style="font-size:50px">🎰</div>
+
+<div class="winner-card-lot" id="winnerCard" style="display:none;width:100%;max-width:450px;background:white;color:#0a1930;border-radius:20px;padding:18px;border:4px solid #f7b633;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin-top:10px">
+    <h1 style="font-size:30px;color:#ff6b00">🎉 نتائج القرعة 🎉</h1>
+    <div style="margin:10px 0;padding:10px;background:#f0f7ff;border-radius:12px">
+        <h3 style="color:#0f2c4a">🏆 الفائزون</h3>
+        <div id="batchWinnersList" style="font-size:18px;font-weight:700;color:#1b6ca8"></div>
+    </div>
+    <div style="margin:10px 0;padding:10px;background:#fff8e6;border-radius:12px">
+        <h3 style="color:#7a5a00">📋 قائمة الاحتياط</h3>
+        <div id="batchReserveList" style="font-size:16px;font-weight:600;color:#7a5a00"></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button onclick="confirmWinners()" style="background:#0f2c4a;color:white;border:none;padding:9px 20px;border-radius:20px;font-weight:800;cursor:pointer">✅ تأكيد وإضافة للقوائم</button>
+        <button onclick="rejectWinners()" style="background:#eee;border:none;padding:9px 16px;border-radius:20px;cursor:pointer">🔄 إعادة السحب</button>
+    </div>
+</div>
+
+<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%">
+    <button onclick="exportWinners()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📥 تصدير النتائج</button>
+    <button onclick="clearAllWinners()" style="flex:1;background:rgba(255,50,50,0.15);border:1px solid rgba(255,50,50,0.2);color:#ff6666;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">🗑️ مسح الكل</button>
+    <button onclick="showPage('dashboard')" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#8ecaff;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📊 العودة للوحة التحكم</button>
+    <button onclick="printWinnersLists()" class="print-btn" style="flex:1">🖨️ طباعة القوائم</button>
 </div>
 </div>
-<div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
-<div class="top-name-box">
-<div id="liveIndicator" style="display:none;margin-bottom:8px"><span class="live-badge">🔴 بث مباشر</span><span style="color:#8ecaff;font-size:12px">يتحدث تلقائياً كل 3 ثوانٍ</span></div>
-<small style="color:#f7b633;font-size:12px;font-weight:800">⬆️ الاسم واللقب في الأعلى ⬆️</small>
-<div id="currentName">اضغط ابدأ القرعة</div>
-<div id="currentEt">سيظهر هنا</div>
+
+<!-- الجهة اليمنى: قوائم الفائزين والاحتياط -->
+<div class="lot-right-panel">
+    <div class="winners-lists-right">
+        <div class="list-box">
+            <h4>🏆 الفائزين <span id="winnersCountDisplay" style="color:#2ec4b6;font-size:12px">0</span></h4>
+            <div class="llist" id="finalWinnersList">
+                <div class="empty-msg">لا يوجد فائزين بعد</div>
+            </div>
+        </div>
+        <div class="list-box">
+            <h4>📋 الاحتياط <span id="reserveCountDisplay" style="color:#f7b633;font-size:12px">0</span></h4>
+            <div class="llist" id="finalReserveList">
+                <div class="empty-msg">لا يوجد احتياط بعد</div>
+            </div>
+        </div>
+    </div>
 </div>
-<div style="font-size:70px">🎰</div>
-<button class="big-btn-lot" id="startBtn" onclick="startLottery()">🎰 ابدأ القرعة</button>
-<div class="winner-card-lot" id="winnerCard"><h1 style="font-size:36px;color:#ff6b00">🎉 مبروك 🎉</h1><h2 id="wName" style="font-size:28px;color:#0f2c4a;margin:8px 0">محمد أحمد</h2><p id="wEt" style="color:#5a7a9a">ابتدائية - أم البواقي</p><div id="wTrip" style="background:#0f2c4a;color:#f7b633;padding:6px 14px;border-radius:20px;font-weight:800;margin-top:8px;display:inline-block">جيجل</div><div style="margin-top:12px;display:flex;gap:8px;justify-content:center"><button onclick="acceptWinner()" style="background:#0f2c4a;color:white;border:none;padding:9px 16px;border-radius:20px;font-weight:800;cursor:pointer">✅ تأكيد</button><button onclick="rejectWinner()" style="background:#eee;border:none;padding:9px 14px;border-radius:20px;cursor:pointer">إلغاء</button></div></div></div>
-<div class="lpanel"><h3>🏆 الفائزون (<span id="wcount">0</span>)</h3><div class="llist" id="wlist"><div style="text-align:center;color:#6a8aaa;padding:18px">لا يوجد فائزون بعد</div></div><div style="margin-top:10px"><button onclick="exportWinners()" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer">📥 تصدير النتائج Excel</button></div></div>
 </div>
 </div>
 </div>
@@ -337,12 +454,67 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 
 <script>
 // ============================================================
-// 0. تعريف GOOGLE_SHEET_URL
+// 0. تعريف GOOGLE_SHEET_URL - ✅ تم التحديث بالرابط الجديد
 // ============================================================
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxIA5z6Xxnq7FUzhH8ePaLHw5x6ENmCh0CVXgN3p1q08UYNqZNoONLlNLkdGzcIWpeMkQ/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwuH4XCvwI4PDlrH96yMb6lcKKgYbt_Z1Lb2D308OEmSmHtztxyEsMlk2j9oz_CoCN6Kg/exec";
 
 // ============================================================
-// 1. دوال التنقل وعرض الصفحات
+// 1. المتغيرات العامة
+// ============================================================
+let participants = [];
+let filteredParticipants = [];
+let finalWinners = [];
+let finalReserves = [];
+let batchWinners = [];
+let batchReserves = [];
+let isLotteryRunning = false;
+const STORAGE_KEY = 'lottery_data';
+
+// ============================================================
+// 2. دوال التخزين المحلي
+// ============================================================
+function saveToLocalStorage() {
+    try {
+        const data = {
+            winners: finalWinners,
+            reserves: finalReserves,
+            savedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        console.log('✅ تم حفظ البيانات محلياً');
+    } catch(e) {
+        console.log('⚠️ خطأ في حفظ البيانات محلياً:', e);
+    }
+}
+
+function loadFromLocalStorage() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            const data = JSON.parse(saved);
+            if (data.winners && data.winners.length > 0) {
+                finalWinners = data.winners;
+            }
+            if (data.reserves && data.reserves.length > 0) {
+                finalReserves = data.reserves;
+            }
+            console.log('✅ تم تحميل البيانات من التخزين المحلي');
+            return true;
+        }
+        return false;
+    } catch(e) {
+        console.log('⚠️ خطأ في تحميل البيانات المحلية:', e);
+        return false;
+    }
+}
+
+function clearLocalStorage() {
+    localStorage.removeItem(STORAGE_KEY);
+    console.log('🗑️ تم مسح التخزين المحلي');
+}
+
+// ============================================================
+// 3. دوال التنقل
 // ============================================================
 function showPage(p){
 try{
@@ -355,8 +527,12 @@ if(btn) btn.classList.add('active');
 
 if(p==='register') resetFormSilent();
 if(p==='lottery') {
+    resetLotteryDisplay();
     checkLiveModeAndUpdate();
     loadParticipantsFromSheet();
+    loadFromLocalStorage();
+    renderAllLists();
+    filterParticipants();
 }
 if(p==='dashboard') loadDashboard();
 
@@ -365,7 +541,7 @@ window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ============================================================
-// 2. دالة معالجة النقر على زر المديرين
+// 4. دوال المديرين
 // ============================================================
 function handleAdminClick(){
     if(sessionStorage.getItem('adminLoggedIn') === 'true'){
@@ -375,9 +551,6 @@ function handleAdminClick(){
     }
 }
 
-// ============================================================
-// 3. دوال المديرين
-// ============================================================
 function adminLogin(){
 var u = document.getElementById('adminUser').value;
 var pw = document.getElementById('adminPass').value;
@@ -402,7 +575,7 @@ showPage('dashboard');
 }
 
 // ============================================================
-// 4. دوال لوحة التحكم
+// 5. دوال لوحة التحكم
 // ============================================================
 function loadDashboard(){
 fetch(GOOGLE_SHEET_URL + '?action=getStats')
@@ -488,39 +661,122 @@ alert('📥 سيتم تصدير جميع البيانات قريباً...');
 }
 
 // ============================================================
-// 5. دوال البث المباشر للمستخدمين - ✅ تم تعديلها
+// 6. ✅ دوال تحميل المشاركين بصيغة Excel
+// ============================================================
+function exportParticipantsExcel(){
+    const btn = document.querySelector('.excel-btn');
+    const originalText = btn.textContent;
+    btn.textContent = '⏳ جاري التحميل...';
+    btn.disabled = true;
+    
+    if (typeof XLSX === 'undefined') {
+        alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
+        btn.textContent = originalText;
+        btn.disabled = false;
+        return;
+    }
+    
+    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
+        .then(r => r.json())
+        .then(data => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+            
+            let participantsList = [];
+            if (data.participants && data.participants.length > 0) {
+                participantsList = data.participants;
+            } else {
+                participantsList = [
+                    {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
+                    {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
+                    {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
+                    {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
+                    {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
+                ];
+            }
+            
+            if (participantsList.length === 0) {
+                alert('⚠️ لا يوجد مشاركين لتصديرهم!');
+                return;
+            }
+            
+            const excelData = [
+                ['الاسم', 'الرقم الوظيفي', 'المؤسسة', 'الهاتف', 'CCP', 'المفتاح', 'الرحلة']
+            ];
+            
+            participantsList.forEach(p => {
+                excelData.push([
+                    p.nom || p.name || '',
+                    p.matricule || '',
+                    p.etab || '',
+                    p.tel || '',
+                    p.ccp || '',
+                    p.cle || '',
+                    p.trip || ''
+                ]);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            ws['!cols'] = [
+                { wch: 25 },
+                { wch: 18 },
+                { wch: 30 },
+                { wch: 18 },
+                { wch: 18 },
+                { wch: 15 },
+                { wch: 20 }
+            ];
+            
+            XLSX.utils.book_append_sheet(wb, ws, 'المشاركون');
+            
+            const now = new Date();
+            const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+            const fileName = `المشاركون_${dateStr}.xlsx`;
+            
+            XLSX.writeFile(wb, fileName);
+            
+            alert(`✅ تم تحميل ${participantsList.length} مشارك بنجاح!`);
+        })
+        .catch(error => {
+            console.error('❌ خطأ في تحميل المشاركين:', error);
+            btn.textContent = originalText;
+            btn.disabled = false;
+            alert('❌ حدث خطأ في تحميل البيانات، تأكد من اتصال الإنترنت');
+        });
+}
+
+// ============================================================
+// 7. دوال البث المباشر
 // ============================================================
 let liveInterval = null;
 
 function checkLiveModeAndUpdate(){
-    // ✅ التحقق مما إذا كان المستخدم مديراً
     var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
     
     fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
         .then(r => r.json())
         .then(data => {
             if (data.live === 'true') {
-                // ✅ البث المباشر مفعل
                 document.getElementById('liveIndicator').style.display = 'block';
                 document.getElementById('btnWatchLive').style.display = 'inline-block';
                 
-                // ✅ إذا كان المستخدم عادياً (ليس مديراً)، نخفي أزرار التحكم
                 if (!isAdmin) {
-                    document.getElementById('startBtn').style.display = 'none';
+                    document.getElementById('lotControls').style.display = 'none';
+                    document.getElementById('startLotteryBtn').style.display = 'none';
                     document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
                 } else {
-                    // ✅ إذا كان مديراً، نترك الأزرار ظاهرة
-                    document.getElementById('startBtn').style.display = 'block';
+                    document.getElementById('lotControls').style.display = 'flex';
+                    document.getElementById('startLotteryBtn').style.display = 'block';
                     document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
                 }
                 
-                // ✅ بدء التحديث التلقائي
                 if (!liveInterval) {
                     liveInterval = setInterval(updateLiveData, 3000);
                 }
                 updateLiveData();
             } else {
-                // ✅ البث المباشر غير مفعل
                 document.getElementById('liveIndicator').style.display = 'none';
                 document.getElementById('btnWatchLive').style.display = 'none';
                 
@@ -529,9 +785,9 @@ function checkLiveModeAndUpdate(){
                     liveInterval = null;
                 }
                 
-                // ✅ إظهار أزرار التحكم للمدير فقط
                 if (isAdmin) {
-                    document.getElementById('startBtn').style.display = 'block';
+                    document.getElementById('lotControls').style.display = 'flex';
+                    document.getElementById('startLotteryBtn').style.display = 'block';
                     document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
                 }
             }
@@ -540,30 +796,498 @@ function checkLiveModeAndUpdate(){
 }
 
 function updateLiveData(){
-fetch(GOOGLE_SHEET_URL + '?action=getLiveData')
-.then(r=>r.json())
-.then(data=>{
-if(data.currentName){
-document.getElementById('currentName').innerText = data.currentName;
-document.getElementById('currentEt').innerText = data.currentEt || '';
-}
-if(data.winners){
-let wl = document.getElementById('wlist');
-wl.innerHTML = '';
-data.winners.forEach((w,i)=>{
-let d = document.createElement('div');
-d.className = 'win-item';
-d.innerHTML = `<div style="background:#f7b633;color:#3a2400;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px">${i+1}</div><div><b>${w.name}</b><br><small>${w.trip}</small></div>`;
-wl.appendChild(d);
-});
-document.getElementById('wcount').innerText = data.winners.length;
-}
-})
-.catch(()=>{});
+    fetch(GOOGLE_SHEET_URL + '?action=getLiveData')
+        .then(r => r.json())
+        .then(data => {
+            if (data.currentName) {
+                document.getElementById('slotName').innerText = data.currentName;
+            }
+            
+            if (data.winners && data.winners.length > 0) {
+                updateWinnersLists(data.winners);
+            }
+        })
+        .catch(() => {});
 }
 
 // ============================================================
-// 6. دوال العد التنازلي
+// 8. دوال تحديث القوائم
+// ============================================================
+function updateWinnersLists(winnersData){
+    let winnersList = document.getElementById('finalWinnersList');
+    let winnersCount = 0;
+    winnersList.innerHTML = '';
+    
+    let reserveList = document.getElementById('finalReserveList');
+    let reserveCount = 0;
+    reserveList.innerHTML = '';
+    
+    if (winnersData && winnersData.length > 0) {
+        let winnersNum = parseInt(document.getElementById('winnersCount').value) || 1;
+        
+        winnersData.forEach((w, index) => {
+            let item = document.createElement('div');
+            item.className = 'win-item-sm';
+            
+            if (index < winnersNum) {
+                item.classList.add('winner-item');
+                item.innerHTML = `<span class="name">${index+1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
+                winnersList.appendChild(item);
+                winnersCount++;
+            } else {
+                item.classList.add('reserve');
+                item.innerHTML = `<span class="name">${index+1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
+                reserveList.appendChild(item);
+                reserveCount++;
+            }
+        });
+    }
+    
+    document.getElementById('winnersCountDisplay').innerText = winnersCount;
+    document.getElementById('reserveCountDisplay').innerText = reserveCount;
+    
+    if (winnersCount === 0) {
+        winnersList.innerHTML = '<div class="empty-msg">لا يوجد فائزين بعد</div>';
+    }
+    if (reserveCount === 0) {
+        reserveList.innerHTML = '<div class="empty-msg">لا يوجد احتياط بعد</div>';
+    }
+}
+
+// ============================================================
+// 9. دوال القرعة
+// ============================================================
+function startLottery(){
+    if(isLotteryRunning) return;
+    
+    let available = filteredParticipants.filter(p => 
+        !finalWinners.find(w => w.name === p.name && w.trip === p.trip) && 
+        !finalReserves.find(w => w.name === p.name && w.trip === p.trip)
+    );
+    
+    if(available.length === 0){
+        alert('⚠️ لا يوجد مشاركين متاحين للقرعة!');
+        return;
+    }
+    
+    let winnersCount = parseInt(document.getElementById('winnersCount').value) || 1;
+    let reserveCount = parseInt(document.getElementById('reserveCount').value) || 0;
+    let totalNeeded = winnersCount + reserveCount;
+    
+    if(totalNeeded > available.length){
+        alert(`⚠️ عدد المشاركين المتاحين (${available.length}) أقل من المطلوب (${totalNeeded})!`);
+        return;
+    }
+    
+    isLotteryRunning = true;
+    document.getElementById('startLotteryBtn').disabled = true;
+    document.getElementById('startLotteryBtn').innerText = '⏳ جاري السحب...';
+    document.getElementById('winnerCard').style.display = 'none';
+    
+    let slotName = document.getElementById('slotName');
+    let slotStatus = document.getElementById('slotStatus');
+    let progressBar = document.getElementById('progressBar');
+    let progressFill = document.getElementById('progressFill');
+    let progressText = document.getElementById('progressText');
+    
+    progressBar.style.display = 'block';
+    progressFill.style.width = '0%';
+    
+    let availablePool = [...available];
+    let selectedWinners = [];
+    let selectedReserves = [];
+    let currentStep = 0;
+    let totalSteps = winnersCount + reserveCount;
+    
+    function shuffleArray(arr){
+        for(let i = arr.length - 1; i > 0; i--){
+            let j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+    
+    function pickOneName(callback, isReserve = false){
+        if(availablePool.length === 0){
+            callback(null);
+            return;
+        }
+        
+        let spinCount = 0;
+        let maxSpins = 12 + Math.floor(Math.random() * 8);
+        let spinInterval = 50;
+        let tempPool = shuffleArray([...availablePool]);
+        
+        let spinTimer = setInterval(() => {
+            let randomIndex = Math.floor(Math.random() * tempPool.length);
+            let randomPerson = tempPool[randomIndex];
+            slotName.innerText = randomPerson.name;
+            slotName.className = 'slot-animation';
+            spinCount++;
+            
+            if(spinCount >= maxSpins){
+                clearInterval(spinTimer);
+                
+                let finalIndex = Math.floor(Math.random() * availablePool.length);
+                let finalPerson = availablePool[finalIndex];
+                availablePool.splice(finalIndex, 1);
+                
+                slotName.innerText = finalPerson.name;
+                slotName.className = 'winner-reveal';
+                slotName.style.color = isReserve ? '#f7b633' : '#2ec4b6';
+                
+                slotStatus.innerText = isReserve ? 
+                    `📋 الاحتياط ${selectedReserves.length + 1}/${reserveCount}` : 
+                    `🏆 الفائز ${selectedWinners.length + 1}/${winnersCount}`;
+                
+                currentStep++;
+                let progress = (currentStep / totalSteps) * 100;
+                progressFill.style.width = progress + '%';
+                progressText.innerText = `جاري الاختيار ${currentStep}/${totalSteps}`;
+                
+                if(isReserve){
+                    selectedReserves.push(finalPerson);
+                } else {
+                    selectedWinners.push(finalPerson);
+                }
+                
+                setTimeout(() => {
+                    callback(finalPerson);
+                }, 400);
+            }
+        }, spinInterval);
+    }
+    
+    function pickWinners(index){
+        if(index >= winnersCount){
+            slotStatus.innerText = '📋 بداية اختيار الاحتياط...';
+            setTimeout(() => {
+                pickReserves(0);
+            }, 600);
+            return;
+        }
+        
+        pickOneName((person) => {
+            if(person){
+                document.getElementById('batchWinnersList').innerHTML = 
+                    selectedWinners.map((w, i) => 
+                        `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.name} (${w.trip})</div>`
+                    ).join('');
+            }
+            pickWinners(index + 1);
+        }, false);
+    }
+    
+    function pickReserves(index){
+        if(index >= reserveCount){
+            finishLottery(selectedWinners, selectedReserves);
+            return;
+        }
+        
+        pickOneName((person) => {
+            if(person){
+                document.getElementById('batchReserveList').innerHTML = 
+                    selectedReserves.map((w, i) => 
+                        `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.name} (${w.trip})</div>`
+                    ).join('');
+            }
+            pickReserves(index + 1);
+        }, true);
+    }
+    
+    function finishLottery(winners, reserves){
+        isLotteryRunning = false;
+        document.getElementById('startLotteryBtn').disabled = false;
+        document.getElementById('startLotteryBtn').innerText = '🎰 بدء القرعة';
+        progressText.innerText = '✅ تم الانتهاء من القرعة!';
+        
+        batchWinners = winners;
+        batchReserves = reserves;
+        
+        document.getElementById('batchWinnersList').innerHTML = 
+            winners.map((w, i) => 
+                `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.name} (${w.trip})</div>`
+            ).join('');
+        document.getElementById('batchReserveList').innerHTML = 
+            reserves.map((w, i) => 
+                `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.name} (${w.trip})</div>`
+            ).join('');
+        
+        document.getElementById('winnerCard').style.display = 'block';
+        slotName.style.color = '#f7b633';
+        slotName.innerText = '🎉 تمت القرعة بنجاح!';
+        slotStatus.innerText = `🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`;
+        
+        setTimeout(() => {
+            document.getElementById('progressBar').style.display = 'none';
+        }, 1500);
+        
+        if(winners.length > 0){
+            fireworks(winners[0].name);
+        }
+    }
+    
+    slotStatus.innerText = '🏆 بداية اختيار الفائزين...';
+    setTimeout(() => {
+        pickWinners(0);
+    }, 400);
+}
+
+// ============================================================
+// 10. دوال التأكيد والإضافة للقوائم
+// ============================================================
+function confirmWinners(){
+    if(batchWinners.length === 0 && batchReserves.length === 0){
+        alert('⚠️ لا يوجد فائزين لتأكيدهم!');
+        return;
+    }
+    
+    batchWinners.forEach(p => {
+        if(!finalWinners.find(w => w.name === p.name && w.trip === p.trip)){
+            finalWinners.push({
+                name: p.name,
+                etab: p.etab || '',
+                trip: p.trip || '',
+                time: new Date().toLocaleTimeString('ar-DZ')
+            });
+        }
+    });
+    
+    batchReserves.forEach(p => {
+        if(!finalReserves.find(w => w.name === p.name && w.trip === p.trip)){
+            finalReserves.push({
+                name: p.name,
+                etab: p.etab || '',
+                trip: p.trip || '',
+                time: new Date().toLocaleTimeString('ar-DZ')
+            });
+        }
+    });
+    
+    let allSelected = [...batchWinners, ...batchReserves];
+    allSelected.forEach(p => {
+        fetch(GOOGLE_SHEET_URL + '?action=addWinner&name=' + encodeURIComponent(p.name) + '&etab=' + encodeURIComponent(p.etab || '') + '&trip=' + encodeURIComponent(p.trip || ''))
+            .catch(e => console.log('⚠️ خطأ في حفظ الفائز:', e));
+    });
+    
+    saveToLocalStorage();
+    renderAllLists();
+    filterParticipants();
+    
+    document.getElementById('winnerCard').style.display = 'none';
+    document.getElementById('slotName').innerText = `✅ تم إضافة ${allSelected.length} إلى القوائم`;
+    document.getElementById('slotName').style.color = '#2ec4b6';
+    document.getElementById('slotStatus').innerText = 'تم الحفظ بنجاح!';
+    
+    batchWinners = [];
+    batchReserves = [];
+    
+    if(allSelected.length > 0){
+        fireworks(allSelected[0].name);
+    }
+}
+
+function rejectWinners(){
+    batchWinners = [];
+    batchReserves = [];
+    document.getElementById('winnerCard').style.display = 'none';
+    document.getElementById('batchWinnersList').innerHTML = '';
+    document.getElementById('batchReserveList').innerHTML = '';
+    document.getElementById('slotName').innerText = '🔄 تم إلغاء النتائج';
+    document.getElementById('slotName').style.color = '#8ecaff';
+    document.getElementById('slotStatus').innerText = 'يمكنك إعادة المحاولة';
+}
+
+// ============================================================
+// 11. دوال عرض القوائم
+// ============================================================
+function renderAllLists(){
+    let winnersList = document.getElementById('finalWinnersList');
+    let reserveList = document.getElementById('finalReserveList');
+    
+    winnersList.innerHTML = '';
+    reserveList.innerHTML = '';
+    
+    let winnersCount = finalWinners.length;
+    let reserveCount = finalReserves.length;
+    
+    if (winnersCount > 0) {
+        finalWinners.forEach((w, i) => {
+            let item = document.createElement('div');
+            item.className = 'win-item-sm winner-item';
+            item.innerHTML = `<span class="name">${i+1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
+            winnersList.appendChild(item);
+        });
+    } else {
+        winnersList.innerHTML = '<div class="empty-msg">لا يوجد فائزين بعد</div>';
+    }
+    
+    if (reserveCount > 0) {
+        finalReserves.forEach((w, i) => {
+            let item = document.createElement('div');
+            item.className = 'win-item-sm reserve';
+            item.innerHTML = `<span class="name">${i+1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
+            reserveList.appendChild(item);
+        });
+    } else {
+        reserveList.innerHTML = '<div class="empty-msg">لا يوجد احتياط بعد</div>';
+    }
+    
+    document.getElementById('winnersCountDisplay').innerText = winnersCount;
+    document.getElementById('reserveCountDisplay').innerText = reserveCount;
+}
+
+function resetLotteryDisplay() {
+    batchWinners = [];
+    batchReserves = [];
+    
+    document.getElementById('slotName').innerText = 'اضبط الأعداد واضغط "بدء القرعة"';
+    document.getElementById('slotName').style.color = '#8ecaff';
+    document.getElementById('slotStatus').innerText = '🔮 سيبدأ الاختيار...';
+    document.getElementById('winnerCard').style.display = 'none';
+    document.getElementById('startLotteryBtn').innerText = '🎰 بدء القرعة';
+    document.getElementById('startLotteryBtn').disabled = false;
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('batchWinnersList').innerHTML = '';
+    document.getElementById('batchReserveList').innerHTML = '';
+}
+
+function clearAllWinners(){
+    if(finalWinners.length === 0 && finalReserves.length === 0){
+        alert('⚠️ لا يوجد فائزين لمسحهم!');
+        return;
+    }
+    if(confirm('⚠️ هل أنت متأكد من مسح جميع الفائزين والاحتياط؟')){
+        finalWinners = [];
+        finalReserves = [];
+        clearLocalStorage();
+        renderAllLists();
+        filterParticipants();
+        document.getElementById('slotName').innerText = '🗑️ تم مسح جميع الفائزين';
+        document.getElementById('slotName').style.color = '#ff6666';
+        document.getElementById('slotStatus').innerText = 'قائمة فارغة';
+    }
+}
+
+// ============================================================
+// 12. دوال الطباعة
+// ============================================================
+function printWinnersLists(){
+    if(finalWinners.length === 0 && finalReserves.length === 0){
+        alert('⚠️ لا يوجد قوائم للطباعة!');
+        return;
+    }
+    
+    let printContent = `
+    <div style="text-align:center;padding:20px;font-family:'Tajawal',sans-serif;direction:rtl">
+        <h1 style="color:#0f2c4a;font-size:28px;margin-bottom:5px">🏖️ اللجنة الولائية للخدمات الاجتماعية</h1>
+        <h2 style="color:#1b6ca8;font-size:20px;margin-bottom:15px">أم البواقي - نتائج القرعة</h2>
+        <div style="border-bottom:2px solid #0f2c4a;margin-bottom:20px"></div>
+    `;
+    
+    const tripNames = ['جيجل', 'القالة', 'تونس', 'مصر', 'تركيا', 'العمرة'];
+    
+    tripNames.forEach(trip => {
+        const winnersOfTrip = finalWinners.filter(w => w.trip === trip);
+        const reservesOfTrip = finalReserves.filter(w => w.trip === trip);
+        
+        if (winnersOfTrip.length > 0 || reservesOfTrip.length > 0) {
+            printContent += `
+            <div style="margin-bottom:25px;page-break-inside:avoid">
+                <h3 style="background:#0f2c4a;color:white;padding:8px 15px;border-radius:8px;font-size:18px;margin-bottom:10px">
+                    🏆 قائمة ${trip}
+                </h3>
+            `;
+            
+            if (winnersOfTrip.length > 0) {
+                printContent += `
+                <div style="margin-bottom:10px">
+                    <h4 style="color:#2ec4b6;font-size:16px;margin-bottom:5px;border-bottom:1px solid #2ec4b6;padding-bottom:3px">🏅 الفائزون (${winnersOfTrip.length})</h4>
+                    <div style="padding-right:10px">`;
+                winnersOfTrip.forEach((w, i) => {
+                    printContent += `<div style="padding:4px 0;border-bottom:1px solid #eee;font-size:14px">${i+1}- ${w.name}</div>`;
+                });
+                printContent += `</div></div>`;
+            }
+            
+            if (reservesOfTrip.length > 0) {
+                printContent += `
+                <div>
+                    <h4 style="color:#f7b633;font-size:16px;margin-bottom:5px;border-bottom:1px solid #f7b633;padding-bottom:3px">📋 الاحتياط (${reservesOfTrip.length})</h4>
+                    <div style="padding-right:10px">`;
+                reservesOfTrip.forEach((w, i) => {
+                    printContent += `<div style="padding:4px 0;border-bottom:1px solid #eee;font-size:14px">${i+1}- ${w.name}</div>`;
+                });
+                printContent += `</div></div>`;
+            }
+            
+            printContent += `</div>`;
+        }
+    });
+    
+    const undefinedWinners = finalWinners.filter(w => !tripNames.includes(w.trip));
+    const undefinedReserves = finalReserves.filter(w => !tripNames.includes(w.trip));
+    if (undefinedWinners.length > 0 || undefinedReserves.length > 0) {
+        printContent += `
+        <div style="margin-bottom:25px;page-break-inside:avoid">
+            <h3 style="background:#666;color:white;padding:8px 15px;border-radius:8px;font-size:18px;margin-bottom:10px">
+                📋 قائمة أخرى
+            </h3>`;
+        if (undefinedWinners.length > 0) {
+            printContent += `<div><h4 style="color:#2ec4b6;font-size:16px">الفائزون</h4>`;
+            undefinedWinners.forEach((w, i) => {
+                printContent += `<div style="padding:4px 0;font-size:14px">${i+1}- ${w.name}</div>`;
+            });
+            printContent += `</div>`;
+        }
+        if (undefinedReserves.length > 0) {
+            printContent += `<div><h4 style="color:#f7b633;font-size:16px;margin-top:8px">الاحتياط</h4>`;
+            undefinedReserves.forEach((w, i) => {
+                printContent += `<div style="padding:4px 0;font-size:14px">${i+1}- ${w.name}</div>`;
+            });
+            printContent += `</div>`;
+        }
+        printContent += `</div>`;
+    }
+    
+    printContent += `
+        <div style="border-top:2px solid #0f2c4a;margin-top:20px;padding-top:15px;text-align:center;color:#666;font-size:12px">
+            تم الطباعة بتاريخ: ${new Date().toLocaleString('ar-DZ')}
+        </div>
+    </div>`;
+    
+    const printWindow = window.open('', '_blank', 'width=800,height=600');
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>نتائج القرعة - أم البواقي</title>
+                <meta charset="UTF-8">
+                <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+                <style>
+                    body { font-family: 'Tajawal', sans-serif; padding: 20px; direction: rtl; }
+                    @media print {
+                        body { padding: 10px; }
+                        .no-print { display: none; }
+                    }
+                </style>
+            </head>
+            <body>
+                ${printContent}
+                <div style="text-align:center;margin-top:20px;padding:10px;background:#f0f0f0;border-radius:8px" class="no-print">
+                    <button onclick="window.print()" style="padding:10px 30px;background:#0f2c4a;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;font-weight:bold">🖨️ طباعة</button>
+                    <button onclick="window.close()" style="padding:10px 30px;background:#ddd;color:#333;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-right:10px">❌ إغلاق</button>
+                </div>
+                <script>
+                    setTimeout(function(){ window.print(); }, 1000);
+                <\/script>
+            </body>
+        </html>
+    `);
+    printWindow.document.close();
+}
+
+// ============================================================
+// 13. دوال العد التنازلي
 // ============================================================
 function updateCD(){
 let target=new Date('2026-09-01T16:00:00');
@@ -575,7 +1299,7 @@ else{d.innerText=h.innerText=m.innerText=s.innerText='0';}
 setInterval(updateCD,1000);updateCD();
 
 // ============================================================
-// 7. دوال التسجيل
+// 14. ✅ دوال التسجيل مع التحقق من وجود الموظف
 // ============================================================
 function submitForm(){
 try{
@@ -588,6 +1312,17 @@ let cle=document.getElementById('cle').value.trim();
 let trip=document.getElementById('typeTrip').value;
 let baladiya=document.getElementById('baladiya').value;
 if(!nom||!mat||!etab||!tel||!ccp||!cle||!trip||!baladiya){alert('الرجاء ملء جميع الحقول *');return;}
+
+// ✅ التحقق من وجود الموظف (باستخدام رقم التعريف الوظيفي)
+fetch(GOOGLE_SHEET_URL + '?action=checkEmployee&matricule=' + encodeURIComponent(mat))
+.then(r=>r.json())
+.then(data=>{
+if(data.exists){
+alert('⚠️ هذا الموظف مسجل بالفعل!\nالاسم: ' + data.name + '\nالرقم الوظيفي: ' + data.matricule);
+return;
+}
+
+// ✅ إذا لم يكن مسجلاً، نقوم بالتسجيل
 let code='OEB-2026-'+Math.floor(1000+Math.random()*9000);
 document.getElementById('code').innerText=code;
 document.getElementById('nameOk').innerText=nom;
@@ -595,9 +1330,18 @@ document.getElementById('formArea').style.display='none';
 document.getElementById('successArea').style.display='block';
 let formData={nom:nom, matricule:mat, etab:etab, tel:tel, ccp:ccp, cle:cle, trip:trip, baladiya:baladiya, code:code, date:new Date().toLocaleString('ar-DZ')};
 fetch(GOOGLE_SHEET_URL,{method:'POST', mode:'no-cors', body:JSON.stringify(formData)}).then(()=>console.log('تم')).catch(e=>console.log(e));
+})
+.catch(error=>{
+console.error('خطأ في التحقق:', error);
+alert('❌ حدث خطأ في التحقق من الموظف، تأكد من اتصال الإنترنت');
+});
+
 }catch(err){alert('خطأ:'+err.message);}
 }
 
+// ============================================================
+// 15. دوال إعادة تعيين النموذج
+// ============================================================
 function resetForm(){
 document.getElementById('formArea').style.display='block';
 document.getElementById('successArea').style.display='none';
@@ -625,35 +1369,41 @@ document.getElementById('baladiya').value='';
 }
 
 // ============================================================
-// 8. دوال القرعة
+// 16. دوال المشاركين
 // ============================================================
-let participants = [];
-let filteredParticipants = [];
-let winners = [];
-let isRolling = false;
-let currentPick = null;
-
 function loadParticipantsFromSheet() {
     let loadingMsg = document.getElementById('loadingMsg');
     if (loadingMsg) {
         loadingMsg.innerText = '⏳ جاري تحميل المشاركين...';
     }
     
-    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipants')
+    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
         .then(r => r.json())
         .then(data => {
             if (data.participants && data.participants.length > 0) {
                 participants = data.participants;
                 console.log('✅ تم تحميل ' + participants.length + ' مشارك من Google Sheets');
             } else {
-                participants = [];
-                console.log('⚠️ لا يوجد مشاركين في Google Sheets');
+                participants = [
+                    {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
+                    {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
+                    {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
+                    {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
+                    {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
+                ];
+                console.log('⚠️ تم استخدام القائمة الافتراضية');
             }
             filterParticipants();
         })
         .catch(error => {
             console.error('❌ خطأ في تحميل المشاركين:', error);
-            participants = [];
+            participants = [
+                {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
+                {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
+                {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
+                {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
+                {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
+            ];
             filterParticipants();
         });
 }
@@ -678,8 +1428,8 @@ function filterParticipants() {
     
     filtered.forEach(p => {
         let d = document.createElement('div');
-        d.className = 'person' + (winners.find(w => w.name === p.name && w.trip === p.trip) ? ' winner' : '');
-        d.innerHTML = `<span><b>${p.name}</b><br><small style="opacity:0.6">${p.trip}</small></span><span>${winners.find(w => w.name === p.name && w.trip === p.trip) ? '🏆' : ''}</span>`;
+        d.className = 'person' + ((finalWinners.find(w => w.name === p.nom && w.trip === p.trip) || finalReserves.find(w => w.name === p.nom && w.trip === p.trip)) ? ' winner' : '');
+        d.innerHTML = `<span><b>${p.nom}</b><br><small style="opacity:0.6">${p.trip}</small></span><span>${(finalWinners.find(w => w.name === p.nom && w.trip === p.trip) || finalReserves.find(w => w.name === p.nom && w.trip === p.trip)) ? '🏆' : ''}</span>`;
         list.appendChild(d);
     });
 }
@@ -688,7 +1438,7 @@ function addPerson(){
     let inp = document.getElementById('newName');
     let v = inp.value.trim();
     if(!v) return;
-    participants.push({name:v, etab:"مؤسسة جديدة", trip:"جيجل"});
+    participants.push({nom:v, matricule:"", etab:"مؤسسة جديدة", tel:"", ccp:"", cle:"", trip:"جيجل"});
     inp.value = '';
     filterParticipants();
 }
@@ -697,88 +1447,18 @@ document.getElementById('newName').addEventListener('keydown', function(e) {
     if(e.key === 'Enter') addPerson();
 });
 
-function startLottery(){
-    if(isRolling) return;
-    
-    let available = filteredParticipants.filter(p => !winners.find(w => w.name === p.name && w.trip === p.trip));
-    
-    if(available.length === 0){
-        alert('انتهت القائمة');
-        return;
-    }
-    isRolling = true;
-    document.getElementById('startBtn').disabled = true;
-    document.getElementById('winnerCard').style.display = 'none';
-    let slotName = document.getElementById('currentName');
-    let slotEt = document.getElementById('currentEt');
-    let ticks = 0, maxTicks = 30;
-    let iv = setInterval(() => {
-        let rnd = available[Math.floor(Math.random() * available.length)];
-        slotName.innerText = rnd.name;
-        slotEt.innerText = rnd.etab + ' - ' + rnd.trip;
-        ticks++;
-        if(ticks >= maxTicks){
-            clearInterval(iv);
-            finishPick(rnd);
-        }
-    }, 100);
-}
-
-function finishPick(p){
-    currentPick = p;
-    document.getElementById('currentName').innerText = p.name;
-    document.getElementById('currentEt').innerText = p.etab + ' - ' + p.trip;
-    document.getElementById('currentName').style.color = '#f7b633';
-    document.getElementById('wName').innerText = p.name;
-    document.getElementById('wEt').innerText = p.etab;
-    document.getElementById('wTrip').innerText = p.trip;
-    document.getElementById('winnerCard').style.display = 'block';
-    fireworks(p.name);
-    isRolling = false;
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('startBtn').innerText = '🎰 قرعة جديدة';
-}
-
-function acceptWinner(){
-    if(!currentPick) return;
-    winners.push({...currentPick, time: new Date().toLocaleTimeString('ar-DZ')});
-    renderWinners();
-    filterParticipants();
-    document.getElementById('winnerCard').style.display = 'none';
-    document.getElementById('currentName').innerText = 'تم حفظ ' + currentPick.name + ' ✅';
-    document.getElementById('currentName').style.color = 'white';
-    currentPick = null;
-}
-
-function rejectWinner(){
-    document.getElementById('winnerCard').style.display = 'none';
-    document.getElementById('currentName').innerText = 'تم الإلغاء';
-    isRolling = false;
-}
-
-function renderWinners(){
-    let wl = document.getElementById('wlist');
-    document.getElementById('wcount').innerText = winners.length;
-    if(winners.length === 0) {
-        wl.innerHTML = '<div style="text-align:center;color:#6a8aaa;padding:18px">لا يوجد فائزون بعد</div>';
-        return;
-    }
-    wl.innerHTML = '';
-    winners.forEach((w, i) => {
-        let d = document.createElement('div');
-        d.className = 'win-item';
-        d.innerHTML = `<div style="background:#f7b633;color:#3a2400;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px">${i+1}</div><div><b>${w.name}</b><br><small>${w.trip}</small></div>`;
-        wl.appendChild(d);
-    });
-}
-
+// ============================================================
+// 17. دوال تصدير النتائج
+// ============================================================
 function exportWinners(){
-    if(winners.length === 0){
-        alert('لا يوجد فائزون');
+    let allItems = [...finalWinners, ...finalReserves];
+    if(allItems.length === 0){
+        alert('لا يوجد فائزين');
         return;
     }
-    let csv = 'الاسم,المؤسسة,الرحلة,الوقت\n';
-    winners.forEach(w => csv += `${w.name},${w.etab},${w.trip},${w.time}\n`);
+    let csv = 'النوع,الاسم,المؤسسة,الرحلة,الوقت\n';
+    finalWinners.forEach(w => csv += `فائز,${w.name},${w.etab},${w.trip},${w.time}\n`);
+    finalReserves.forEach(w => csv += `احتياط,${w.name},${w.etab},${w.trip},${w.time}\n`);
     let blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
     let url = URL.createObjectURL(blob);
     let a = document.createElement('a');
@@ -788,7 +1468,7 @@ function exportWinners(){
 }
 
 // ============================================================
-// 9. دوال الألعاب النارية
+// 18. دوال الألعاب النارية
 // ============================================================
 const canvas = document.getElementById('fireworks');
 const ctx = canvas.getContext('2d');
@@ -857,8 +1537,9 @@ function createFirework(x, y){
 }
 
 // ============================================================
-// 10. التحميل الأولي
+// 19. التحميل الأولي
 // ============================================================
+loadFromLocalStorage();
 loadParticipantsFromSheet();
 
 setTimeout(() => {
