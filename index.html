@@ -236,6 +236,35 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .upload-btn{background:#8b5cf6;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
 .upload-btn:hover{background:#6d28d9}
 
+/* ===== وضع المشاهد ===== */
+.viewer-mode .lot-controls,
+.viewer-mode #startLotteryBtn,
+.viewer-mode .winner-card-lot button,
+.viewer-mode .lot-grid .lpanel:first-child .upload-btn,
+.viewer-mode .lot-grid .lpanel:first-child > div > button,
+.viewer-mode .lot-grid .lpanel:first-child input[type="text"],
+.viewer-mode .lot-grid .lpanel:first-child .btn-gold,
+.viewer-mode .lot-grid .lpanel:first-child #filterTrip,
+.viewer-mode .lot-grid .lpanel:first-child .llist,
+.viewer-mode .lot-grid .lpanel:first-child .person,
+.viewer-mode .lot-grid .lpanel:first-child .person.winner {
+    display: none !important;
+}
+.viewer-mode #liveIndicator {
+    display: block !important;
+}
+.viewer-mode .lot-grid .lpanel:first-child h3::after {
+    content: " (عرض فقط)";
+    color: #8ecaff;
+    font-size: 12px;
+}
+.viewer-mode .top-name-box .lot-controls {
+    display: none !important;
+}
+.viewer-mode .top-name-box .winner-card-lot .btn-gold {
+    display: none !important;
+}
+
 /* ===== صفحة البث المباشر ===== */
 .live-stream-page{
     background:#0a0a1a;
@@ -344,33 +373,151 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     background:#e6a800;
 }
 
-/* ===== وضع المشاهد ===== */
-.viewer-mode .lot-controls,
-.viewer-mode #startLotteryBtn,
-.viewer-mode .winner-card-lot button,
-.viewer-mode .lot-grid .lpanel:first-child .upload-btn,
-.viewer-mode .lot-grid .lpanel:first-child > div > button,
-.viewer-mode .lot-grid .lpanel:first-child input[type="text"],
-.viewer-mode .lot-grid .lpanel:first-child .btn-gold,
-.viewer-mode .lot-grid .lpanel:first-child #filterTrip,
-.viewer-mode .lot-grid .lpanel:first-child .llist,
-.viewer-mode .lot-grid .lpanel:first-child .person,
-.viewer-mode .lot-grid .lpanel:first-child .person.winner {
-    display: none !important;
+/* ===== صفحة القرعة للبث (بدون شريط) ===== */
+.broadcast-only{
+    background:#070f25;
+    min-height:100vh;
+    padding:20px 16px;
 }
-.viewer-mode #liveIndicator {
-    display: block !important;
+.broadcast-only .lot-grid{
+    max-width:1250px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:280px 1fr 280px;
+    gap:14px;
 }
-.viewer-mode .lot-grid .lpanel:first-child h3::after {
-    content: " (عرض فقط)";
-    color: #8ecaff;
-    font-size: 12px;
+@media(max-width:1050px){
+    .broadcast-only .lot-grid{grid-template-columns:1fr}
 }
-.viewer-mode .top-name-box .lot-controls {
-    display: none !important;
+.broadcast-only .lpanel{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px;
+    padding:12px;
+    color:white;
 }
-.viewer-mode .top-name-box .winner-card-lot .btn-gold {
-    display: none !important;
+.broadcast-only .lpanel h3{
+    font-size:14px;
+    margin-bottom:10px;
+    color:#8ecaff;
+    display:flex;
+    justify-content:space-between;
+}
+.broadcast-only .llist{
+    max-height:480px;
+    overflow:auto;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+.broadcast-only .person{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.06);
+    padding:8px 10px;
+    border-radius:10px;
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+}
+.broadcast-only .person.winner{
+    border-color:#f7b633;
+    background:rgba(247,182,51,0.15);
+}
+.broadcast-only .top-name-box{
+    width:100%;
+    background:linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.02));
+    border:2px solid rgba(247,182,51,0.35);
+    border-radius:18px;
+    padding:20px 12px;
+    min-height:130px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 12px 40px rgba(0,0,0,0.3);
+    color:white;
+}
+.broadcast-only .slot-name{
+    font-size:48px;
+    font-weight:900;
+    color:#f7b633;
+    min-height:60px;
+    transition:all 0.1s;
+}
+.broadcast-only .slot-status{
+    font-size:18px;
+    color:#8ecaff;
+    margin-top:6px;
+    min-height:30px;
+}
+.broadcast-only .winner-card{
+    display:none;
+    background:white;
+    color:#0a1930;
+    border-radius:20px;
+    padding:18px;
+    width:100%;
+    max-width:450px;
+    text-align:center;
+    border:4px solid #f7b633;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+    margin-top:10px;
+}
+.broadcast-only .winner-card.show{
+    display:block;
+}
+.broadcast-only .winners-lists-right{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px;
+    padding:12px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+.broadcast-only .winners-lists-right .list-box{
+    flex:1;
+}
+.broadcast-only .winners-lists-right .list-box h4{
+    color:#8ecaff;
+    font-size:14px;
+    margin-bottom:6px;
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    padding-bottom:4px;
+}
+.broadcast-only .winners-lists-right .list-box .llist{
+    max-height:200px;
+    overflow:auto;
+}
+.broadcast-only .winners-lists-right .list-box .empty-msg{
+    text-align:center;
+    color:#6a8aaa;
+    padding:10px;
+    font-size:13px;
+}
+.broadcast-only .win-item-sm{
+    background:rgba(255,255,255,0.06);
+    border-radius:8px;
+    padding:5px 10px;
+    margin-bottom:4px;
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+}
+.broadcast-only .win-item-sm .name{color:white}
+.broadcast-only .win-item-sm .trip{color:#8ecaff;font-size:11px}
+.broadcast-only .win-item-sm.reserve{border-right:3px solid #f7b633}
+.broadcast-only .win-item-sm.winner-item{border-right:3px solid #2ec4b6}
+
+/* إخفاء شريط التنقل في صفحة البث */
+body.broadcast-mode nav{
+    display:none !important;
+}
+body.broadcast-mode .page#page-lottery{
+    padding-top:0 !important;
 }
 
 @media print {
@@ -580,7 +727,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 
 <!-- ============================================================ -->
-<!-- صفحة البث المباشر (IFrame - عرض القرعة فقط) -->
+<!-- صفحة البث المباشر (IFrame) -->
 <!-- ============================================================ -->
 <div id="page-live" class="page">
 <div class="live-stream-page">
@@ -592,10 +739,10 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
         <button class="back-btn" onclick="showPage('home')">✕ إغلاق</button>
     </div>
     <div class="live-stream-container">
-        <!-- IFrame يعرض صفحة القرعة -->
+        <!-- IFrame يعرض صفحة القرعة فقط (بدون شريط) -->
         <iframe id="liveIframe" src="#" sandbox="allow-scripts allow-same-origin"></iframe>
         <div class="live-stream-info">
-            <div class="item">📡 الحالة: <span id="streamStatus">🟢 متصل</span></div>
+            <div class="item">📡 الحالة: <span id="streamStatus">🔄 جاري التحميل...</span></div>
             <div class="item">🔄 التحديث: <span id="updateInterval">كل 3 ثوانٍ</span></div>
             <div class="item">👥 المشاهدين: <span id="viewerCount">1</span></div>
         </div>
@@ -608,9 +755,11 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </div>
 
-<!-- صفحة القرعة -->
+<!-- ============================================================ -->
+<!-- صفحة القرعة (للإستخدام في الـ IFrame) -->
+<!-- ============================================================ -->
 <div id="page-lottery" class="page">
-<div class="lot-wrap">
+<div class="lot-wrap" style="padding-top:20px;">
 <div class="lot-grid">
 <!-- الجهة اليسرى: المشاركون -->
 <div class="lpanel">
@@ -801,7 +950,7 @@ if(p==='lottery') {
 }
 if(p==='dashboard') loadDashboard();
 if(p==='live') {
-    startLiveStream();
+    setTimeout(function(){ startLiveStream(); }, 500);
 }
 
 window.scrollTo({top:0,behavior:'smooth'});
@@ -1102,7 +1251,6 @@ function checkLiveModeAndUpdate(){
                     document.getElementById('lotControls').style.display = 'none';
                     document.getElementById('startLotteryBtn').style.display = 'none';
                     document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
-                    // إضافة وضع المشاهد
                     document.getElementById('page-lottery').classList.add('viewer-mode');
                 } else {
                     document.getElementById('lotControls').style.display = 'flex';
@@ -1936,9 +2084,11 @@ function startLiveStream() {
         .then(r => r.json())
         .then(data => {
             if (data.live === 'true') {
-                // البث مفعل - عرض محتوى القرعة في الـ IFrame
+                // البث مفعل - عرض صفحة القرعة في الـ IFrame
                 const iframe = document.getElementById('liveIframe');
-                iframe.src = window.location.href.split('?')[0] + '#page-lottery';
+                // استخدام نفس الصفحة مع معلمة للعرض فقط
+                const currentUrl = window.location.href.split('?')[0].split('#')[0];
+                iframe.src = currentUrl + '?mode=broadcast#page-lottery';
                 
                 // تحديث حالة البث
                 document.getElementById('streamStatus').innerHTML = '🟢 متصل';
@@ -1959,14 +2109,25 @@ function startLiveStream() {
                 document.getElementById('streamStatus').style.color = '#ff4444';
                 document.getElementById('liveBadge').style.display = 'none';
                 document.getElementById('liveIframe').src = 'about:blank';
-                document.getElementById('liveIframe').innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6a8aaa;background:#0a0a1a;">
-                        <span style="font-size:60px;display:block;margin-bottom:15px;">📡</span>
-                        <p style="font-size:20px;">لا يوجد بث مباشر حالياً</p>
-                        <p style="font-size:14px;margin-top:8px;">سيتم الإعلان عن موعد البث قريباً</p>
-                        <button onclick="location.reload()" style="margin-top:15px;padding:10px 25px;background:#f7b633;color:#3a2400;border:none;border-radius:25px;font-weight:700;cursor:pointer;">🔄 تحديث</button>
-                    </div>
+                document.getElementById('liveIframe').style.display = 'none';
+                
+                // عرض رسالة في الـ IFrame
+                const container = document.querySelector('.live-stream-container');
+                const msgDiv = document.createElement('div');
+                msgDiv.id = 'noBroadcastMsg';
+                msgDiv.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6a8aaa;background:#0a0a1a;border-radius:12px;padding:20px;text-align:center;';
+                msgDiv.innerHTML = `
+                    <span style="font-size:60px;display:block;margin-bottom:15px;">📡</span>
+                    <p style="font-size:20px;">لا يوجد بث مباشر حالياً</p>
+                    <p style="font-size:14px;margin-top:8px;">سيتم الإعلان عن موعد البث قريباً</p>
+                    <button onclick="location.reload()" style="margin-top:15px;padding:10px 25px;background:#f7b633;color:#3a2400;border:none;border-radius:25px;font-weight:700;cursor:pointer;">🔄 تحديث</button>
                 `;
+                
+                // إزالة الرسالة القديمة إذا وجدت
+                const oldMsg = document.getElementById('noBroadcastMsg');
+                if (oldMsg) oldMsg.remove();
+                container.prepend(msgDiv);
+                
                 if (refreshTimer) {
                     clearInterval(refreshTimer);
                     refreshTimer = null;
@@ -2000,7 +2161,7 @@ function reloadIframe() {
 
 function toggleAutoRefresh() {
     autoRefresh = !autoRefresh;
-    const btn = document.querySelector('.stream-controls .btn-sm.gold:last-child');
+    const btn = document.querySelectorAll('.stream-controls .btn-sm.gold')[1];
     if (autoRefresh) {
         btn.innerHTML = '⏸️ إيقاف التحديث التلقائي';
         document.getElementById('updateInterval').innerHTML = 'كل 3 ثوانٍ';
@@ -2020,6 +2181,17 @@ function toggleAutoRefresh() {
 // ============================================================
 loadFromLocalStorage();
 loadParticipantsFromSheet();
+
+// التحقق من وضع البث
+if (window.location.search.includes('mode=broadcast')) {
+    // إخفاء شريط التنقل في وضع البث
+    document.querySelector('nav').style.display = 'none';
+    document.querySelector('.ticker').style.display = 'none';
+    document.querySelector('footer').style.display = 'none';
+    document.querySelector('#page-home').style.display = 'none';
+    document.getElementById('page-lottery').classList.add('active');
+    document.getElementById('page-lottery').style.paddingTop = '20px';
+}
 
 setTimeout(() => {
     checkLiveModeAndUpdate();
