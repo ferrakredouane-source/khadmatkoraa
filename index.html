@@ -140,6 +140,8 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .print-btn:hover{background:#1a9e8f}
 .excel-btn{background:#1d6f42;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
 .excel-btn:hover{background:#155a34}
+.upload-btn{background:#8b5cf6;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
+.upload-btn:hover{background:#6d28d9}
 
 @media print {
     nav, .ticker, .btns, .lot-controls, #winnerCard, #fireworks, #mabrouk,
@@ -349,28 +351,33 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </div>
 
-<!-- صفحة القرعة -->
+<!-- ============================================================ -->
+<!-- صفحة القرعة - مع زر تحميل المشاركين من Excel -->
+<!-- ============================================================ -->
 <div id="page-lottery" class="page">
 <div class="lot-wrap">
 <div class="lot-grid">
 <!-- الجهة اليسرى: المشاركون -->
-<div class="lpanel"><h3>👥 المشاركون (<span id="count">0</span>)</h3>
-<select id="filterTrip" onchange="filterParticipants()" style="width:100%;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);color:white;padding:7px;border-radius:8px;margin-bottom:8px">
-<option value="الكل">كل الرحلات</option>
-<option value="جيجل">جيجل</option>
-<option value="القالة">القالة</option>
-<option value="تونس">تونس</option>
-<option value="مصر">مصر</option>
-<option value="تركيا">تركيا</option>
-<option value="العمرة">العمرة</option>
-</select>
-<div class="llist" id="plist">
-    <div style="text-align:center;color:#6a8aaa;padding:18px" id="loadingMsg">⏳ جاري تحميل المشاركين...</div>
-</div>
-<div style="display:flex;gap:6px;margin-top:8px">
-<input id="newName" placeholder="اسم جديد + Enter" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white">
-<button onclick="addPerson()" style="background:#1b6ca8;border:none;color:white;padding:7px 10px;border-radius:8px;font-weight:800;cursor:pointer">+</button>
-</div>
+<div class="lpanel">
+    <h3>👥 المشاركون (<span id="count">0</span>)</h3>
+    <select id="filterTrip" onchange="filterParticipants()" style="width:100%;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);color:white;padding:7px;border-radius:8px;margin-bottom:8px">
+    <option value="الكل">كل الرحلات</option>
+    <option value="جيجل">جيجل</option>
+    <option value="القالة">القالة</option>
+    <option value="تونس">تونس</option>
+    <option value="مصر">مصر</option>
+    <option value="تركيا">تركيا</option>
+    <option value="العمرة">العمرة</option>
+    </select>
+    <div class="llist" id="plist">
+        <div style="text-align:center;color:#6a8aaa;padding:18px" id="loadingMsg">⏳ جاري تحميل المشاركين...</div>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+        <input id="newName" placeholder="اسم جديد + Enter" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white;min-width:100px">
+        <button onclick="addPerson()" style="background:#1b6ca8;border:none;color:white;padding:7px 10px;border-radius:8px;font-weight:800;cursor:pointer">+</button>
+        <button onclick="document.getElementById('fileInput').click()" class="upload-btn" style="padding:7px 10px;font-size:12px">📂 تحميل Excel</button>
+        <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="uploadParticipantsExcel(event)">
+    </div>
 </div>
 
 <!-- القسم الأوسط - القرعة -->
@@ -454,9 +461,9 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 
 <script>
 // ============================================================
-// 0. تعريف GOOGLE_SHEET_URL - ✅ تم التحديث بالرابط الجديد
+// 0. تعريف GOOGLE_SHEET_URL
 // ============================================================
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwuH4XCvwI4PDlrH96yMb6lcKKgYbt_Z1Lb2D308OEmSmHtztxyEsMlk2j9oz_CoCN6Kg/exec";
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwuH4XCvwI4PDlrH96yMb6lcKKgYbt_Z1Lb2D308OEmSmHtztxyEsMlk2j9oz_CoCN6Kg/exec";
 
 // ============================================================
 // 1. المتغيرات العامة
@@ -661,7 +668,7 @@ alert('📥 سيتم تصدير جميع البيانات قريباً...');
 }
 
 // ============================================================
-// 6. ✅ دوال تحميل المشاركين بصيغة Excel
+// 6. ✅ دوال تحميل المشاركين بصيغة Excel من Google Sheets
 // ============================================================
 function exportParticipantsExcel(){
     const btn = document.querySelector('.excel-btn');
@@ -748,7 +755,81 @@ function exportParticipantsExcel(){
 }
 
 // ============================================================
-// 7. دوال البث المباشر
+// 7. ✅ دوال تحميل المشاركين من ملف Excel (رفع الملف)
+// ============================================================
+function uploadParticipantsExcel(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+            
+            if (!jsonData || jsonData.length === 0) {
+                alert('⚠️ الملف فارغ أو لا يحتوي على بيانات!');
+                return;
+            }
+            
+            // تحويل البيانات إلى صيغة المشاركين
+            const newParticipants = [];
+            jsonData.forEach(row => {
+                // محاولة قراءة الأعمدة بأسماء مختلفة (مرونة)
+                const name = row['الاسم'] || row['name'] || row['Name'] || row['nom'] || row['Nom'] || '';
+                const etab = row['المؤسسة'] || row['etab'] || row['Etab'] || row['مؤسسة'] || '';
+                const trip = row['الرحلة'] || row['trip'] || row['Trip'] || row['رحلة'] || '';
+                const matricule = row['الرقم الوظيفي'] || row['matricule'] || row['Matricule'] || row['رقم'] || '';
+                const tel = row['الهاتف'] || row['tel'] || row['Tel'] || '';
+                const ccp = row['CCP'] || row['ccp'] || '';
+                const cle = row['المفتاح'] || row['cle'] || row['Cle'] || '';
+                
+                if (name && name.toString().trim() !== '') {
+                    newParticipants.push({
+                        nom: name.toString().trim(),
+                        matricule: matricule ? matricule.toString().trim() : '',
+                        etab: etab ? etab.toString().trim() : '',
+                        tel: tel ? tel.toString().trim() : '',
+                        ccp: ccp ? ccp.toString().trim() : '',
+                        cle: cle ? cle.toString().trim() : '',
+                        trip: trip ? trip.toString().trim() : ''
+                    });
+                }
+            });
+            
+            if (newParticipants.length === 0) {
+                alert('⚠️ لم يتم العثور على أسماء في الملف. تأكد من وجود عمود "الاسم"');
+                return;
+            }
+            
+            // إضافة المشاركين الجدد إلى القائمة (دمج مع القائمة الحالية)
+            const existingNames = new Set(participants.map(p => p.nom));
+            let addedCount = 0;
+            newParticipants.forEach(p => {
+                if (!existingNames.has(p.nom)) {
+                    participants.push(p);
+                    existingNames.add(p.nom);
+                    addedCount++;
+                }
+            });
+            
+            filterParticipants();
+            alert(`✅ تم تحميل ${newParticipants.length} مشارك، تم إضافة ${addedCount} مشارك جديد`);
+            
+        } catch(error) {
+            console.error('خطأ في قراءة الملف:', error);
+            alert('❌ حدث خطأ في قراءة الملف. تأكد من أن الملف بصيغة Excel صحيحة.');
+        }
+    };
+    reader.readAsArrayBuffer(file);
+    // إعادة تعيين input file
+    event.target.value = '';
+}
+
+// ============================================================
+// 8. دوال البث المباشر
 // ============================================================
 let liveInterval = null;
 
@@ -811,7 +892,7 @@ function updateLiveData(){
 }
 
 // ============================================================
-// 8. دوال تحديث القوائم
+// 9. دوال تحديث القوائم
 // ============================================================
 function updateWinnersLists(winnersData){
     let winnersList = document.getElementById('finalWinnersList');
@@ -855,14 +936,14 @@ function updateWinnersLists(winnersData){
 }
 
 // ============================================================
-// 9. دوال القرعة
+// 10. دوال القرعة
 // ============================================================
 function startLottery(){
     if(isLotteryRunning) return;
     
     let available = filteredParticipants.filter(p => 
-        !finalWinners.find(w => w.name === p.name && w.trip === p.trip) && 
-        !finalReserves.find(w => w.name === p.name && w.trip === p.trip)
+        !finalWinners.find(w => w.name === p.nom && w.trip === p.trip) && 
+        !finalReserves.find(w => w.name === p.nom && w.trip === p.trip)
     );
     
     if(available.length === 0){
@@ -921,7 +1002,7 @@ function startLottery(){
         let spinTimer = setInterval(() => {
             let randomIndex = Math.floor(Math.random() * tempPool.length);
             let randomPerson = tempPool[randomIndex];
-            slotName.innerText = randomPerson.name;
+            slotName.innerText = randomPerson.nom;
             slotName.className = 'slot-animation';
             spinCount++;
             
@@ -932,7 +1013,7 @@ function startLottery(){
                 let finalPerson = availablePool[finalIndex];
                 availablePool.splice(finalIndex, 1);
                 
-                slotName.innerText = finalPerson.name;
+                slotName.innerText = finalPerson.nom;
                 slotName.className = 'winner-reveal';
                 slotName.style.color = isReserve ? '#f7b633' : '#2ec4b6';
                 
@@ -971,7 +1052,7 @@ function startLottery(){
             if(person){
                 document.getElementById('batchWinnersList').innerHTML = 
                     selectedWinners.map((w, i) => 
-                        `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.name} (${w.trip})</div>`
+                        `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.nom} (${w.trip})</div>`
                     ).join('');
             }
             pickWinners(index + 1);
@@ -988,7 +1069,7 @@ function startLottery(){
             if(person){
                 document.getElementById('batchReserveList').innerHTML = 
                     selectedReserves.map((w, i) => 
-                        `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.name} (${w.trip})</div>`
+                        `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.nom} (${w.trip})</div>`
                     ).join('');
             }
             pickReserves(index + 1);
@@ -1006,11 +1087,11 @@ function startLottery(){
         
         document.getElementById('batchWinnersList').innerHTML = 
             winners.map((w, i) => 
-                `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.name} (${w.trip})</div>`
+                `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.nom} (${w.trip})</div>`
             ).join('');
         document.getElementById('batchReserveList').innerHTML = 
             reserves.map((w, i) => 
-                `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.name} (${w.trip})</div>`
+                `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.nom} (${w.trip})</div>`
             ).join('');
         
         document.getElementById('winnerCard').style.display = 'block';
@@ -1023,7 +1104,7 @@ function startLottery(){
         }, 1500);
         
         if(winners.length > 0){
-            fireworks(winners[0].name);
+            fireworks(winners[0].nom);
         }
     }
     
@@ -1034,7 +1115,7 @@ function startLottery(){
 }
 
 // ============================================================
-// 10. دوال التأكيد والإضافة للقوائم
+// 11. دوال التأكيد والإضافة للقوائم
 // ============================================================
 function confirmWinners(){
     if(batchWinners.length === 0 && batchReserves.length === 0){
@@ -1043,9 +1124,9 @@ function confirmWinners(){
     }
     
     batchWinners.forEach(p => {
-        if(!finalWinners.find(w => w.name === p.name && w.trip === p.trip)){
+        if(!finalWinners.find(w => w.name === p.nom && w.trip === p.trip)){
             finalWinners.push({
-                name: p.name,
+                name: p.nom,
                 etab: p.etab || '',
                 trip: p.trip || '',
                 time: new Date().toLocaleTimeString('ar-DZ')
@@ -1054,9 +1135,9 @@ function confirmWinners(){
     });
     
     batchReserves.forEach(p => {
-        if(!finalReserves.find(w => w.name === p.name && w.trip === p.trip)){
+        if(!finalReserves.find(w => w.name === p.nom && w.trip === p.trip)){
             finalReserves.push({
-                name: p.name,
+                name: p.nom,
                 etab: p.etab || '',
                 trip: p.trip || '',
                 time: new Date().toLocaleTimeString('ar-DZ')
@@ -1066,7 +1147,7 @@ function confirmWinners(){
     
     let allSelected = [...batchWinners, ...batchReserves];
     allSelected.forEach(p => {
-        fetch(GOOGLE_SHEET_URL + '?action=addWinner&name=' + encodeURIComponent(p.name) + '&etab=' + encodeURIComponent(p.etab || '') + '&trip=' + encodeURIComponent(p.trip || ''))
+        fetch(GOOGLE_SHEET_URL + '?action=addWinner&name=' + encodeURIComponent(p.nom) + '&etab=' + encodeURIComponent(p.etab || '') + '&trip=' + encodeURIComponent(p.trip || ''))
             .catch(e => console.log('⚠️ خطأ في حفظ الفائز:', e));
     });
     
@@ -1083,7 +1164,7 @@ function confirmWinners(){
     batchReserves = [];
     
     if(allSelected.length > 0){
-        fireworks(allSelected[0].name);
+        fireworks(allSelected[0].nom);
     }
 }
 
@@ -1099,7 +1180,7 @@ function rejectWinners(){
 }
 
 // ============================================================
-// 11. دوال عرض القوائم
+// 12. دوال عرض القوائم
 // ============================================================
 function renderAllLists(){
     let winnersList = document.getElementById('finalWinnersList');
@@ -1170,7 +1251,7 @@ function clearAllWinners(){
 }
 
 // ============================================================
-// 12. دوال الطباعة
+// 13. دوال الطباعة
 // ============================================================
 function printWinnersLists(){
     if(finalWinners.length === 0 && finalReserves.length === 0){
@@ -1287,7 +1368,7 @@ function printWinnersLists(){
 }
 
 // ============================================================
-// 13. دوال العد التنازلي
+// 14. دوال العد التنازلي
 // ============================================================
 function updateCD(){
 let target=new Date('2026-09-01T16:00:00');
@@ -1299,7 +1380,7 @@ else{d.innerText=h.innerText=m.innerText=s.innerText='0';}
 setInterval(updateCD,1000);updateCD();
 
 // ============================================================
-// 14. ✅ دوال التسجيل مع التحقق من وجود الموظف
+// 15. ✅ دوال التسجيل مع التحقق من وجود الموظف
 // ============================================================
 function submitForm(){
 try{
@@ -1313,16 +1394,14 @@ let trip=document.getElementById('typeTrip').value;
 let baladiya=document.getElementById('baladiya').value;
 if(!nom||!mat||!etab||!tel||!ccp||!cle||!trip||!baladiya){alert('الرجاء ملء جميع الحقول *');return;}
 
-// ✅ التحقق من وجود الموظف (باستخدام رقم التعريف الوظيفي)
 fetch(GOOGLE_SHEET_URL + '?action=checkEmployee&matricule=' + encodeURIComponent(mat))
 .then(r=>r.json())
 .then(data=>{
 if(data.exists){
-alert('⚠️ هذا الموظف مسجل بالفعل!\nالاسم: ' + data.name + '\nالرقم الوظيفي: ' + data.matricule);
+alert('⚠️ هذا الموظف مسجل بالفعل! الرقم الوظيفي: ' + data.matricule);
 return;
 }
 
-// ✅ إذا لم يكن مسجلاً، نقوم بالتسجيل
 let code='OEB-2026-'+Math.floor(1000+Math.random()*9000);
 document.getElementById('code').innerText=code;
 document.getElementById('nameOk').innerText=nom;
@@ -1340,7 +1419,7 @@ alert('❌ حدث خطأ في التحقق من الموظف، تأكد من ا�
 }
 
 // ============================================================
-// 15. دوال إعادة تعيين النموذج
+// 16. دوال إعادة تعيين النموذج
 // ============================================================
 function resetForm(){
 document.getElementById('formArea').style.display='block';
@@ -1369,7 +1448,7 @@ document.getElementById('baladiya').value='';
 }
 
 // ============================================================
-// 16. دوال المشاركين
+// 17. دوال المشاركين
 // ============================================================
 function loadParticipantsFromSheet() {
     let loadingMsg = document.getElementById('loadingMsg');
@@ -1448,7 +1527,7 @@ document.getElementById('newName').addEventListener('keydown', function(e) {
 });
 
 // ============================================================
-// 17. دوال تصدير النتائج
+// 18. دوال تصدير النتائج
 // ============================================================
 function exportWinners(){
     let allItems = [...finalWinners, ...finalReserves];
@@ -1468,7 +1547,7 @@ function exportWinners(){
 }
 
 // ============================================================
-// 18. دوال الألعاب النارية
+// 19. دوال الألعاب النارية
 // ============================================================
 const canvas = document.getElementById('fireworks');
 const ctx = canvas.getContext('2d');
@@ -1537,7 +1616,7 @@ function createFirework(x, y){
 }
 
 // ============================================================
-// 19. التحميل الأولي
+// 20. التحميل الأولي
 // ============================================================
 loadFromLocalStorage();
 loadParticipantsFromSheet();
