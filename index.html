@@ -17,11 +17,114 @@ body{background:#f6fbff;overflow-x:hidden}
 html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 input,select,textarea{font-size:16px !important;}
 
-nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(15,44,74,0.95);backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:center;padding:12px 22px;color:white;border-bottom:1px solid rgba(255,255,255,0.08)}
-nav .logo{font-weight:900;font-size:18px;display:flex;gap:8px;align-items:center}
-nav .links{display:flex;gap:8px;flex-wrap:wrap}
-nav .links button{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:800;font-size:14px;transition:0.3s}
-nav .links button.active,nav .links button:hover{background:white;color:#0f2c4a}
+/* ===== شريط التنقل - تحسين للهواتف ===== */
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:200;
+    background:rgba(15,44,74,0.95);
+    backdrop-filter:blur(12px);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 22px;
+    color:white;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    flex-wrap:wrap;
+    gap:6px;
+}
+nav .logo{
+    font-weight:900;
+    font-size:18px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+nav .links{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+nav .links button{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.12);
+    color:white;
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:800;
+    font-size:14px;
+    transition:0.3s;
+    white-space:nowrap;
+}
+nav .links button.active,
+nav .links button:hover{
+    background:white;
+    color:#0f2c4a;
+}
+nav .links button#btn-admin{
+    background:rgba(26,26,46,0.8);
+    border:1px solid #f7b633;
+    color:#f7b633;
+}
+nav .links button#btn-admin.active,
+nav .links button#btn-admin:hover{
+    background:#f7b633;
+    color:#0f2c4a;
+}
+
+/* ===== تحسينات الهواتف ===== */
+@media(max-width:700px){
+    .form-grid{grid-template-columns:1fr}
+    .hero h1{font-size:30px}
+    
+    /* ✅ القائمة تصبح عمودية على الهواتف */
+    nav{
+        flex-direction:column;
+        align-items:stretch;
+        padding:8px 12px;
+        gap:4px;
+    }
+    nav .logo{
+        font-size:14px;
+        justify-content:center;
+        text-align:center;
+        padding:2px 0;
+    }
+    nav .links{
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:4px;
+        padding:2px 0;
+    }
+    nav .links button{
+        font-size:12px;
+        padding:6px 12px;
+        flex:0 1 auto;
+        min-width:60px;
+    }
+    nav .links button#btn-admin{
+        font-size:12px;
+        padding:6px 12px;
+    }
+}
+
+@media(max-width:480px){
+    nav .links button{
+        font-size:10px;
+        padding:5px 8px;
+        min-width:50px;
+    }
+    nav .links{
+        gap:3px;
+    }
+    nav .logo{
+        font-size:12px;
+    }
+}
+
 .page{display:none;animation:fadeUp 0.4s ease}
 .page.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -53,7 +156,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .register-hero{background:linear-gradient(135deg,#0f2c4a,#1b6ca8);padding:95px 20px 35px;text-align:center;color:white}
 .form-wrap{max-width:820px;margin:-28px auto 40px;background:white;border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,0.1);padding:26px;position:relative;z-index:2}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:700px){.form-grid{grid-template-columns:1fr} .hero h1{font-size:30px} nav .links button{font-size:12px;padding:6px 10px}}
+@media(max-width:700px){.form-grid{grid-template-columns:1fr} .hero h1{font-size:30px}}
 .input-group{display:flex;flex-direction:column;gap:5px}
 .input-group label{font-weight:700;font-size:13px;color:#0f2c4a}
 .input-group input,.input-group select{padding:11px 12px;border:2px solid #e2ecf7;border-radius:11px;font-size:14px;outline:none}
@@ -179,7 +282,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <button id="btn-home" class="active" onclick="showPage('home')">🏠 الرئيسية</button>
 <button id="btn-reg" onclick="showPage('register')">📝 التسجيل</button>
 <button id="btn-contact" onclick="showPage('contact')">📞 اتصل بنا</button>
-<button id="btn-admin" onclick="handleAdminClick()" style="background:#1a1a2e;border:1px solid #f7b633;color:#f7b633">🔐 المديرين</button>
+<button id="btn-admin" onclick="handleAdminClick()">🔐 المديرين</button>
 </div>
 </nav>
 
