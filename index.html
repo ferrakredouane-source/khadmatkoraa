@@ -5,19 +5,16 @@
 <meta name="google-adsense-account" content="ca-pub-8683179294620438">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438" crossorigin="anonymous"></script>
-<!-- ✅ إضافة مكتبة SheetJS لإنشاء ملفات Excel -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <title>اللجنة الولائية لعمال التربية - أم البواقي | الملف النهائي</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
 body{background:#f6fbff;overflow-x:hidden}
-
-/* تحسينات للهواتف */
 html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 input,select,textarea{font-size:16px !important;}
 
-/* ===== شريط التنقل - تحسين للهواتف ===== */
+/* ===== شريط التنقل ===== */
 nav{
     position:fixed;
     top:0;
@@ -75,12 +72,7 @@ nav .links button#btn-admin:hover{
     color:#0f2c4a;
 }
 
-/* ===== تحسينات الهواتف ===== */
 @media(max-width:700px){
-    .form-grid{grid-template-columns:1fr}
-    .hero h1{font-size:30px}
-    
-    /* ✅ القائمة تصبح عمودية على الهواتف */
     nav{
         flex-direction:column;
         align-items:stretch;
@@ -110,7 +102,6 @@ nav .links button#btn-admin:hover{
         padding:6px 12px;
     }
 }
-
 @media(max-width:480px){
     nav .links button{
         font-size:10px;
@@ -173,7 +164,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .top-name-box{width:100%;background:linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.02));border:2px solid rgba(247,182,51,0.35);border-radius:18px;padding:20px 12px;min-height:130px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 12px 40px rgba(0,0,0,0.3);color:white}
 #currentName{font-size:44px;font-weight:900;margin-top:8px;min-height:52px}
 #currentEt{font-size:13px;color:#a8c5e0;margin-top:6px;min-height:18px}
-.big-btn-lot{padding:16px 38px;border-radius:40px;border:none;font-size:20px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#f7b633,#ff7b00);color:#3a2400;box-shadow:0 8px 25px rgba(247,182,51,0.4)}
+.big-btn-lot{padding:16px 38px;border-radius:40px;border:none;font-size:20px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#f7b633,#ff7b00);color:#3a2400;box-shadow:0 6px 18px rgba(247,182,51,0.4)}
 .winner-card-lot{display:none;background:white;color:#0a1930;border-radius:20px;padding:22px;width:380px;max-width:92vw;text-align:center;border:4px solid #f7b633;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin-top:12px}
 #fireworks{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none}
 #mabrouk{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);background:white;padding:24px 40px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.5);z-index:1000;text-align:center;opacity:0;pointer-events:none;transition:0.4s}
@@ -206,7 +197,6 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .dashboard-hero{background:linear-gradient(135deg,#0f2c4a,#1b6ca8);padding:95px 20px 35px;text-align:center;color:white}
 .admin-login-box{max-width:480px;margin:auto;background:white;border-radius:20px;padding:26px;box-shadow:0 18px 50px rgba(0,0,0,0.1)}
 
-/* تنسيق أدوات القرعة */
 .lot-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:10px 0}
 .lot-controls input{width:80px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:white;text-align:center;font-size:16px}
 .lot-controls label{color:#8ecaff;font-size:14px;display:flex;align-items:center;gap:6px}
@@ -231,13 +221,13 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     50% { transform: scale(1.1); opacity: 0.7; }
     100% { transform: scale(1); opacity: 1; }
 }
-.slot-animation { animation: slotSpin 0.15s ease-in-out; }
+.slot-animation { animation: slotSpin 0.2s ease-in-out; }
 @keyframes winnerReveal {
     0% { transform: scale(0.8); opacity: 0; }
     50% { transform: scale(1.15); opacity: 1; }
     100% { transform: scale(1); opacity: 1; }
 }
-.winner-reveal { animation: winnerReveal 0.6s ease-out; }
+.winner-reveal { animation: winnerReveal 0.8s ease-out; }
 
 .print-btn{background:#2ec4b6;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
 .print-btn:hover{background:#1a9e8f}
@@ -245,6 +235,143 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .excel-btn:hover{background:#155a34}
 .upload-btn{background:#8b5cf6;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
 .upload-btn:hover{background:#6d28d9}
+
+/* ===== صفحة البث المباشر ===== */
+.live-stream-page{
+    background:#0a0a1a;
+    min-height:100vh;
+    padding-top:70px;
+}
+.live-stream-header{
+    background:rgba(15,44,74,0.95);
+    padding:15px 20px;
+    text-align:center;
+    border-bottom:2px solid #f7b633;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+.live-stream-header h1{
+    font-size:22px;
+    color:#f7b633;
+}
+.live-stream-header .live-badge{
+    display:inline-block;
+    background:#ff4444;
+    color:white;
+    padding:3px 12px;
+    border-radius:20px;
+    font-size:12px;
+    animation:pulse 1.5s infinite;
+}
+.live-stream-header .back-btn{
+    background:rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.2);
+    color:white;
+    padding:6px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:14px;
+}
+.live-stream-header .back-btn:hover{
+    background:rgba(255,255,255,0.2);
+}
+.live-stream-container{
+    padding:10px;
+    height:calc(100vh - 70px);
+    display:flex;
+    flex-direction:column;
+}
+.live-stream-container iframe{
+    width:100%;
+    flex:1;
+    border:none;
+    border-radius:12px;
+    background:#1a1a2e;
+    min-height:400px;
+}
+.live-stream-info{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:10px;
+    background:rgba(255,255,255,0.05);
+    border-radius:12px;
+    margin-top:10px;
+}
+.live-stream-info .item{
+    color:#8ecaff;
+    font-size:13px;
+}
+.live-stream-info .item span{
+    color:white;
+    font-weight:700;
+}
+.stream-controls{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+.stream-controls .btn-sm{
+    padding:6px 16px;
+    border-radius:20px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+    font-size:13px;
+}
+.stream-controls .btn-sm.gold{
+    background:#f7b633;
+    color:#3a2400;
+}
+.stream-controls .btn-sm.gray{
+    background:#444;
+    color:#aaa;
+}
+.stream-controls .btn-sm.gray:hover{
+    background:#555;
+}
+.stream-controls .btn-sm.gold:hover{
+    background:#e6a800;
+}
+
+/* ===== وضع المشاهد ===== */
+.viewer-mode .lot-controls,
+.viewer-mode #startLotteryBtn,
+.viewer-mode .winner-card-lot button,
+.viewer-mode .lot-grid .lpanel:first-child .upload-btn,
+.viewer-mode .lot-grid .lpanel:first-child > div > button,
+.viewer-mode .lot-grid .lpanel:first-child input[type="text"],
+.viewer-mode .lot-grid .lpanel:first-child .btn-gold,
+.viewer-mode .lot-grid .lpanel:first-child #filterTrip,
+.viewer-mode .lot-grid .lpanel:first-child .llist,
+.viewer-mode .lot-grid .lpanel:first-child .person,
+.viewer-mode .lot-grid .lpanel:first-child .person.winner {
+    display: none !important;
+}
+.viewer-mode #liveIndicator {
+    display: block !important;
+}
+.viewer-mode .lot-grid .lpanel:first-child h3::after {
+    content: " (عرض فقط)";
+    color: #8ecaff;
+    font-size: 12px;
+}
+.viewer-mode .top-name-box .lot-controls {
+    display: none !important;
+}
+.viewer-mode .top-name-box .winner-card-lot .btn-gold {
+    display: none !important;
+}
 
 @media print {
     nav, .ticker, .btns, .lot-controls, #winnerCard, #fireworks, #mabrouk,
@@ -303,7 +430,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div class="btns">
 <button class="btn btn-gold" onclick="showPage('register')">📝 سجل الآن</button>
 <button class="btn btn-white" onclick="document.getElementById('trips').scrollIntoView({behavior:'smooth'})">🧭 اكتشف الرحلات</button>
-<button class="btn" id="btnWatchLive" onclick="showPage('lottery')" style="display:none;background:linear-gradient(135deg,#ff4444,#ff6b35);color:white;box-shadow:0 6px 18px rgba(255,68,68,0.4)">📺 متابعة القرعة المباشرة</button>
+<button class="btn" id="btnWatchLive" onclick="showPage('live')" style="display:none;background:linear-gradient(135deg,#ff4444,#ff6b35);color:white;box-shadow:0 6px 18px rgba(255,68,68,0.4)">📺 متابعة القرعة المباشرة</button>
 </div>
 </div>
 </section>
@@ -316,11 +443,12 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <section class="section" id="trips">
 <h2>🏖️ وجهات الرحلات</h2><div class="line"></div>
 <div class="cards">
-<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"><div class="card-body"><span class="tag">الأكثر طلبا</span><h3>جيجل - المنار</h3><p>5 أيام / إقامة كاملة</p><b>18,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"><div class="card-body"><span class="tag">الأكثر طلبا</span><h3>جيجل</h3><p>5 أيام / إقامة كاملة</p><b>18,000 دج</b></div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=600"><div class="card-body"><span class="tag">عائلات</span><h3>القالة</h3><p>شقق مجهزة</p><b>22,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تونس - سوسة</h3><p>7 أيام منظمة</p><b>55,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1627728734379-a5f8c099763e"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة المباركة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🇪🇬 خارج الوطن</span><h3>مصر - القاهرة</h3><p>7 أيام / الأهرامات والنيل</p><b>65,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تونس</h3><p>7 أيام منظمة</p><b>55,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1627728734379-a5f8c099763e"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🇪🇬 خارج الوطن</span><h3>مصر</h3><p>7 أيام / الأهرامات والنيل</p><b>65,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=600"><div class="card-body"><span class="tag" style="background:#e6f7ff;color:#1b6ca8">🇹🇷 خارج الوطن</span><h3>تركيا</h3><p>7 أيام / اسطنبول وكبادوكيا</p><b>75,000 دج</b></div></div>
 </div>
 </section>
 <footer>© 2026 اللجنة الولائية لعمال التربية -أم البواقي- بجانب ابتدائية اليازيد محمد الصالح</footer>
@@ -336,7 +464,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <h3 style="text-align:center;margin-bottom:16px;color:#0f2c4a">معلومات المترشح</h3>
 <div id="formArea">
 <div class="form-grid">
-<div class="input-group"><label>الاسم واللقب *</label><input id="nom" type="text" placeholder="مثال: محمد بن أحمد"></div>
+<div class="input-group"><label>الاسم واللقب *</label><input id="nom" type="text" placeholder="مثال: رضوان فراق"></div>
 <div class="input-group"><label>رقم التعريف الوظيفي *</label><input id="matricule" type="text" placeholder="رقم الموظف"></div>
 <div class="input-group"><label>المؤسسة التربوية *</label><input id="etab" type="text" placeholder="ابتدائية / متوسطة / ثانوية ..."></div>
 <div class="input-group"><label>رقم الهاتف *</label><input id="tel" type="tel" placeholder="06XX XX XX XX"></div>
@@ -353,7 +481,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <option>العمرة</option>
 </select>
 </div>
-<div class="input-group"><label>بلدية الإقامة *</label><select id="baladiya"><option value="">-- اختر بلدية أم البواقي --</option><option>أم البواقي</option><option>عين البيضاء</option><option>عين مليلة</option><option>عين الفكرون</option><option>عين بابوش</option><option>عين الزيتون</option><option>عين الديس</option><option>بئر الشهداء</option><option>بئر الشحم</option><option>العامرية</option><option>بريش</option><option>الحرميلية</option><option>هنشير تومغني</option><option>الجازية</option><option>الضلعة</option><option>عين كرشة</option><option>أولاد حملة</option><option>أولاد زواي</option><option>أولاد قاسم</option><option>فكيرينة</option><option>قصر الصباحي</option><option>مسكيانة</option><option>وادي نيني</option><option>الرحية</option><option>سوق نعمان</option><option>الزرق</option><option>بوغرارة السعودي</option><option>عين ببوش</option><option>سيدي ارغيس</option></select></div>
+<div class="input-group"><label>بلدية الإقامة * (اختر المقاطعة المناسبة)</label><select id="baladiya"><option value="">-- اختر بلدية --</option><option>أم البواقي</option><option>عين البيضاء</option><option>عين مليلة</option></select></div>
 </div>
 <br><button class="btn btn-gold" style="width:100%" onclick="submitForm()">تأكيد التسجيل ✔️</button><br><br>
 <button class="btn btn-white" style="width:100%;border:2px solid #e2ecf7" onclick="showPage('home')">⬅️ الرجوع للرئيسية</button>
@@ -407,9 +535,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- لوحة تحكم المديرين -->
-<!-- ============================================================ -->
 <div id="page-dashboard" class="page">
 <div class="dashboard-hero">
 <h1 style="font-size:38px">📊 لوحة تحكم المديرين</h1>
@@ -420,7 +546,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div class="dashboard-grid" id="dashboardStats">
 <div class="dash-card"><span class="icon">👥</span><span class="num" id="totalRegistered">0</span><span class="label">إجمالي المسجلين</span></div>
 <div class="dash-card"><span class="icon">🏆</span><span class="num" id="totalWinners">0</span><span class="label">عدد الفائزين</span></div>
-<div class="dash-card"><span class="icon">✈️</span><span class="num" id="totalTrips">5</span><span class="label">عدد الرحلات</span></div>
+<div class="dash-card"><span class="icon">✈️</span><span class="num" id="totalTrips">6</span><span class="label">عدد الرحلات</span></div>
 <div class="dash-card"><span class="icon">📅</span><span class="num" id="daysLeft">--</span><span class="label">الأيام المتبقية</span></div>
 </div>
 
@@ -448,15 +574,41 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div style="text-align:center;color:#5a7a9a;padding:10px">جاري التحميل...</div>
 </div>
 </div>
-
 <br>
 <button class="btn btn-white" style="width:100%;border:2px solid #e2ecf7" onclick="logoutAdmin()">🚪 تسجيل الخروج</button>
 </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- صفحة القرعة - مع زر تحميل المشاركين من Excel -->
+<!-- صفحة البث المباشر (IFrame - عرض القرعة فقط) -->
 <!-- ============================================================ -->
+<div id="page-live" class="page">
+<div class="live-stream-page">
+    <div class="live-stream-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <h1>📺 البث المباشر للقرعة</h1>
+            <span class="live-badge" id="liveBadge">🔴 بث مباشر</span>
+        </div>
+        <button class="back-btn" onclick="showPage('home')">✕ إغلاق</button>
+    </div>
+    <div class="live-stream-container">
+        <!-- IFrame يعرض صفحة القرعة -->
+        <iframe id="liveIframe" src="#" sandbox="allow-scripts allow-same-origin"></iframe>
+        <div class="live-stream-info">
+            <div class="item">📡 الحالة: <span id="streamStatus">🟢 متصل</span></div>
+            <div class="item">🔄 التحديث: <span id="updateInterval">كل 3 ثوانٍ</span></div>
+            <div class="item">👥 المشاهدين: <span id="viewerCount">1</span></div>
+        </div>
+        <div class="stream-controls">
+            <button class="btn-sm gold" onclick="reloadIframe()">🔄 تحديث</button>
+            <button class="btn-sm gold" onclick="toggleAutoRefresh()">⏸️ إيقاف التحديث التلقائي</button>
+            <button class="btn-sm gray" onclick="showPage('home')">⬅️ العودة للرئيسية</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- صفحة القرعة -->
 <div id="page-lottery" class="page">
 <div class="lot-wrap">
 <div class="lot-grid">
@@ -531,7 +683,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 
 <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%">
-    <button onclick="exportWinners()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📥 تصدير النتائج</button>
+    <button onclick="exportWinnersExcel()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📥 تصدير النتائج Excel</button>
     <button onclick="clearAllWinners()" style="flex:1;background:rgba(255,50,50,0.15);border:1px solid rgba(255,50,50,0.2);color:#ff6666;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">🗑️ مسح الكل</button>
     <button onclick="showPage('dashboard')" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#8ecaff;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📊 العودة للوحة التحكم</button>
     <button onclick="printWinnersLists()" class="print-btn" style="flex:1">🖨️ طباعة القوائم</button>
@@ -579,6 +731,9 @@ let batchWinners = [];
 let batchReserves = [];
 let isLotteryRunning = false;
 const STORAGE_KEY = 'lottery_data';
+let liveInterval = null;
+let autoRefresh = true;
+let refreshTimer = null;
 
 // ============================================================
 // 2. دوال التخزين المحلي
@@ -632,7 +787,7 @@ document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
 document.querySelectorAll('nav .links button').forEach(e=>e.classList.remove('active'));
 let pg=document.getElementById('page-'+p);
 if(pg) pg.classList.add('active');
-let btn=document.getElementById('btn-' + (p === 'lottery' ? 'lot' : p === 'admin' ? 'admin' : p === 'contact' ? 'contact' : p === 'dashboard' ? 'admin' : p));
+let btn=document.getElementById('btn-' + (p === 'lottery' ? 'lot' : p === 'admin' ? 'admin' : p === 'contact' ? 'contact' : p === 'dashboard' ? 'admin' : p === 'live' ? 'home' : p));
 if(btn) btn.classList.add('active');
 
 if(p==='register') resetFormSilent();
@@ -645,6 +800,9 @@ if(p==='lottery') {
     filterParticipants();
 }
 if(p==='dashboard') loadDashboard();
+if(p==='live') {
+    startLiveStream();
+}
 
 window.scrollTo({top:0,behavior:'smooth'});
 }catch(err){}
@@ -771,7 +929,7 @@ alert('📥 سيتم تصدير جميع البيانات قريباً...');
 }
 
 // ============================================================
-// 6. ✅ دوال تحميل المشاركين بصيغة Excel من Google Sheets
+// 6. دوال تحميل المشاركين بصيغة Excel
 // ============================================================
 function exportParticipantsExcel(){
     const btn = document.querySelector('.excel-btn');
@@ -858,7 +1016,7 @@ function exportParticipantsExcel(){
 }
 
 // ============================================================
-// 7. ✅ دوال تحميل المشاركين من ملف Excel (رفع الملف)
+// 7. دوال تحميل المشاركين من ملف Excel
 // ============================================================
 function uploadParticipantsExcel(event) {
     const file = event.target.files[0];
@@ -877,10 +1035,8 @@ function uploadParticipantsExcel(event) {
                 return;
             }
             
-            // تحويل البيانات إلى صيغة المشاركين
             const newParticipants = [];
             jsonData.forEach(row => {
-                // محاولة قراءة الأعمدة بأسماء مختلفة (مرونة)
                 const name = row['الاسم'] || row['name'] || row['Name'] || row['nom'] || row['Nom'] || '';
                 const etab = row['المؤسسة'] || row['etab'] || row['Etab'] || row['مؤسسة'] || '';
                 const trip = row['الرحلة'] || row['trip'] || row['Trip'] || row['رحلة'] || '';
@@ -907,7 +1063,6 @@ function uploadParticipantsExcel(event) {
                 return;
             }
             
-            // إضافة المشاركين الجدد إلى القائمة (دمج مع القائمة الحالية)
             const existingNames = new Set(participants.map(p => p.nom));
             let addedCount = 0;
             newParticipants.forEach(p => {
@@ -927,15 +1082,12 @@ function uploadParticipantsExcel(event) {
         }
     };
     reader.readAsArrayBuffer(file);
-    // إعادة تعيين input file
     event.target.value = '';
 }
 
 // ============================================================
 // 8. دوال البث المباشر
 // ============================================================
-let liveInterval = null;
-
 function checkLiveModeAndUpdate(){
     var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
     
@@ -950,10 +1102,13 @@ function checkLiveModeAndUpdate(){
                     document.getElementById('lotControls').style.display = 'none';
                     document.getElementById('startLotteryBtn').style.display = 'none';
                     document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
+                    // إضافة وضع المشاهد
+                    document.getElementById('page-lottery').classList.add('viewer-mode');
                 } else {
                     document.getElementById('lotControls').style.display = 'flex';
                     document.getElementById('startLotteryBtn').style.display = 'block';
                     document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+                    document.getElementById('page-lottery').classList.remove('viewer-mode');
                 }
                 
                 if (!liveInterval) {
@@ -973,6 +1128,7 @@ function checkLiveModeAndUpdate(){
                     document.getElementById('lotControls').style.display = 'flex';
                     document.getElementById('startLotteryBtn').style.display = 'block';
                     document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+                    document.getElementById('page-lottery').classList.remove('viewer-mode');
                 }
             }
         })
@@ -1039,7 +1195,7 @@ function updateWinnersLists(winnersData){
 }
 
 // ============================================================
-// 10. دوال القرعة
+// 10. دوال القرعة - مع حركة بطيئة
 // ============================================================
 function startLottery(){
     if(isLotteryRunning) return;
@@ -1098,8 +1254,8 @@ function startLottery(){
         }
         
         let spinCount = 0;
-        let maxSpins = 12 + Math.floor(Math.random() * 8);
-        let spinInterval = 50;
+        let maxSpins = 40 + Math.floor(Math.random() * 15);
+        let spinInterval = 120 + Math.floor(Math.random() * 60);
         let tempPool = shuffleArray([...availablePool]);
         
         let spinTimer = setInterval(() => {
@@ -1135,9 +1291,10 @@ function startLottery(){
                     selectedWinners.push(finalPerson);
                 }
                 
+                let waitTime = 1200 + Math.floor(Math.random() * 600);
                 setTimeout(() => {
                     callback(finalPerson);
-                }, 400);
+                }, waitTime);
             }
         }, spinInterval);
     }
@@ -1147,7 +1304,7 @@ function startLottery(){
             slotStatus.innerText = '📋 بداية اختيار الاحتياط...';
             setTimeout(() => {
                 pickReserves(0);
-            }, 600);
+            }, 1500);
             return;
         }
         
@@ -1218,7 +1375,79 @@ function startLottery(){
 }
 
 // ============================================================
-// 11. دوال التأكيد والإضافة للقوائم
+// 11. ✅ دوال تصدير النتائج بصيغة Excel مع دعم العربية
+// ============================================================
+function exportWinnersExcel() {
+    if (finalWinners.length === 0 && finalReserves.length === 0) {
+        alert('⚠️ لا يوجد فائزين أو احتياط لتصديرهم!');
+        return;
+    }
+
+    if (typeof XLSX === 'undefined') {
+        alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
+        return;
+    }
+
+    try {
+        const excelData = [
+            ['النوع', 'الاسم واللقب', 'رقم الحساب الجاري (CCP)', 'المفتاح (Clé)', 'الرحلة']
+        ];
+
+        finalWinners.forEach(w => {
+            const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
+            excelData.push([
+                'فائز',
+                w.name || '',
+                participant ? participant.ccp || '' : '',
+                participant ? participant.cle || '' : '',
+                w.trip || ''
+            ]);
+        });
+
+        finalReserves.forEach(w => {
+            const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
+            excelData.push([
+                'احتياط',
+                w.name || '',
+                participant ? participant.ccp || '' : '',
+                participant ? participant.cle || '' : '',
+                w.trip || ''
+            ]);
+        });
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(excelData);
+
+        ws['!cols'] = [
+            { wch: 12 },
+            { wch: 30 },
+            { wch: 20 },
+            { wch: 15 },
+            { wch: 20 }
+        ];
+
+        XLSX.utils.book_append_sheet(wb, ws, 'نتائج القرعة');
+
+        const now = new Date();
+        const dateStr = now.getFullYear() + '-' + 
+                       String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                       String(now.getDate()).padStart(2, '0');
+        const fileName = `نتائج_القرعة_أم_البواقي_${dateStr}.xlsx`;
+
+        XLSX.writeFile(wb, fileName);
+
+        const totalWinners = finalWinners.length;
+        const totalReserves = finalReserves.length;
+        alert(`✅ تم تصدير النتائج بنجاح!\n🏆 الفائزين: ${totalWinners}\n📋 الاحتياط: ${totalReserves}`);
+        
+    } catch (error) {
+        console.error('❌ خطأ في تصدير النتائج:', error);
+        alert('❌ حدث خطأ أثناء تصدير النتائج. تأكد من أن البيانات صحيحة.');
+    }
+}
+
+// ============================================================
+// 12. دوال التأكيد والإضافة للقوائم
 // ============================================================
 function confirmWinners(){
     if(batchWinners.length === 0 && batchReserves.length === 0){
@@ -1283,7 +1512,7 @@ function rejectWinners(){
 }
 
 // ============================================================
-// 12. دوال عرض القوائم
+// 13. دوال عرض القوائم
 // ============================================================
 function renderAllLists(){
     let winnersList = document.getElementById('finalWinnersList');
@@ -1354,7 +1583,7 @@ function clearAllWinners(){
 }
 
 // ============================================================
-// 13. دوال الطباعة
+// 14. دوال الطباعة
 // ============================================================
 function printWinnersLists(){
     if(finalWinners.length === 0 && finalReserves.length === 0){
@@ -1471,7 +1700,7 @@ function printWinnersLists(){
 }
 
 // ============================================================
-// 14. دوال العد التنازلي
+// 15. دوال العد التنازلي
 // ============================================================
 function updateCD(){
 let target=new Date('2026-09-01T16:00:00');
@@ -1483,7 +1712,7 @@ else{d.innerText=h.innerText=m.innerText=s.innerText='0';}
 setInterval(updateCD,1000);updateCD();
 
 // ============================================================
-// 15. ✅ دوال التسجيل مع التحقق من وجود الموظف
+// 16. دوال التسجيل مع التحقق من وجود الموظف
 // ============================================================
 function submitForm(){
 try{
@@ -1522,7 +1751,7 @@ alert('❌ حدث خطأ في التحقق من الموظف، تأكد من ا�
 }
 
 // ============================================================
-// 16. دوال إعادة تعيين النموذج
+// 17. دوال إعادة تعيين النموذج
 // ============================================================
 function resetForm(){
 document.getElementById('formArea').style.display='block';
@@ -1551,7 +1780,7 @@ document.getElementById('baladiya').value='';
 }
 
 // ============================================================
-// 17. دوال المشاركين
+// 18. دوال المشاركين
 // ============================================================
 function loadParticipantsFromSheet() {
     let loadingMsg = document.getElementById('loadingMsg');
@@ -1630,26 +1859,6 @@ document.getElementById('newName').addEventListener('keydown', function(e) {
 });
 
 // ============================================================
-// 18. دوال تصدير النتائج
-// ============================================================
-function exportWinners(){
-    let allItems = [...finalWinners, ...finalReserves];
-    if(allItems.length === 0){
-        alert('لا يوجد فائزين');
-        return;
-    }
-    let csv = 'النوع,الاسم,المؤسسة,الرحلة,الوقت\n';
-    finalWinners.forEach(w => csv += `فائز,${w.name},${w.etab},${w.trip},${w.time}\n`);
-    finalReserves.forEach(w => csv += `احتياط,${w.name},${w.etab},${w.trip},${w.time}\n`);
-    let blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = 'نتائج_القرعة_ام_البواقي.csv';
-    a.click();
-}
-
-// ============================================================
 // 19. دوال الألعاب النارية
 // ============================================================
 const canvas = document.getElementById('fireworks');
@@ -1719,7 +1928,95 @@ function createFirework(x, y){
 }
 
 // ============================================================
-// 20. التحميل الأولي
+// 20. دوال البث المباشر عبر IFrame
+// ============================================================
+function startLiveStream() {
+    // التحقق من حالة البث
+    fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
+        .then(r => r.json())
+        .then(data => {
+            if (data.live === 'true') {
+                // البث مفعل - عرض محتوى القرعة في الـ IFrame
+                const iframe = document.getElementById('liveIframe');
+                iframe.src = window.location.href.split('?')[0] + '#page-lottery';
+                
+                // تحديث حالة البث
+                document.getElementById('streamStatus').innerHTML = '🟢 متصل';
+                document.getElementById('streamStatus').style.color = '#2ec4b6';
+                document.getElementById('liveBadge').style.display = 'inline-block';
+                
+                // بدء التحديث التلقائي
+                if (autoRefresh) {
+                    startAutoRefresh();
+                }
+                
+                // زيادة عدد المشاهدين (تقديري)
+                let viewers = 1 + Math.floor(Math.random() * 3);
+                document.getElementById('viewerCount').innerText = viewers + ' مشاهد';
+            } else {
+                // لا يوجد بث
+                document.getElementById('streamStatus').innerHTML = '⛔ غير متاح';
+                document.getElementById('streamStatus').style.color = '#ff4444';
+                document.getElementById('liveBadge').style.display = 'none';
+                document.getElementById('liveIframe').src = 'about:blank';
+                document.getElementById('liveIframe').innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6a8aaa;background:#0a0a1a;">
+                        <span style="font-size:60px;display:block;margin-bottom:15px;">📡</span>
+                        <p style="font-size:20px;">لا يوجد بث مباشر حالياً</p>
+                        <p style="font-size:14px;margin-top:8px;">سيتم الإعلان عن موعد البث قريباً</p>
+                        <button onclick="location.reload()" style="margin-top:15px;padding:10px 25px;background:#f7b633;color:#3a2400;border:none;border-radius:25px;font-weight:700;cursor:pointer;">🔄 تحديث</button>
+                    </div>
+                `;
+                if (refreshTimer) {
+                    clearInterval(refreshTimer);
+                    refreshTimer = null;
+                }
+            }
+        })
+        .catch(() => {
+            document.getElementById('streamStatus').innerHTML = '⚠️ خطأ في الاتصال';
+            document.getElementById('streamStatus').style.color = '#ff4444';
+        });
+}
+
+function startAutoRefresh() {
+    if (refreshTimer) {
+        clearInterval(refreshTimer);
+    }
+    refreshTimer = setInterval(() => {
+        if (autoRefresh) {
+            reloadIframe();
+        }
+    }, 3000); // تحديث كل 3 ثوانٍ
+}
+
+function reloadIframe() {
+    const iframe = document.getElementById('liveIframe');
+    if (iframe && iframe.src && iframe.src !== 'about:blank') {
+        // إعادة تحميل الـ IFrame
+        iframe.src = iframe.src;
+    }
+}
+
+function toggleAutoRefresh() {
+    autoRefresh = !autoRefresh;
+    const btn = document.querySelector('.stream-controls .btn-sm.gold:last-child');
+    if (autoRefresh) {
+        btn.innerHTML = '⏸️ إيقاف التحديث التلقائي';
+        document.getElementById('updateInterval').innerHTML = 'كل 3 ثوانٍ';
+        startAutoRefresh();
+    } else {
+        btn.innerHTML = '▶️ تشغيل التحديث التلقائي';
+        document.getElementById('updateInterval').innerHTML = 'متوقف';
+        if (refreshTimer) {
+            clearInterval(refreshTimer);
+            refreshTimer = null;
+        }
+    }
+}
+
+// ============================================================
+// 21. التحميل الأولي
 // ============================================================
 loadFromLocalStorage();
 loadParticipantsFromSheet();
@@ -1737,6 +2034,10 @@ setInterval(() => {
         })
         .catch(() => {});
 }, 5000);
+
+// دالة لزر التحديث في صفحة البث
+window.reloadIframe = reloadIframe;
+window.toggleAutoRefresh = toggleAutoRefresh;
 </script>
 </body>
 </html>
