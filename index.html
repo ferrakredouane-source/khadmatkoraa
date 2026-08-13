@@ -6,9 +6,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<!-- Firebase SDKs -->
+<script type="importmap">
+{
+  "imports": {
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js",
+    "firebase/database": "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js"
+  }
+}
+</script>
+<script type="module">
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onValue, set, get } from "firebase/database";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyD_7lnWrK6BD7H83Grt9RrgditltpcD3v4",
+  authDomain: "oeb-lottery-live.firebaseapp.com",
+  databaseURL: "https://oeb-lottery-live-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "oeb-lottery-live",
+  storageBucket: "oeb-lottery-live.firebasestorage.app",
+  messagingSenderId: "580944313069",
+  appId: "1:580944313069:web:2444d01691eeb5c3b1aae4"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Make db and functions globally available
+window.db = db;
+window.ref = ref;
+window.onValue = onValue;
+window.set = set;
+window.get = get;
+window.firebaseInitialized = true;
+
+console.log('✅ Firebase initialized successfully');
+
+// إشارة إلى أن Firebase جاهز
+window.dispatchEvent(new Event('firebase-ready'));
+</script>
 <title>اللجنة الولائية لعمال التربية - أم البواقي | الملف النهائي</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -239,35 +277,6 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .upload-btn{background:#8b5cf6;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
 .upload-btn:hover{background:#6d28d9}
 
-/* ===== وضع المشاهد ===== */
-.viewer-mode .lot-controls,
-.viewer-mode #startLotteryBtn,
-.viewer-mode .winner-card-lot button,
-.viewer-mode .lot-grid .lpanel:first-child .upload-btn,
-.viewer-mode .lot-grid .lpanel:first-child > div > button,
-.viewer-mode .lot-grid .lpanel:first-child input[type="text"],
-.viewer-mode .lot-grid .lpanel:first-child .btn-gold,
-.viewer-mode .lot-grid .lpanel:first-child #filterTrip,
-.viewer-mode .lot-grid .lpanel:first-child .llist,
-.viewer-mode .lot-grid .lpanel:first-child .person,
-.viewer-mode .lot-grid .lpanel:first-child .person.winner {
-    display: none !important;
-}
-.viewer-mode #liveIndicator {
-    display: block !important;
-}
-.viewer-mode .lot-grid .lpanel:first-child h3::after {
-    content: " (عرض فقط)";
-    color: #8ecaff;
-    font-size: 12px;
-}
-.viewer-mode .top-name-box .lot-controls {
-    display: none !important;
-}
-.viewer-mode .top-name-box .winner-card-lot .btn-gold {
-    display: none !important;
-}
-
 @media print {
     nav, .ticker, .btns, .lot-controls, #winnerCard, #fireworks, #mabrouk,
     .dash-actions, .lot-grid .lpanel:first-child, .lot-grid .lpanel:last-child,
@@ -338,12 +347,11 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <section class="section" id="trips">
 <h2>🏖️ وجهات الرحلات</h2><div class="line"></div>
 <div class="cards">
-<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"><div class="card-body"><span class="tag">الأكثر طلبا</span><h3>جيجل</h3><p>5 أيام / إقامة كاملة</p><b>18,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"><div class="card-body"><span class="tag">الأكثر طلبا</span><h3>جيجل - المنار</h3><p>5 أيام / إقامة كاملة</p><b>18,000 دج</b></div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=600"><div class="card-body"><span class="tag">عائلات</span><h3>القالة</h3><p>شقق مجهزة</p><b>22,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تونس</h3><p>7 أيام منظمة</p><b>55,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1627728734379-a5f8c099763e"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🇪🇬 خارج الوطن</span><h3>مصر</h3><p>7 أيام / الأهرامات والنيل</p><b>65,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=600"><div class="card-body"><span class="tag" style="background:#e6f7ff;color:#1b6ca8">🇹🇷 خارج الوطن</span><h3>تركيا</h3><p>7 أيام / اسطنبول وكبادوكيا</p><b>75,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تونس - سوسة</h3><p>7 أيام منظمة</p><b>55,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1627728734379-a5f8c099763e"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة المباركة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🇪🇬 خارج الوطن</span><h3>مصر - القاهرة</h3><p>7 أيام / الأهرامات والنيل</p><b>65,000 دج</b></div></div>
 </div>
 </section>
 <footer>© 2026 اللجنة الولائية لعمال التربية -أم البواقي- بجانب ابتدائية اليازيد محمد الصالح</footer>
@@ -441,15 +449,14 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div class="dashboard-grid" id="dashboardStats">
 <div class="dash-card"><span class="icon">👥</span><span class="num" id="totalRegistered">0</span><span class="label">إجمالي المسجلين</span></div>
 <div class="dash-card"><span class="icon">🏆</span><span class="num" id="totalWinners">0</span><span class="label">عدد الفائزين</span></div>
-<div class="dash-card"><span class="icon">✈️</span><span class="num" id="totalTrips">6</span><span class="label">عدد الرحلات</span></div>
+<div class="dash-card"><span class="icon">✈️</span><span class="num" id="totalTrips">5</span><span class="label">عدد الرحلات</span></div>
 <div class="dash-card"><span class="icon">📅</span><span class="num" id="daysLeft">--</span><span class="label">الأيام المتبقية</span></div>
 </div>
 
 <div style="border-top:2px solid #e2ecf7;margin:20px 0;padding-top:16px">
-<h4 style="color:#0f2c4a;text-align:center;margin-bottom:12px">🔥 إدارة البث المباشر (Firebase)</h4>
+<h4 style="color:#0f2c4a;text-align:center;margin-bottom:12px">⚙️ إدارة البث المباشر</h4>
 <div style="text-align:center">
-<div id="liveStatusDashboard" style="color:#2ec4b6;font-weight:800;margin-bottom:10px;display:none">🟢 البث المباشر مفعل</div>
-<div id="firebaseStatus" style="color:#8ecaff;font-size:13px;margin-bottom:8px;">✅ متصل بـ Firebase</div>
+<div id="liveStatusDashboard" style="color:#f7b633;font-weight:800;margin-bottom:10px;display:none">🟢 البث المباشر مفعل حالياً</div>
 <button class="btn" id="dashStartLive" onclick="startLiveMode()" style="background:#ff4444;color:white;padding:12px 30px;margin:5px">🔴 تفعيل البث المباشر</button>
 <button class="btn" id="dashStopLive" onclick="stopLiveMode()" style="background:#666;color:white;padding:12px 30px;margin:5px;display:none">⏹️ إيقاف البث المباشر</button>
 </div>
@@ -506,8 +513,8 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;width:100%">
 <div class="top-name-box" style="width:100%">
     <div id="liveIndicator" style="display:none;margin-bottom:8px">
-        <span class="live-badge" style="background:#ff4444;color:white;">🔴 بث مباشر (Firebase)</span>
-        <span style="color:#8ecaff;font-size:12px">🔥 تحديث فوري</span>
+        <span class="live-badge">🔴 بث مباشر</span>
+        <span style="color:#8ecaff;font-size:12px">يتحدث تلقائياً كل 3 ثوانٍ</span>
     </div>
     
     <div class="lot-controls" id="lotControls">
@@ -523,7 +530,6 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     <div id="slotDisplay" style="width:100%;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:10px">
         <div id="slotName" style="font-size:48px;font-weight:900;color:#f7b633;min-height:60px;transition:all 0.1s">اضغط "بدء القرعة"</div>
         <div id="slotStatus" style="font-size:18px;color:#8ecaff;margin-top:6px;min-height:30px">🔮 سيبدأ الاختيار...</div>
-        <div id="firebaseSync" style="font-size:12px;color:#2ec4b6;margin-top:4px;display:none;">🔥 متزامن مع Firebase</div>
     </div>
     
     <div style="width:100%;max-width:400px;background:rgba(255,255,255,0.05);border-radius:10px;height:8px;overflow:hidden;display:none" id="progressBar">
@@ -584,43 +590,12 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 
 <script>
 // ============================================================
-// 0. تهيئة Firebase
-// ============================================================
-const firebaseConfig = {
-    apiKey: "AIzaSyD_7lnWrK6BD7H83Grt9RrgditltpcD3v4",
-    authDomain: "oeb-lottery-live.firebaseapp.com",
-    databaseURL: "https://oeb-lottery-live-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "oeb-lottery-live",
-    storageBucket: "oeb-lottery-live.firebasestorage.app",
-    messagingSenderId: "580944313069",
-    appId: "1:580944313069:web:2444d01691eeb5c3b1aae4"
-};
-
-// تهيئة Firebase
-let firebaseApp;
-let database;
-let isFirebaseReady = false;
-
-try {
-    firebaseApp = firebase.initializeApp(firebaseConfig);
-    database = firebase.database();
-    isFirebaseReady = true;
-    console.log('✅ Firebase متصل بنجاح');
-    document.getElementById('firebaseStatus').innerHTML = '✅ متصل بـ Firebase';
-    document.getElementById('firebaseStatus').style.color = '#2ec4b6';
-} catch (error) {
-    console.error('❌ خطأ في تهيئة Firebase:', error);
-    document.getElementById('firebaseStatus').innerHTML = '❌ خطأ في الاتصال بـ Firebase';
-    document.getElementById('firebaseStatus').style.color = '#ff4444';
-}
-
-// ============================================================
-// 1. تعريف GOOGLE_SHEET_URL (للتسجيل والتصدير فقط)
+// 0. تعريف GOOGLE_SHEET_URL
 // ============================================================
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwuH4XCvwI4PDlrH96yMb6lcKKgYbt_Z1Lb2D308OEmSmHtztxyEsMlk2j9oz_CoCN6Kg/exec";
 
 // ============================================================
-// 2. المتغيرات العامة
+// 1. المتغيرات العامة
 // ============================================================
 let participants = [];
 let filteredParticipants = [];
@@ -630,11 +605,11 @@ let batchWinners = [];
 let batchReserves = [];
 let isLotteryRunning = false;
 const STORAGE_KEY = 'lottery_data';
-let isLiveActive = false;
-let firebaseListener = null;
+let firebaseInitialized = false;
+let db = null;
 
 // ============================================================
-// 3. دوال التخزين المحلي
+// 2. دوال التخزين المحلي
 // ============================================================
 function saveToLocalStorage() {
     try {
@@ -677,7 +652,7 @@ function clearLocalStorage() {
 }
 
 // ============================================================
-// 4. دوال التنقل
+// 3. دوال التنقل
 // ============================================================
 function showPage(p){
 try{
@@ -704,7 +679,7 @@ window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ============================================================
-// 5. دوال المديرين
+// 4. دوال المديرين
 // ============================================================
 function handleAdminClick(){
     if(sessionStorage.getItem('adminLoggedIn') === 'true'){
@@ -738,10 +713,9 @@ showPage('dashboard');
 }
 
 // ============================================================
-// 6. دوال لوحة التحكم
+// 5. دوال لوحة التحكم
 // ============================================================
 function loadDashboard(){
-// جلب الإحصائيات من Google Sheets
 fetch(GOOGLE_SHEET_URL + '?action=getStats')
 .then(r=>r.json())
 .then(data=>{
@@ -760,10 +734,6 @@ document.getElementById('totalRegistered').innerText = '--';
 document.getElementById('totalWinners').innerText = '--';
 });
 
-// التحقق من حالة البث من Firebase
-checkFirebaseLiveStatus();
-
-// جلب آخر المسجلين
 fetch(GOOGLE_SHEET_URL + '?action=getRecent')
 .then(r=>r.json())
 .then(data=>{
@@ -782,173 +752,337 @@ container.innerHTML = '<div style="text-align:center;color:#5a7a9a;padding:10px"
 .catch(()=>{
 document.getElementById('recentRegistrations').innerHTML = '<div style="text-align:center;color:#5a7a9a;padding:10px">لا يمكن تحميل البيانات</div>';
 });
+
+// تحقق من حالة البث من Firebase
+checkFirebaseLiveStatus();
+}
+
+function exportAllData(){
+alert('📥 سيتم تصدير جميع البيانات قريباً...');
 }
 
 // ============================================================
-// 7. دوال Firebase - البث المباشر (الجزء الرئيسي)
+// 6. دوال تحميل المشاركين بصيغة Excel
 // ============================================================
-function checkFirebaseLiveStatus() {
-    if (!isFirebaseReady) {
-        console.log('⚠️ Firebase غير جاهز');
+function exportParticipantsExcel(){
+    const btn = document.querySelector('.excel-btn');
+    const originalText = btn.textContent;
+    btn.textContent = '⏳ جاري التحميل...';
+    btn.disabled = true;
+    
+    if (typeof XLSX === 'undefined') {
+        alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
+        btn.textContent = originalText;
+        btn.disabled = false;
         return;
     }
     
-    // إزالة المستمع القديم إذا وجد
-    if (firebaseListener) {
-        database.ref('live').off('value', firebaseListener);
-        firebaseListener = null;
-    }
-    
-    // إنشاء مستمع جديد
-    firebaseListener = database.ref('live').on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data && data.active === true) {
-            isLiveActive = true;
-            document.getElementById('liveStatusDashboard').style.display = 'block';
-            document.getElementById('dashStartLive').style.display = 'none';
-            document.getElementById('dashStopLive').style.display = 'inline-block';
-            document.getElementById('btnWatchLive').style.display = 'inline-block';
+    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
+        .then(r => r.json())
+        .then(data => {
+            btn.textContent = originalText;
+            btn.disabled = false;
             
-            // تحديث واجهة القرعة
-            document.getElementById('liveIndicator').style.display = 'block';
-            document.getElementById('firebaseSync').style.display = 'block';
-            
-            // عرض البيانات الحية
-            if (data.currentName) {
-                document.getElementById('slotName').innerText = data.currentName;
-            }
-            if (data.status) {
-                document.getElementById('slotStatus').innerText = data.status;
-            }
-            if (data.winners && data.winners.length > 0) {
-                updateWinnersLists(data.winners);
-            }
-            
-            // إخفاء أزرار التحكم للمشاهدين
-            var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
-            if (!isAdmin) {
-                document.getElementById('lotControls').style.display = 'none';
-                document.getElementById('startLotteryBtn').style.display = 'none';
-                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
-                document.getElementById('page-lottery').classList.add('viewer-mode');
+            let participantsList = [];
+            if (data.participants && data.participants.length > 0) {
+                participantsList = data.participants;
             } else {
-                document.getElementById('lotControls').style.display = 'flex';
-                document.getElementById('startLotteryBtn').style.display = 'block';
-                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
-                document.getElementById('page-lottery').classList.remove('viewer-mode');
+                participantsList = [
+                    {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
+                    {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
+                    {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
+                    {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
+                    {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
+                ];
             }
             
-        } else {
-            isLiveActive = false;
-            document.getElementById('liveStatusDashboard').style.display = 'none';
-            document.getElementById('dashStartLive').style.display = 'inline-block';
-            document.getElementById('dashStopLive').style.display = 'none';
-            document.getElementById('btnWatchLive').style.display = 'none';
-            document.getElementById('liveIndicator').style.display = 'none';
-            document.getElementById('firebaseSync').style.display = 'none';
-            
-            var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
-            if (isAdmin) {
-                document.getElementById('lotControls').style.display = 'flex';
-                document.getElementById('startLotteryBtn').style.display = 'block';
-                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
-                document.getElementById('page-lottery').classList.remove('viewer-mode');
+            if (participantsList.length === 0) {
+                alert('⚠️ لا يوجد مشاركين لتصديرهم!');
+                return;
             }
-        }
-    }, (error) => {
-        console.error('خطأ في الاستماع لـ Firebase:', error);
-    });
+            
+            const excelData = [
+                ['الاسم', 'الرقم الوظيفي', 'المؤسسة', 'الهاتف', 'CCP', 'المفتاح', 'الرحلة']
+            ];
+            
+            participantsList.forEach(p => {
+                excelData.push([
+                    p.nom || p.name || '',
+                    p.matricule || '',
+                    p.etab || '',
+                    p.tel || '',
+                    p.ccp || '',
+                    p.cle || '',
+                    p.trip || ''
+                ]);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            ws['!cols'] = [
+                { wch: 25 },
+                { wch: 18 },
+                { wch: 30 },
+                { wch: 18 },
+                { wch: 18 },
+                { wch: 15 },
+                { wch: 20 }
+            ];
+            
+            XLSX.utils.book_append_sheet(wb, ws, 'المشاركون');
+            
+            const now = new Date();
+            const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+            const fileName = `المشاركون_${dateStr}.xlsx`;
+            
+            XLSX.writeFile(wb, fileName);
+            
+            alert(`✅ تم تحميل ${participantsList.length} مشارك بنجاح!`);
+        })
+        .catch(error => {
+            console.error('❌ خطأ في تحميل المشاركين:', error);
+            btn.textContent = originalText;
+            btn.disabled = false;
+            alert('❌ حدث خطأ في تحميل البيانات، تأكد من اتصال الإنترنت');
+        });
 }
 
-// دالة بدء البث المباشر عبر Firebase
-function startLiveMode() {
-    if (!isFirebaseReady) {
-        alert('❌ Firebase غير متصل، يرجى تحديث الصفحة');
+// ============================================================
+// 7. دوال تحميل المشاركين من ملف Excel
+// ============================================================
+function uploadParticipantsExcel(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+            
+            if (!jsonData || jsonData.length === 0) {
+                alert('⚠️ الملف فارغ أو لا يحتوي على بيانات!');
+                return;
+            }
+            
+            const newParticipants = [];
+            jsonData.forEach(row => {
+                const name = row['الاسم'] || row['name'] || row['Name'] || row['nom'] || row['Nom'] || '';
+                const etab = row['المؤسسة'] || row['etab'] || row['Etab'] || row['مؤسسة'] || '';
+                const trip = row['الرحلة'] || row['trip'] || row['Trip'] || row['رحلة'] || '';
+                const matricule = row['الرقم الوظيفي'] || row['matricule'] || row['Matricule'] || row['رقم'] || '';
+                const tel = row['الهاتف'] || row['tel'] || row['Tel'] || '';
+                const ccp = row['CCP'] || row['ccp'] || '';
+                const cle = row['المفتاح'] || row['cle'] || row['Cle'] || '';
+                
+                if (name && name.toString().trim() !== '') {
+                    newParticipants.push({
+                        nom: name.toString().trim(),
+                        matricule: matricule ? matricule.toString().trim() : '',
+                        etab: etab ? etab.toString().trim() : '',
+                        tel: tel ? tel.toString().trim() : '',
+                        ccp: ccp ? ccp.toString().trim() : '',
+                        cle: cle ? cle.toString().trim() : '',
+                        trip: trip ? trip.toString().trim() : ''
+                    });
+                }
+            });
+            
+            if (newParticipants.length === 0) {
+                alert('⚠️ لم يتم العثور على أسماء في الملف. تأكد من وجود عمود "الاسم"');
+                return;
+            }
+            
+            const existingNames = new Set(participants.map(p => p.nom));
+            let addedCount = 0;
+            newParticipants.forEach(p => {
+                if (!existingNames.has(p.nom)) {
+                    participants.push(p);
+                    existingNames.add(p.nom);
+                    addedCount++;
+                }
+            });
+            
+            filterParticipants();
+            alert(`✅ تم تحميل ${newParticipants.length} مشارك، تم إضافة ${addedCount} مشارك جديد`);
+            
+        } catch(error) {
+            console.error('خطأ في قراءة الملف:', error);
+            alert('❌ حدث خطأ في قراءة الملف. تأكد من أن الملف بصيغة Excel صحيحة.');
+        }
+    };
+    reader.readAsArrayBuffer(file);
+    event.target.value = '';
+}
+
+// ============================================================
+// 8. دوال البث المباشر (Firebase)
+// ============================================================
+let liveInterval = null;
+let firebaseListeners = [];
+
+function initializeFirebase() {
+    // انتظار تحميل Firebase من الوحدة
+    if (typeof window.firebaseInitialized !== 'undefined' && window.firebaseInitialized) {
+        db = window.db;
+        firebaseInitialized = true;
+        console.log('✅ Firebase ready for use');
+        checkFirebaseLiveStatus();
+        return true;
+    }
+    
+    // إذا لم يتم التحميل بعد، انتظر
+    window.addEventListener('firebase-ready', function() {
+        db = window.db;
+        firebaseInitialized = true;
+        console.log('✅ Firebase ready (event)');
+        checkFirebaseLiveStatus();
+    });
+    
+    // محاولة مرة أخرى بعد 2 ثانية
+    setTimeout(function() {
+        if (window.db) {
+            db = window.db;
+            firebaseInitialized = true;
+            console.log('✅ Firebase ready (timeout)');
+            checkFirebaseLiveStatus();
+        }
+    }, 2000);
+    
+    return false;
+}
+
+function checkFirebaseLiveStatus() {
+    if (!firebaseInitialized || !db) {
+        console.log('⚠️ Firebase غير مهيأ');
         return;
     }
     
-    const liveRef = database.ref('live');
-    liveRef.set({
-        active: true,
-        currentName: '⏳ جاري البث...',
-        status: '🔮 في انتظار بدء القرعة',
-        winners: [],
-        reserves: [],
-        startedAt: new Date().toISOString()
-    }).then(() => {
+    try {
+        // الاستماع لحالة البث
+        const statusRef = window.ref(db, 'live/status');
+        window.onValue(statusRef, (snapshot) => {
+            const isLive = snapshot.val() === true;
+            updateLiveUI(isLive);
+        });
+        
+        // الاستماع للاسم الحالي
+        const nameRef = window.ref(db, 'live/currentName');
+        window.onValue(nameRef, (snapshot) => {
+            const name = snapshot.val();
+            if (name) {
+                document.getElementById('slotName').innerText = name;
+            }
+        });
+        
+        // الاستماع لقائمة الفائزين
+        const winnersRef = window.ref(db, 'live/winners');
+        window.onValue(winnersRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data && data.length > 0) {
+                updateWinnersLists(data);
+            }
+        });
+        
+        console.log('✅ Firebase listeners تم تفعيلها');
+    } catch(e) {
+        console.warn('⚠️ خطأ في Firebase listeners:', e);
+    }
+}
+
+function updateLiveUI(isLive) {
+    const isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+    
+    if (isLive) {
+        document.getElementById('liveIndicator').style.display = 'block';
+        document.getElementById('btnWatchLive').style.display = 'inline-block';
         document.getElementById('dashStartLive').style.display = 'none';
         document.getElementById('dashStopLive').style.display = 'inline-block';
         document.getElementById('liveStatusDashboard').style.display = 'block';
-        document.getElementById('btnWatchLive').style.display = 'inline-block';
-        document.getElementById('liveIndicator').style.display = 'block';
-        document.getElementById('firebaseSync').style.display = 'block';
-        alert('✅ تم تفعيل البث المباشر عبر Firebase!');
-    }).catch((error) => {
-        console.error('خطأ في تفعيل البث:', error);
-        alert('❌ حدث خطأ في تفعيل البث: ' + error.message);
-    });
-}
-
-// دالة إيقاف البث المباشر
-function stopLiveMode() {
-    if (!isFirebaseReady) {
-        alert('❌ Firebase غير متصل');
-        return;
-    }
-    
-    const liveRef = database.ref('live');
-    liveRef.update({
-        active: false
-    }).then(() => {
+        
+        if (!isAdmin) {
+            document.getElementById('lotControls').style.display = 'none';
+            document.getElementById('startLotteryBtn').style.display = 'none';
+            document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
+        } else {
+            document.getElementById('lotControls').style.display = 'flex';
+            document.getElementById('startLotteryBtn').style.display = 'block';
+            document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+        }
+    } else {
+        document.getElementById('liveIndicator').style.display = 'none';
+        document.getElementById('btnWatchLive').style.display = 'none';
         document.getElementById('dashStartLive').style.display = 'inline-block';
         document.getElementById('dashStopLive').style.display = 'none';
         document.getElementById('liveStatusDashboard').style.display = 'none';
-        document.getElementById('btnWatchLive').style.display = 'none';
-        document.getElementById('liveIndicator').style.display = 'none';
-        document.getElementById('firebaseSync').style.display = 'none';
-        alert('⏹️ تم إيقاف البث المباشر');
-    }).catch((error) => {
-        console.error('خطأ في إيقاف البث:', error);
-        alert('❌ حدث خطأ في إيقاف البث: ' + error.message);
-    });
+        
+        if (isAdmin) {
+            document.getElementById('lotControls').style.display = 'flex';
+            document.getElementById('startLotteryBtn').style.display = 'block';
+            document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+        }
+    }
 }
 
-// دالة تحديث الاسم الحالي في Firebase
-function updateFirebaseCurrentName(name) {
-    if (!isLiveActive || !isFirebaseReady) return;
-    database.ref('live').update({ currentName: name }).catch((error) => {
-        console.error('خطأ في تحديث الاسم:', error);
-    });
-}
-
-// دالة تحديث الحالة في Firebase
-function updateFirebaseStatus(status) {
-    if (!isLiveActive || !isFirebaseReady) return;
-    database.ref('live').update({ status: status }).catch((error) => {
-        console.error('خطأ في تحديث الحالة:', error);
-    });
-}
-
-// دالة تحديث الفائزين في Firebase
-function updateFirebaseWinners(winnersList, reservesList) {
-    if (!isLiveActive || !isFirebaseReady) return;
-    const data = {};
-    if (winnersList) data.winners = winnersList;
-    if (reservesList) data.reserves = reservesList;
-    database.ref('live').update(data).catch((error) => {
-        console.error('خطأ في تحديث الفائزين:', error);
-    });
-}
-
-// ============================================================
-// 8. دوال البث المباشر (التوافق مع النظام القديم)
-// ============================================================
-function checkLiveModeAndUpdate(){
-    // فقط للتحقق من Firebase
-    if (isFirebaseReady) {
-        // المستمع موجود بالفعل في checkFirebaseLiveStatus
+function startLiveMode() {
+    if (!firebaseInitialized || !db) {
+        alert('⚠️ Firebase غير مهيأ. يرجى تحديث الصفحة.');
         return;
     }
+    
+    try {
+        window.set(window.ref(db, 'live/status'), true);
+        window.set(window.ref(db, 'live/currentName'), 'البث المباشر مفعل');
+        alert('✅ تم تفعيل البث المباشر للقرعة!');
+    } catch(e) {
+        alert('❌ حدث خطأ في تفعيل البث: ' + e.message);
+    }
+}
+
+function stopLiveMode() {
+    if (!firebaseInitialized || !db) {
+        alert('⚠️ Firebase غير مهيأ.');
+        return;
+    }
+    
+    try {
+        window.set(window.ref(db, 'live/status'), false);
+        window.set(window.ref(db, 'live/currentName'), '');
+        alert('⏹️ تم إيقاف البث المباشر');
+    } catch(e) {
+        alert('❌ حدث خطأ في إيقاف البث: ' + e.message);
+    }
+}
+
+function checkLiveModeAndUpdate() {
+    if (firebaseInitialized && db) {
+        try {
+            window.get(window.ref(db, 'live/status')).then((snapshot) => {
+                const isLive = snapshot.val() === true;
+                updateLiveUI(isLive);
+            }).catch(() => {
+                checkGoogleSheetsLive();
+            });
+        } catch(e) {
+            checkGoogleSheetsLive();
+        }
+    } else {
+        checkGoogleSheetsLive();
+    }
+}
+
+function checkGoogleSheetsLive() {
+    fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
+        .then(r => r.json())
+        .then(data => {
+            if (data.live === 'true') {
+                updateLiveUI(true);
+            }
+        })
+        .catch(() => {});
 }
 
 // ============================================================
@@ -996,7 +1130,7 @@ function updateWinnersLists(winnersData){
 }
 
 // ============================================================
-// 10. دوال القرعة - مع حركة بطيئة + Firebase
+// 10. دوال القرعة - مع حركة بطيئة
 // ============================================================
 function startLottery(){
     if(isLotteryRunning) return;
@@ -1040,9 +1174,6 @@ function startLottery(){
     let currentStep = 0;
     let totalSteps = winnersCount + reserveCount;
     
-    // تحديث الحالة في Firebase
-    updateFirebaseStatus('🏆 بداية اختيار الفائزين...');
-    
     function shuffleArray(arr){
         for(let i = arr.length - 1; i > 0; i--){
             let j = Math.floor(Math.random() * (i + 1));
@@ -1069,10 +1200,6 @@ function startLottery(){
             slotName.className = 'slot-animation';
             spinCount++;
             
-            // تحديث Firebase بالاسم الحالي
-            updateFirebaseCurrentName(randomPerson.nom);
-            updateFirebaseStatus(slotStatus.innerText);
-            
             if(spinCount >= maxSpins){
                 clearInterval(spinTimer);
                 
@@ -1088,26 +1215,23 @@ function startLottery(){
                     `📋 الاحتياط ${selectedReserves.length + 1}/${reserveCount}` : 
                     `🏆 الفائز ${selectedWinners.length + 1}/${winnersCount}`;
                 
-                // تحديث Firebase بالاسم النهائي والحالة
-                updateFirebaseCurrentName(finalPerson.nom);
-                updateFirebaseStatus(slotStatus.innerText);
-                
                 currentStep++;
                 let progress = (currentStep / totalSteps) * 100;
                 progressFill.style.width = progress + '%';
                 progressText.innerText = `جاري الاختيار ${currentStep}/${totalSteps}`;
+                
+                // تحديث Firebase بالاسم الحالي
+                if (firebaseInitialized && db) {
+                    try {
+                        window.set(window.ref(db, 'live/currentName'), finalPerson.nom);
+                    } catch(e) {}
+                }
                 
                 if(isReserve){
                     selectedReserves.push(finalPerson);
                 } else {
                     selectedWinners.push(finalPerson);
                 }
-                
-                // تحديث Firebase بقوائم الفائزين والاحتياط
-                updateFirebaseWinners(
-                    selectedWinners.map(p => ({name: p.nom, trip: p.trip})),
-                    selectedReserves.map(p => ({name: p.nom, trip: p.trip}))
-                );
                 
                 let waitTime = 1200 + Math.floor(Math.random() * 600);
                 setTimeout(() => {
@@ -1120,7 +1244,6 @@ function startLottery(){
     function pickWinners(index){
         if(index >= winnersCount){
             slotStatus.innerText = '📋 بداية اختيار الاحتياط...';
-            updateFirebaseStatus(slotStatus.innerText);
             setTimeout(() => {
                 pickReserves(0);
             }, 1500);
@@ -1178,13 +1301,14 @@ function startLottery(){
         slotName.innerText = '🎉 تمت القرعة بنجاح!';
         slotStatus.innerText = `🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`;
         
-        // تحديث Firebase بالنتيجة النهائية
-        updateFirebaseCurrentName('🎉 تمت القرعة بنجاح!');
-        updateFirebaseStatus(`🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`);
-        updateFirebaseWinners(
-            winners.map(p => ({name: p.nom, trip: p.trip})),
-            reserves.map(p => ({name: p.nom, trip: p.trip}))
-        );
+        // تحديث Firebase بالنتائج
+        if (firebaseInitialized && db) {
+            try {
+                const allWinners = [...winners.map(w => ({name: w.nom, trip: w.trip})), ...reserves.map(w => ({name: w.nom, trip: w.trip}))];
+                window.set(window.ref(db, 'live/winners'), allWinners);
+                window.set(window.ref(db, 'live/currentName'), '🎉 تمت القرعة!');
+            } catch(e) {}
+        }
         
         setTimeout(() => {
             document.getElementById('progressBar').style.display = 'none';
@@ -1196,32 +1320,36 @@ function startLottery(){
     }
     
     slotStatus.innerText = '🏆 بداية اختيار الفائزين...';
-    updateFirebaseStatus(slotStatus.innerText);
     setTimeout(() => {
         pickWinners(0);
     }, 400);
 }
 
 // ============================================================
-// 11. دوال تصدير النتائج بصيغة Excel
+// 11. ✅ دوال تصدير النتائج بصيغة Excel مع دعم العربية
 // ============================================================
 function exportWinnersExcel() {
+    // التحقق من وجود فائزين
     if (finalWinners.length === 0 && finalReserves.length === 0) {
         alert('⚠️ لا يوجد فائزين أو احتياط لتصديرهم!');
         return;
     }
 
+    // التحقق من وجود مكتبة XLSX
     if (typeof XLSX === 'undefined') {
         alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
         return;
     }
 
     try {
+        // إعداد البيانات للتصدير
         const excelData = [
             ['النوع', 'الاسم واللقب', 'رقم الحساب الجاري (CCP)', 'المفتاح (Clé)', 'الرحلة']
         ];
 
+        // إضافة الفائزين
         finalWinners.forEach(w => {
+            // البحث عن معلومات الحساب الجاري والمفتاح من قائمة المشاركين
             const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
             excelData.push([
                 'فائز',
@@ -1232,6 +1360,7 @@ function exportWinnersExcel() {
             ]);
         });
 
+        // إضافة الاحتياط
         finalReserves.forEach(w => {
             const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
             excelData.push([
@@ -1243,27 +1372,33 @@ function exportWinnersExcel() {
             ]);
         });
 
+        // إنشاء مصنف Excel
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.aoa_to_sheet(excelData);
 
+        // ضبط عرض الأعمدة
         ws['!cols'] = [
-            { wch: 12 },
-            { wch: 30 },
-            { wch: 20 },
-            { wch: 15 },
-            { wch: 20 }
+            { wch: 12 },  // النوع
+            { wch: 30 },  // الاسم واللقب
+            { wch: 20 },  // رقم الحساب الجاري
+            { wch: 15 },  // المفتاح
+            { wch: 20 }   // الرحلة
         ];
 
+        // إضافة الورقة إلى المصنف
         XLSX.utils.book_append_sheet(wb, ws, 'نتائج القرعة');
 
+        // إنشاء اسم الملف مع التاريخ
         const now = new Date();
         const dateStr = now.getFullYear() + '-' + 
                        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
                        String(now.getDate()).padStart(2, '0');
         const fileName = `نتائج_القرعة_أم_البواقي_${dateStr}.xlsx`;
 
+        // تحميل الملف
         XLSX.writeFile(wb, fileName);
 
+        // إظهار رسالة نجاح
         const totalWinners = finalWinners.length;
         const totalReserves = finalReserves.length;
         alert(`✅ تم تصدير النتائج بنجاح!\n🏆 الفائزين: ${totalWinners}\n📋 الاحتياط: ${totalReserves}`);
@@ -1311,11 +1446,13 @@ function confirmWinners(){
             .catch(e => console.log('⚠️ خطأ في حفظ الفائز:', e));
     });
     
-    // تحديث Firebase بالقوائم النهائية
-    updateFirebaseWinners(
-        finalWinners.map(w => ({name: w.name, trip: w.trip})),
-        finalReserves.map(w => ({name: w.name, trip: w.trip}))
-    );
+    // تحديث Firebase بالفائزين النهائيين
+    if (firebaseInitialized && db) {
+        try {
+            const allWinners = [...finalWinners, ...finalReserves];
+            window.set(window.ref(db, 'live/winners'), allWinners);
+        } catch(e) {}
+    }
     
     saveToLocalStorage();
     renderAllLists();
@@ -1325,10 +1462,6 @@ function confirmWinners(){
     document.getElementById('slotName').innerText = `✅ تم إضافة ${allSelected.length} إلى القوائم`;
     document.getElementById('slotName').style.color = '#2ec4b6';
     document.getElementById('slotStatus').innerText = 'تم الحفظ بنجاح!';
-    
-    // تحديث Firebase
-    updateFirebaseCurrentName(`✅ تم إضافة ${allSelected.length} إلى القوائم`);
-    updateFirebaseStatus('تم الحفظ بنجاح!');
     
     batchWinners = [];
     batchReserves = [];
@@ -1347,9 +1480,6 @@ function rejectWinners(){
     document.getElementById('slotName').innerText = '🔄 تم إلغاء النتائج';
     document.getElementById('slotName').style.color = '#8ecaff';
     document.getElementById('slotStatus').innerText = 'يمكنك إعادة المحاولة';
-    
-    updateFirebaseCurrentName('🔄 تم إلغاء النتائج');
-    updateFirebaseStatus('يمكنك إعادة المحاولة');
 }
 
 // ============================================================
@@ -1415,16 +1545,16 @@ function clearAllWinners(){
         finalWinners = [];
         finalReserves = [];
         clearLocalStorage();
+        if (firebaseInitialized && db) {
+            try {
+                window.set(window.ref(db, 'live/winners'), []);
+            } catch(e) {}
+        }
         renderAllLists();
         filterParticipants();
         document.getElementById('slotName').innerText = '🗑️ تم مسح جميع الفائزين';
         document.getElementById('slotName').style.color = '#ff6666';
         document.getElementById('slotStatus').innerText = 'قائمة فارغة';
-        
-        // تحديث Firebase
-        updateFirebaseWinners([], []);
-        updateFirebaseCurrentName('🗑️ تم مسح جميع الفائزين');
-        updateFirebaseStatus('قائمة فارغة');
     }
 }
 
@@ -1779,25 +1909,38 @@ function createFirework(x, y){
 loadFromLocalStorage();
 loadParticipantsFromSheet();
 
-// التحقق من Firebase
-setTimeout(() => {
-    if (isFirebaseReady) {
-        checkFirebaseLiveStatus();
-        console.log('✅ Firebase جاهز ومراقب');
-    } else {
-        console.log('⚠️ Firebase غير جاهز، يرجى تحديث الصفحة');
-    }
-}, 1000);
+// تهيئة Firebase
+setTimeout(function() {
+    initializeFirebase();
+}, 500);
 
-// التحقق من حالة Firebase بشكل دوري
+// محاولة تهيئة Firebase بشكل دوري
+let initAttempts = 0;
+let initInterval = setInterval(function() {
+    if (window.db) {
+        db = window.db;
+        firebaseInitialized = true;
+        console.log('✅ Firebase ready (interval)');
+        checkFirebaseLiveStatus();
+        clearInterval(initInterval);
+    }
+    initAttempts++;
+    if (initAttempts > 20) {
+        clearInterval(initInterval);
+        console.log('⚠️ Firebase initialization timeout, using fallback');
+        checkLiveModeAndUpdate();
+    }
+}, 500);
+
 setInterval(() => {
-    if (isFirebaseReady) {
-        database.ref('live').once('value').then((snapshot) => {
-            const data = snapshot.val();
-            if (data && data.active === true) {
-                document.getElementById('btnWatchLive').style.display = 'inline-block';
-            }
-        }).catch(() => {});
+    // التحقق من حالة البث من Firebase
+    if (firebaseInitialized && db) {
+        try {
+            window.get(window.ref(db, 'live/status')).then((snapshot) => {
+                const isLive = snapshot.val() === true;
+                updateLiveUI(isLive);
+            }).catch(() => {});
+        } catch(e) {}
     }
 }, 5000);
 </script>
