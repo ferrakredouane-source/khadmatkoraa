@@ -6,6 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <title>اللجنة الولائية لعمال التربية - أم البواقي | الملف النهائي</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -265,261 +268,6 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     display: none !important;
 }
 
-/* ===== صفحة البث المباشر ===== */
-.live-stream-page{
-    background:#0a0a1a;
-    min-height:100vh;
-    padding-top:70px;
-}
-.live-stream-header{
-    background:rgba(15,44,74,0.95);
-    padding:15px 20px;
-    text-align:center;
-    border-bottom:2px solid #f7b633;
-    position:fixed;
-    top:0;
-    width:100%;
-    z-index:100;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:10px;
-}
-.live-stream-header h1{
-    font-size:22px;
-    color:#f7b633;
-}
-.live-stream-header .live-badge{
-    display:inline-block;
-    background:#ff4444;
-    color:white;
-    padding:3px 12px;
-    border-radius:20px;
-    font-size:12px;
-    animation:pulse 1.5s infinite;
-}
-.live-stream-header .back-btn{
-    background:rgba(255,255,255,0.1);
-    border:1px solid rgba(255,255,255,0.2);
-    color:white;
-    padding:6px 16px;
-    border-radius:20px;
-    cursor:pointer;
-    font-size:14px;
-}
-.live-stream-header .back-btn:hover{
-    background:rgba(255,255,255,0.2);
-}
-.live-stream-container{
-    padding:10px;
-    height:calc(100vh - 70px);
-    display:flex;
-    flex-direction:column;
-}
-.live-stream-container iframe{
-    width:100%;
-    flex:1;
-    border:none;
-    border-radius:12px;
-    background:#1a1a2e;
-    min-height:400px;
-}
-.live-stream-info{
-    display:flex;
-    gap:15px;
-    justify-content:center;
-    flex-wrap:wrap;
-    padding:10px;
-    background:rgba(255,255,255,0.05);
-    border-radius:12px;
-    margin-top:10px;
-}
-.live-stream-info .item{
-    color:#8ecaff;
-    font-size:13px;
-}
-.live-stream-info .item span{
-    color:white;
-    font-weight:700;
-}
-.stream-controls{
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    flex-wrap:wrap;
-    margin-top:10px;
-}
-.stream-controls .btn-sm{
-    padding:6px 16px;
-    border-radius:20px;
-    border:none;
-    font-weight:700;
-    cursor:pointer;
-    font-size:13px;
-}
-.stream-controls .btn-sm.gold{
-    background:#f7b633;
-    color:#3a2400;
-}
-.stream-controls .btn-sm.gray{
-    background:#444;
-    color:#aaa;
-}
-.stream-controls .btn-sm.gray:hover{
-    background:#555;
-}
-.stream-controls .btn-sm.gold:hover{
-    background:#e6a800;
-}
-
-/* ===== صفحة القرعة للبث (بدون شريط) ===== */
-.broadcast-only{
-    background:#070f25;
-    min-height:100vh;
-    padding:20px 16px;
-}
-.broadcast-only .lot-grid{
-    max-width:1250px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:280px 1fr 280px;
-    gap:14px;
-}
-@media(max-width:1050px){
-    .broadcast-only .lot-grid{grid-template-columns:1fr}
-}
-.broadcast-only .lpanel{
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:16px;
-    padding:12px;
-    color:white;
-}
-.broadcast-only .lpanel h3{
-    font-size:14px;
-    margin-bottom:10px;
-    color:#8ecaff;
-    display:flex;
-    justify-content:space-between;
-}
-.broadcast-only .llist{
-    max-height:480px;
-    overflow:auto;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
-.broadcast-only .person{
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.06);
-    padding:8px 10px;
-    border-radius:10px;
-    font-size:13px;
-    display:flex;
-    justify-content:space-between;
-}
-.broadcast-only .person.winner{
-    border-color:#f7b633;
-    background:rgba(247,182,51,0.15);
-}
-.broadcast-only .top-name-box{
-    width:100%;
-    background:linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.02));
-    border:2px solid rgba(247,182,51,0.35);
-    border-radius:18px;
-    padding:20px 12px;
-    min-height:130px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    box-shadow:0 12px 40px rgba(0,0,0,0.3);
-    color:white;
-}
-.broadcast-only .slot-name{
-    font-size:48px;
-    font-weight:900;
-    color:#f7b633;
-    min-height:60px;
-    transition:all 0.1s;
-}
-.broadcast-only .slot-status{
-    font-size:18px;
-    color:#8ecaff;
-    margin-top:6px;
-    min-height:30px;
-}
-.broadcast-only .winner-card{
-    display:none;
-    background:white;
-    color:#0a1930;
-    border-radius:20px;
-    padding:18px;
-    width:100%;
-    max-width:450px;
-    text-align:center;
-    border:4px solid #f7b633;
-    box-shadow:0 20px 60px rgba(0,0,0,0.5);
-    margin-top:10px;
-}
-.broadcast-only .winner-card.show{
-    display:block;
-}
-.broadcast-only .winners-lists-right{
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:16px;
-    padding:12px;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-.broadcast-only .winners-lists-right .list-box{
-    flex:1;
-}
-.broadcast-only .winners-lists-right .list-box h4{
-    color:#8ecaff;
-    font-size:14px;
-    margin-bottom:6px;
-    display:flex;
-    justify-content:space-between;
-    border-bottom:1px solid rgba(255,255,255,0.06);
-    padding-bottom:4px;
-}
-.broadcast-only .winners-lists-right .list-box .llist{
-    max-height:200px;
-    overflow:auto;
-}
-.broadcast-only .winners-lists-right .list-box .empty-msg{
-    text-align:center;
-    color:#6a8aaa;
-    padding:10px;
-    font-size:13px;
-}
-.broadcast-only .win-item-sm{
-    background:rgba(255,255,255,0.06);
-    border-radius:8px;
-    padding:5px 10px;
-    margin-bottom:4px;
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-}
-.broadcast-only .win-item-sm .name{color:white}
-.broadcast-only .win-item-sm .trip{color:#8ecaff;font-size:11px}
-.broadcast-only .win-item-sm.reserve{border-right:3px solid #f7b633}
-.broadcast-only .win-item-sm.winner-item{border-right:3px solid #2ec4b6}
-
-/* إخفاء شريط التنقل في صفحة البث */
-body.broadcast-mode nav{
-    display:none !important;
-}
-body.broadcast-mode .page#page-lottery{
-    padding-top:0 !important;
-}
-
 @media print {
     nav, .ticker, .btns, .lot-controls, #winnerCard, #fireworks, #mabrouk,
     .dash-actions, .lot-grid .lpanel:first-child, .lot-grid .lpanel:last-child,
@@ -577,7 +325,7 @@ body.broadcast-mode .page#page-lottery{
 <div class="btns">
 <button class="btn btn-gold" onclick="showPage('register')">📝 سجل الآن</button>
 <button class="btn btn-white" onclick="document.getElementById('trips').scrollIntoView({behavior:'smooth'})">🧭 اكتشف الرحلات</button>
-<button class="btn" id="btnWatchLive" onclick="showPage('live')" style="display:none;background:linear-gradient(135deg,#ff4444,#ff6b35);color:white;box-shadow:0 6px 18px rgba(255,68,68,0.4)">📺 متابعة القرعة المباشرة</button>
+<button class="btn" id="btnWatchLive" onclick="showPage('lottery')" style="display:none;background:linear-gradient(135deg,#ff4444,#ff6b35);color:white;box-shadow:0 6px 18px rgba(255,68,68,0.4)">📺 متابعة القرعة المباشرة</button>
 </div>
 </div>
 </section>
@@ -698,9 +446,10 @@ body.broadcast-mode .page#page-lottery{
 </div>
 
 <div style="border-top:2px solid #e2ecf7;margin:20px 0;padding-top:16px">
-<h4 style="color:#0f2c4a;text-align:center;margin-bottom:12px">⚙️ إدارة البث المباشر</h4>
+<h4 style="color:#0f2c4a;text-align:center;margin-bottom:12px">🔥 إدارة البث المباشر (Firebase)</h4>
 <div style="text-align:center">
-<div id="liveStatusDashboard" style="color:#f7b633;font-weight:800;margin-bottom:10px;display:none">🟢 البث المباشر مفعل حالياً</div>
+<div id="liveStatusDashboard" style="color:#2ec4b6;font-weight:800;margin-bottom:10px;display:none">🟢 البث المباشر مفعل</div>
+<div id="firebaseStatus" style="color:#8ecaff;font-size:13px;margin-bottom:8px;">✅ متصل بـ Firebase</div>
 <button class="btn" id="dashStartLive" onclick="startLiveMode()" style="background:#ff4444;color:white;padding:12px 30px;margin:5px">🔴 تفعيل البث المباشر</button>
 <button class="btn" id="dashStopLive" onclick="stopLiveMode()" style="background:#666;color:white;padding:12px 30px;margin:5px;display:none">⏹️ إيقاف البث المباشر</button>
 </div>
@@ -726,40 +475,9 @@ body.broadcast-mode .page#page-lottery{
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- صفحة البث المباشر (IFrame) -->
-<!-- ============================================================ -->
-<div id="page-live" class="page">
-<div class="live-stream-page">
-    <div class="live-stream-header">
-        <div style="display:flex;align-items:center;gap:10px;">
-            <h1>📺 البث المباشر للقرعة</h1>
-            <span class="live-badge" id="liveBadge">🔴 بث مباشر</span>
-        </div>
-        <button class="back-btn" onclick="showPage('home')">✕ إغلاق</button>
-    </div>
-    <div class="live-stream-container">
-        <!-- IFrame يعرض صفحة القرعة فقط (بدون شريط) -->
-        <iframe id="liveIframe" src="#" sandbox="allow-scripts allow-same-origin"></iframe>
-        <div class="live-stream-info">
-            <div class="item">📡 الحالة: <span id="streamStatus">🔄 جاري التحميل...</span></div>
-            <div class="item">🔄 التحديث: <span id="updateInterval">كل 3 ثوانٍ</span></div>
-            <div class="item">👥 المشاهدين: <span id="viewerCount">1</span></div>
-        </div>
-        <div class="stream-controls">
-            <button class="btn-sm gold" onclick="reloadIframe()">🔄 تحديث</button>
-            <button class="btn-sm gold" onclick="toggleAutoRefresh()">⏸️ إيقاف التحديث التلقائي</button>
-            <button class="btn-sm gray" onclick="showPage('home')">⬅️ العودة للرئيسية</button>
-        </div>
-    </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- صفحة القرعة (للإستخدام في الـ IFrame) -->
-<!-- ============================================================ -->
+<!-- صفحة القرعة -->
 <div id="page-lottery" class="page">
-<div class="lot-wrap" style="padding-top:20px;">
+<div class="lot-wrap">
 <div class="lot-grid">
 <!-- الجهة اليسرى: المشاركون -->
 <div class="lpanel">
@@ -788,8 +506,8 @@ body.broadcast-mode .page#page-lottery{
 <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;width:100%">
 <div class="top-name-box" style="width:100%">
     <div id="liveIndicator" style="display:none;margin-bottom:8px">
-        <span class="live-badge">🔴 بث مباشر</span>
-        <span style="color:#8ecaff;font-size:12px">يتحدث تلقائياً كل 3 ثوانٍ</span>
+        <span class="live-badge" style="background:#ff4444;color:white;">🔴 بث مباشر (Firebase)</span>
+        <span style="color:#8ecaff;font-size:12px">🔥 تحديث فوري</span>
     </div>
     
     <div class="lot-controls" id="lotControls">
@@ -805,6 +523,7 @@ body.broadcast-mode .page#page-lottery{
     <div id="slotDisplay" style="width:100%;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:10px">
         <div id="slotName" style="font-size:48px;font-weight:900;color:#f7b633;min-height:60px;transition:all 0.1s">اضغط "بدء القرعة"</div>
         <div id="slotStatus" style="font-size:18px;color:#8ecaff;margin-top:6px;min-height:30px">🔮 سيبدأ الاختيار...</div>
+        <div id="firebaseSync" style="font-size:12px;color:#2ec4b6;margin-top:4px;display:none;">🔥 متزامن مع Firebase</div>
     </div>
     
     <div style="width:100%;max-width:400px;background:rgba(255,255,255,0.05);border-radius:10px;height:8px;overflow:hidden;display:none" id="progressBar">
@@ -865,12 +584,43 @@ body.broadcast-mode .page#page-lottery{
 
 <script>
 // ============================================================
-// 0. تعريف GOOGLE_SHEET_URL
+// 0. تهيئة Firebase
+// ============================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyD_7lnWrK6BD7H83Grt9RrgditltpcD3v4",
+    authDomain: "oeb-lottery-live.firebaseapp.com",
+    databaseURL: "https://oeb-lottery-live-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "oeb-lottery-live",
+    storageBucket: "oeb-lottery-live.firebasestorage.app",
+    messagingSenderId: "580944313069",
+    appId: "1:580944313069:web:2444d01691eeb5c3b1aae4"
+};
+
+// تهيئة Firebase
+let firebaseApp;
+let database;
+let isFirebaseReady = false;
+
+try {
+    firebaseApp = firebase.initializeApp(firebaseConfig);
+    database = firebase.database();
+    isFirebaseReady = true;
+    console.log('✅ Firebase متصل بنجاح');
+    document.getElementById('firebaseStatus').innerHTML = '✅ متصل بـ Firebase';
+    document.getElementById('firebaseStatus').style.color = '#2ec4b6';
+} catch (error) {
+    console.error('❌ خطأ في تهيئة Firebase:', error);
+    document.getElementById('firebaseStatus').innerHTML = '❌ خطأ في الاتصال بـ Firebase';
+    document.getElementById('firebaseStatus').style.color = '#ff4444';
+}
+
+// ============================================================
+// 1. تعريف GOOGLE_SHEET_URL (للتسجيل والتصدير فقط)
 // ============================================================
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwuH4XCvwI4PDlrH96yMb6lcKKgYbt_Z1Lb2D308OEmSmHtztxyEsMlk2j9oz_CoCN6Kg/exec";
 
 // ============================================================
-// 1. المتغيرات العامة
+// 2. المتغيرات العامة
 // ============================================================
 let participants = [];
 let filteredParticipants = [];
@@ -880,12 +630,11 @@ let batchWinners = [];
 let batchReserves = [];
 let isLotteryRunning = false;
 const STORAGE_KEY = 'lottery_data';
-let liveInterval = null;
-let autoRefresh = true;
-let refreshTimer = null;
+let isLiveActive = false;
+let firebaseListener = null;
 
 // ============================================================
-// 2. دوال التخزين المحلي
+// 3. دوال التخزين المحلي
 // ============================================================
 function saveToLocalStorage() {
     try {
@@ -928,7 +677,7 @@ function clearLocalStorage() {
 }
 
 // ============================================================
-// 3. دوال التنقل
+// 4. دوال التنقل
 // ============================================================
 function showPage(p){
 try{
@@ -936,7 +685,7 @@ document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
 document.querySelectorAll('nav .links button').forEach(e=>e.classList.remove('active'));
 let pg=document.getElementById('page-'+p);
 if(pg) pg.classList.add('active');
-let btn=document.getElementById('btn-' + (p === 'lottery' ? 'lot' : p === 'admin' ? 'admin' : p === 'contact' ? 'contact' : p === 'dashboard' ? 'admin' : p === 'live' ? 'home' : p));
+let btn=document.getElementById('btn-' + (p === 'lottery' ? 'lot' : p === 'admin' ? 'admin' : p === 'contact' ? 'contact' : p === 'dashboard' ? 'admin' : p));
 if(btn) btn.classList.add('active');
 
 if(p==='register') resetFormSilent();
@@ -949,16 +698,13 @@ if(p==='lottery') {
     filterParticipants();
 }
 if(p==='dashboard') loadDashboard();
-if(p==='live') {
-    setTimeout(function(){ startLiveStream(); }, 500);
-}
 
 window.scrollTo({top:0,behavior:'smooth'});
 }catch(err){}
 }
 
 // ============================================================
-// 4. دوال المديرين
+// 5. دوال المديرين
 // ============================================================
 function handleAdminClick(){
     if(sessionStorage.getItem('adminLoggedIn') === 'true'){
@@ -992,9 +738,10 @@ showPage('dashboard');
 }
 
 // ============================================================
-// 5. دوال لوحة التحكم
+// 6. دوال لوحة التحكم
 // ============================================================
 function loadDashboard(){
+// جلب الإحصائيات من Google Sheets
 fetch(GOOGLE_SHEET_URL + '?action=getStats')
 .then(r=>r.json())
 .then(data=>{
@@ -1013,22 +760,10 @@ document.getElementById('totalRegistered').innerText = '--';
 document.getElementById('totalWinners').innerText = '--';
 });
 
-fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
-.then(r=>r.json())
-.then(data=>{
-if(data.live === 'true'){
-document.getElementById('dashStartLive').style.display='none';
-document.getElementById('dashStopLive').style.display='inline-block';
-document.getElementById('liveStatusDashboard').style.display='block';
-document.getElementById('btnWatchLive').style.display='inline-block';
-} else {
-document.getElementById('dashStartLive').style.display='inline-block';
-document.getElementById('dashStopLive').style.display='none';
-document.getElementById('liveStatusDashboard').style.display='none';
-}
-})
-.catch(()=>{});
+// التحقق من حالة البث من Firebase
+checkFirebaseLiveStatus();
 
+// جلب آخر المسجلين
 fetch(GOOGLE_SHEET_URL + '?action=getRecent')
 .then(r=>r.json())
 .then(data=>{
@@ -1049,253 +784,171 @@ document.getElementById('recentRegistrations').innerHTML = '<div style="text-ali
 });
 }
 
-function startLiveMode(){
-fetch(GOOGLE_SHEET_URL + '?action=setLive&value=true')
-.then(()=>{
-document.getElementById('dashStartLive').style.display='none';
-document.getElementById('dashStopLive').style.display='inline-block';
-document.getElementById('liveStatusDashboard').style.display='block';
-document.getElementById('btnWatchLive').style.display='inline-block';
-alert('✅ تم تفعيل البث المباشر للقرعة!');
-})
-.catch(()=>alert('❌ حدث خطأ، تأكد من اتصال الإنترنت'));
-}
-
-function stopLiveMode(){
-fetch(GOOGLE_SHEET_URL + '?action=setLive&value=false')
-.then(()=>{
-document.getElementById('dashStartLive').style.display='inline-block';
-document.getElementById('dashStopLive').style.display='none';
-document.getElementById('liveStatusDashboard').style.display='none';
-document.getElementById('btnWatchLive').style.display='none';
-alert('⏹️ تم إيقاف البث المباشر');
-})
-.catch(()=>alert('❌ حدث خطأ، تأكد من اتصال الإنترنت'));
-}
-
-function exportAllData(){
-alert('📥 سيتم تصدير جميع البيانات قريباً...');
-}
-
 // ============================================================
-// 6. دوال تحميل المشاركين بصيغة Excel
+// 7. دوال Firebase - البث المباشر (الجزء الرئيسي)
 // ============================================================
-function exportParticipantsExcel(){
-    const btn = document.querySelector('.excel-btn');
-    const originalText = btn.textContent;
-    btn.textContent = '⏳ جاري التحميل...';
-    btn.disabled = true;
-    
-    if (typeof XLSX === 'undefined') {
-        alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
-        btn.textContent = originalText;
-        btn.disabled = false;
+function checkFirebaseLiveStatus() {
+    if (!isFirebaseReady) {
+        console.log('⚠️ Firebase غير جاهز');
         return;
     }
     
-    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
-        .then(r => r.json())
-        .then(data => {
-            btn.textContent = originalText;
-            btn.disabled = false;
-            
-            let participantsList = [];
-            if (data.participants && data.participants.length > 0) {
-                participantsList = data.participants;
-            } else {
-                participantsList = [
-                    {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
-                    {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
-                    {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
-                    {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
-                    {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
-                ];
-            }
-            
-            if (participantsList.length === 0) {
-                alert('⚠️ لا يوجد مشاركين لتصديرهم!');
-                return;
-            }
-            
-            const excelData = [
-                ['الاسم', 'الرقم الوظيفي', 'المؤسسة', 'الهاتف', 'CCP', 'المفتاح', 'الرحلة']
-            ];
-            
-            participantsList.forEach(p => {
-                excelData.push([
-                    p.nom || p.name || '',
-                    p.matricule || '',
-                    p.etab || '',
-                    p.tel || '',
-                    p.ccp || '',
-                    p.cle || '',
-                    p.trip || ''
-                ]);
-            });
-            
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.aoa_to_sheet(excelData);
-            
-            ws['!cols'] = [
-                { wch: 25 },
-                { wch: 18 },
-                { wch: 30 },
-                { wch: 18 },
-                { wch: 18 },
-                { wch: 15 },
-                { wch: 20 }
-            ];
-            
-            XLSX.utils.book_append_sheet(wb, ws, 'المشاركون');
-            
-            const now = new Date();
-            const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-            const fileName = `المشاركون_${dateStr}.xlsx`;
-            
-            XLSX.writeFile(wb, fileName);
-            
-            alert(`✅ تم تحميل ${participantsList.length} مشارك بنجاح!`);
-        })
-        .catch(error => {
-            console.error('❌ خطأ في تحميل المشاركين:', error);
-            btn.textContent = originalText;
-            btn.disabled = false;
-            alert('❌ حدث خطأ في تحميل البيانات، تأكد من اتصال الإنترنت');
-        });
-}
-
-// ============================================================
-// 7. دوال تحميل المشاركين من ملف Excel
-// ============================================================
-function uploadParticipantsExcel(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+    // إزالة المستمع القديم إذا وجد
+    if (firebaseListener) {
+        database.ref('live').off('value', firebaseListener);
+        firebaseListener = null;
+    }
     
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+    // إنشاء مستمع جديد
+    firebaseListener = database.ref('live').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data && data.active === true) {
+            isLiveActive = true;
+            document.getElementById('liveStatusDashboard').style.display = 'block';
+            document.getElementById('dashStartLive').style.display = 'none';
+            document.getElementById('dashStopLive').style.display = 'inline-block';
+            document.getElementById('btnWatchLive').style.display = 'inline-block';
             
-            if (!jsonData || jsonData.length === 0) {
-                alert('⚠️ الملف فارغ أو لا يحتوي على بيانات!');
-                return;
-            }
+            // تحديث واجهة القرعة
+            document.getElementById('liveIndicator').style.display = 'block';
+            document.getElementById('firebaseSync').style.display = 'block';
             
-            const newParticipants = [];
-            jsonData.forEach(row => {
-                const name = row['الاسم'] || row['name'] || row['Name'] || row['nom'] || row['Nom'] || '';
-                const etab = row['المؤسسة'] || row['etab'] || row['Etab'] || row['مؤسسة'] || '';
-                const trip = row['الرحلة'] || row['trip'] || row['Trip'] || row['رحلة'] || '';
-                const matricule = row['الرقم الوظيفي'] || row['matricule'] || row['Matricule'] || row['رقم'] || '';
-                const tel = row['الهاتف'] || row['tel'] || row['Tel'] || '';
-                const ccp = row['CCP'] || row['ccp'] || '';
-                const cle = row['المفتاح'] || row['cle'] || row['Cle'] || '';
-                
-                if (name && name.toString().trim() !== '') {
-                    newParticipants.push({
-                        nom: name.toString().trim(),
-                        matricule: matricule ? matricule.toString().trim() : '',
-                        etab: etab ? etab.toString().trim() : '',
-                        tel: tel ? tel.toString().trim() : '',
-                        ccp: ccp ? ccp.toString().trim() : '',
-                        cle: cle ? cle.toString().trim() : '',
-                        trip: trip ? trip.toString().trim() : ''
-                    });
-                }
-            });
-            
-            if (newParticipants.length === 0) {
-                alert('⚠️ لم يتم العثور على أسماء في الملف. تأكد من وجود عمود "الاسم"');
-                return;
-            }
-            
-            const existingNames = new Set(participants.map(p => p.nom));
-            let addedCount = 0;
-            newParticipants.forEach(p => {
-                if (!existingNames.has(p.nom)) {
-                    participants.push(p);
-                    existingNames.add(p.nom);
-                    addedCount++;
-                }
-            });
-            
-            filterParticipants();
-            alert(`✅ تم تحميل ${newParticipants.length} مشارك، تم إضافة ${addedCount} مشارك جديد`);
-            
-        } catch(error) {
-            console.error('خطأ في قراءة الملف:', error);
-            alert('❌ حدث خطأ في قراءة الملف. تأكد من أن الملف بصيغة Excel صحيحة.');
-        }
-    };
-    reader.readAsArrayBuffer(file);
-    event.target.value = '';
-}
-
-// ============================================================
-// 8. دوال البث المباشر
-// ============================================================
-function checkLiveModeAndUpdate(){
-    var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
-    
-    fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
-        .then(r => r.json())
-        .then(data => {
-            if (data.live === 'true') {
-                document.getElementById('liveIndicator').style.display = 'block';
-                document.getElementById('btnWatchLive').style.display = 'inline-block';
-                
-                if (!isAdmin) {
-                    document.getElementById('lotControls').style.display = 'none';
-                    document.getElementById('startLotteryBtn').style.display = 'none';
-                    document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
-                    document.getElementById('page-lottery').classList.add('viewer-mode');
-                } else {
-                    document.getElementById('lotControls').style.display = 'flex';
-                    document.getElementById('startLotteryBtn').style.display = 'block';
-                    document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
-                    document.getElementById('page-lottery').classList.remove('viewer-mode');
-                }
-                
-                if (!liveInterval) {
-                    liveInterval = setInterval(updateLiveData, 3000);
-                }
-                updateLiveData();
-            } else {
-                document.getElementById('liveIndicator').style.display = 'none';
-                document.getElementById('btnWatchLive').style.display = 'none';
-                
-                if (liveInterval) {
-                    clearInterval(liveInterval);
-                    liveInterval = null;
-                }
-                
-                if (isAdmin) {
-                    document.getElementById('lotControls').style.display = 'flex';
-                    document.getElementById('startLotteryBtn').style.display = 'block';
-                    document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
-                    document.getElementById('page-lottery').classList.remove('viewer-mode');
-                }
-            }
-        })
-        .catch(() => {});
-}
-
-function updateLiveData(){
-    fetch(GOOGLE_SHEET_URL + '?action=getLiveData')
-        .then(r => r.json())
-        .then(data => {
+            // عرض البيانات الحية
             if (data.currentName) {
                 document.getElementById('slotName').innerText = data.currentName;
             }
-            
+            if (data.status) {
+                document.getElementById('slotStatus').innerText = data.status;
+            }
             if (data.winners && data.winners.length > 0) {
                 updateWinnersLists(data.winners);
             }
-        })
-        .catch(() => {});
+            
+            // إخفاء أزرار التحكم للمشاهدين
+            var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+            if (!isAdmin) {
+                document.getElementById('lotControls').style.display = 'none';
+                document.getElementById('startLotteryBtn').style.display = 'none';
+                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
+                document.getElementById('page-lottery').classList.add('viewer-mode');
+            } else {
+                document.getElementById('lotControls').style.display = 'flex';
+                document.getElementById('startLotteryBtn').style.display = 'block';
+                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+                document.getElementById('page-lottery').classList.remove('viewer-mode');
+            }
+            
+        } else {
+            isLiveActive = false;
+            document.getElementById('liveStatusDashboard').style.display = 'none';
+            document.getElementById('dashStartLive').style.display = 'inline-block';
+            document.getElementById('dashStopLive').style.display = 'none';
+            document.getElementById('btnWatchLive').style.display = 'none';
+            document.getElementById('liveIndicator').style.display = 'none';
+            document.getElementById('firebaseSync').style.display = 'none';
+            
+            var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+            if (isAdmin) {
+                document.getElementById('lotControls').style.display = 'flex';
+                document.getElementById('startLotteryBtn').style.display = 'block';
+                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+                document.getElementById('page-lottery').classList.remove('viewer-mode');
+            }
+        }
+    }, (error) => {
+        console.error('خطأ في الاستماع لـ Firebase:', error);
+    });
+}
+
+// دالة بدء البث المباشر عبر Firebase
+function startLiveMode() {
+    if (!isFirebaseReady) {
+        alert('❌ Firebase غير متصل، يرجى تحديث الصفحة');
+        return;
+    }
+    
+    const liveRef = database.ref('live');
+    liveRef.set({
+        active: true,
+        currentName: '⏳ جاري البث...',
+        status: '🔮 في انتظار بدء القرعة',
+        winners: [],
+        reserves: [],
+        startedAt: new Date().toISOString()
+    }).then(() => {
+        document.getElementById('dashStartLive').style.display = 'none';
+        document.getElementById('dashStopLive').style.display = 'inline-block';
+        document.getElementById('liveStatusDashboard').style.display = 'block';
+        document.getElementById('btnWatchLive').style.display = 'inline-block';
+        document.getElementById('liveIndicator').style.display = 'block';
+        document.getElementById('firebaseSync').style.display = 'block';
+        alert('✅ تم تفعيل البث المباشر عبر Firebase!');
+    }).catch((error) => {
+        console.error('خطأ في تفعيل البث:', error);
+        alert('❌ حدث خطأ في تفعيل البث: ' + error.message);
+    });
+}
+
+// دالة إيقاف البث المباشر
+function stopLiveMode() {
+    if (!isFirebaseReady) {
+        alert('❌ Firebase غير متصل');
+        return;
+    }
+    
+    const liveRef = database.ref('live');
+    liveRef.update({
+        active: false
+    }).then(() => {
+        document.getElementById('dashStartLive').style.display = 'inline-block';
+        document.getElementById('dashStopLive').style.display = 'none';
+        document.getElementById('liveStatusDashboard').style.display = 'none';
+        document.getElementById('btnWatchLive').style.display = 'none';
+        document.getElementById('liveIndicator').style.display = 'none';
+        document.getElementById('firebaseSync').style.display = 'none';
+        alert('⏹️ تم إيقاف البث المباشر');
+    }).catch((error) => {
+        console.error('خطأ في إيقاف البث:', error);
+        alert('❌ حدث خطأ في إيقاف البث: ' + error.message);
+    });
+}
+
+// دالة تحديث الاسم الحالي في Firebase
+function updateFirebaseCurrentName(name) {
+    if (!isLiveActive || !isFirebaseReady) return;
+    database.ref('live').update({ currentName: name }).catch((error) => {
+        console.error('خطأ في تحديث الاسم:', error);
+    });
+}
+
+// دالة تحديث الحالة في Firebase
+function updateFirebaseStatus(status) {
+    if (!isLiveActive || !isFirebaseReady) return;
+    database.ref('live').update({ status: status }).catch((error) => {
+        console.error('خطأ في تحديث الحالة:', error);
+    });
+}
+
+// دالة تحديث الفائزين في Firebase
+function updateFirebaseWinners(winnersList, reservesList) {
+    if (!isLiveActive || !isFirebaseReady) return;
+    const data = {};
+    if (winnersList) data.winners = winnersList;
+    if (reservesList) data.reserves = reservesList;
+    database.ref('live').update(data).catch((error) => {
+        console.error('خطأ في تحديث الفائزين:', error);
+    });
+}
+
+// ============================================================
+// 8. دوال البث المباشر (التوافق مع النظام القديم)
+// ============================================================
+function checkLiveModeAndUpdate(){
+    // فقط للتحقق من Firebase
+    if (isFirebaseReady) {
+        // المستمع موجود بالفعل في checkFirebaseLiveStatus
+        return;
+    }
 }
 
 // ============================================================
@@ -1343,7 +996,7 @@ function updateWinnersLists(winnersData){
 }
 
 // ============================================================
-// 10. دوال القرعة - مع حركة بطيئة
+// 10. دوال القرعة - مع حركة بطيئة + Firebase
 // ============================================================
 function startLottery(){
     if(isLotteryRunning) return;
@@ -1387,6 +1040,9 @@ function startLottery(){
     let currentStep = 0;
     let totalSteps = winnersCount + reserveCount;
     
+    // تحديث الحالة في Firebase
+    updateFirebaseStatus('🏆 بداية اختيار الفائزين...');
+    
     function shuffleArray(arr){
         for(let i = arr.length - 1; i > 0; i--){
             let j = Math.floor(Math.random() * (i + 1));
@@ -1413,6 +1069,10 @@ function startLottery(){
             slotName.className = 'slot-animation';
             spinCount++;
             
+            // تحديث Firebase بالاسم الحالي
+            updateFirebaseCurrentName(randomPerson.nom);
+            updateFirebaseStatus(slotStatus.innerText);
+            
             if(spinCount >= maxSpins){
                 clearInterval(spinTimer);
                 
@@ -1428,6 +1088,10 @@ function startLottery(){
                     `📋 الاحتياط ${selectedReserves.length + 1}/${reserveCount}` : 
                     `🏆 الفائز ${selectedWinners.length + 1}/${winnersCount}`;
                 
+                // تحديث Firebase بالاسم النهائي والحالة
+                updateFirebaseCurrentName(finalPerson.nom);
+                updateFirebaseStatus(slotStatus.innerText);
+                
                 currentStep++;
                 let progress = (currentStep / totalSteps) * 100;
                 progressFill.style.width = progress + '%';
@@ -1438,6 +1102,12 @@ function startLottery(){
                 } else {
                     selectedWinners.push(finalPerson);
                 }
+                
+                // تحديث Firebase بقوائم الفائزين والاحتياط
+                updateFirebaseWinners(
+                    selectedWinners.map(p => ({name: p.nom, trip: p.trip})),
+                    selectedReserves.map(p => ({name: p.nom, trip: p.trip}))
+                );
                 
                 let waitTime = 1200 + Math.floor(Math.random() * 600);
                 setTimeout(() => {
@@ -1450,6 +1120,7 @@ function startLottery(){
     function pickWinners(index){
         if(index >= winnersCount){
             slotStatus.innerText = '📋 بداية اختيار الاحتياط...';
+            updateFirebaseStatus(slotStatus.innerText);
             setTimeout(() => {
                 pickReserves(0);
             }, 1500);
@@ -1507,6 +1178,14 @@ function startLottery(){
         slotName.innerText = '🎉 تمت القرعة بنجاح!';
         slotStatus.innerText = `🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`;
         
+        // تحديث Firebase بالنتيجة النهائية
+        updateFirebaseCurrentName('🎉 تمت القرعة بنجاح!');
+        updateFirebaseStatus(`🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`);
+        updateFirebaseWinners(
+            winners.map(p => ({name: p.nom, trip: p.trip})),
+            reserves.map(p => ({name: p.nom, trip: p.trip}))
+        );
+        
         setTimeout(() => {
             document.getElementById('progressBar').style.display = 'none';
         }, 1500);
@@ -1517,13 +1196,14 @@ function startLottery(){
     }
     
     slotStatus.innerText = '🏆 بداية اختيار الفائزين...';
+    updateFirebaseStatus(slotStatus.innerText);
     setTimeout(() => {
         pickWinners(0);
     }, 400);
 }
 
 // ============================================================
-// 11. ✅ دوال تصدير النتائج بصيغة Excel مع دعم العربية
+// 11. دوال تصدير النتائج بصيغة Excel
 // ============================================================
 function exportWinnersExcel() {
     if (finalWinners.length === 0 && finalReserves.length === 0) {
@@ -1631,6 +1311,12 @@ function confirmWinners(){
             .catch(e => console.log('⚠️ خطأ في حفظ الفائز:', e));
     });
     
+    // تحديث Firebase بالقوائم النهائية
+    updateFirebaseWinners(
+        finalWinners.map(w => ({name: w.name, trip: w.trip})),
+        finalReserves.map(w => ({name: w.name, trip: w.trip}))
+    );
+    
     saveToLocalStorage();
     renderAllLists();
     filterParticipants();
@@ -1639,6 +1325,10 @@ function confirmWinners(){
     document.getElementById('slotName').innerText = `✅ تم إضافة ${allSelected.length} إلى القوائم`;
     document.getElementById('slotName').style.color = '#2ec4b6';
     document.getElementById('slotStatus').innerText = 'تم الحفظ بنجاح!';
+    
+    // تحديث Firebase
+    updateFirebaseCurrentName(`✅ تم إضافة ${allSelected.length} إلى القوائم`);
+    updateFirebaseStatus('تم الحفظ بنجاح!');
     
     batchWinners = [];
     batchReserves = [];
@@ -1657,6 +1347,9 @@ function rejectWinners(){
     document.getElementById('slotName').innerText = '🔄 تم إلغاء النتائج';
     document.getElementById('slotName').style.color = '#8ecaff';
     document.getElementById('slotStatus').innerText = 'يمكنك إعادة المحاولة';
+    
+    updateFirebaseCurrentName('🔄 تم إلغاء النتائج');
+    updateFirebaseStatus('يمكنك إعادة المحاولة');
 }
 
 // ============================================================
@@ -1727,6 +1420,11 @@ function clearAllWinners(){
         document.getElementById('slotName').innerText = '🗑️ تم مسح جميع الفائزين';
         document.getElementById('slotName').style.color = '#ff6666';
         document.getElementById('slotStatus').innerText = 'قائمة فارغة';
+        
+        // تحديث Firebase
+        updateFirebaseWinners([], []);
+        updateFirebaseCurrentName('🗑️ تم مسح جميع الفائزين');
+        updateFirebaseStatus('قائمة فارغة');
     }
 }
 
@@ -2076,140 +1774,32 @@ function createFirework(x, y){
 }
 
 // ============================================================
-// 20. دوال البث المباشر عبر IFrame
-// ============================================================
-function startLiveStream() {
-    // التحقق من حالة البث
-    fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
-        .then(r => r.json())
-        .then(data => {
-            if (data.live === 'true') {
-                // البث مفعل - عرض صفحة القرعة في الـ IFrame
-                const iframe = document.getElementById('liveIframe');
-                // استخدام نفس الصفحة مع معلمة للعرض فقط
-                const currentUrl = window.location.href.split('?')[0].split('#')[0];
-                iframe.src = currentUrl + '?mode=broadcast#page-lottery';
-                
-                // تحديث حالة البث
-                document.getElementById('streamStatus').innerHTML = '🟢 متصل';
-                document.getElementById('streamStatus').style.color = '#2ec4b6';
-                document.getElementById('liveBadge').style.display = 'inline-block';
-                
-                // بدء التحديث التلقائي
-                if (autoRefresh) {
-                    startAutoRefresh();
-                }
-                
-                // زيادة عدد المشاهدين (تقديري)
-                let viewers = 1 + Math.floor(Math.random() * 3);
-                document.getElementById('viewerCount').innerText = viewers + ' مشاهد';
-            } else {
-                // لا يوجد بث
-                document.getElementById('streamStatus').innerHTML = '⛔ غير متاح';
-                document.getElementById('streamStatus').style.color = '#ff4444';
-                document.getElementById('liveBadge').style.display = 'none';
-                document.getElementById('liveIframe').src = 'about:blank';
-                document.getElementById('liveIframe').style.display = 'none';
-                
-                // عرض رسالة في الـ IFrame
-                const container = document.querySelector('.live-stream-container');
-                const msgDiv = document.createElement('div');
-                msgDiv.id = 'noBroadcastMsg';
-                msgDiv.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6a8aaa;background:#0a0a1a;border-radius:12px;padding:20px;text-align:center;';
-                msgDiv.innerHTML = `
-                    <span style="font-size:60px;display:block;margin-bottom:15px;">📡</span>
-                    <p style="font-size:20px;">لا يوجد بث مباشر حالياً</p>
-                    <p style="font-size:14px;margin-top:8px;">سيتم الإعلان عن موعد البث قريباً</p>
-                    <button onclick="location.reload()" style="margin-top:15px;padding:10px 25px;background:#f7b633;color:#3a2400;border:none;border-radius:25px;font-weight:700;cursor:pointer;">🔄 تحديث</button>
-                `;
-                
-                // إزالة الرسالة القديمة إذا وجدت
-                const oldMsg = document.getElementById('noBroadcastMsg');
-                if (oldMsg) oldMsg.remove();
-                container.prepend(msgDiv);
-                
-                if (refreshTimer) {
-                    clearInterval(refreshTimer);
-                    refreshTimer = null;
-                }
-            }
-        })
-        .catch(() => {
-            document.getElementById('streamStatus').innerHTML = '⚠️ خطأ في الاتصال';
-            document.getElementById('streamStatus').style.color = '#ff4444';
-        });
-}
-
-function startAutoRefresh() {
-    if (refreshTimer) {
-        clearInterval(refreshTimer);
-    }
-    refreshTimer = setInterval(() => {
-        if (autoRefresh) {
-            reloadIframe();
-        }
-    }, 3000); // تحديث كل 3 ثوانٍ
-}
-
-function reloadIframe() {
-    const iframe = document.getElementById('liveIframe');
-    if (iframe && iframe.src && iframe.src !== 'about:blank') {
-        // إعادة تحميل الـ IFrame
-        iframe.src = iframe.src;
-    }
-}
-
-function toggleAutoRefresh() {
-    autoRefresh = !autoRefresh;
-    const btn = document.querySelectorAll('.stream-controls .btn-sm.gold')[1];
-    if (autoRefresh) {
-        btn.innerHTML = '⏸️ إيقاف التحديث التلقائي';
-        document.getElementById('updateInterval').innerHTML = 'كل 3 ثوانٍ';
-        startAutoRefresh();
-    } else {
-        btn.innerHTML = '▶️ تشغيل التحديث التلقائي';
-        document.getElementById('updateInterval').innerHTML = 'متوقف';
-        if (refreshTimer) {
-            clearInterval(refreshTimer);
-            refreshTimer = null;
-        }
-    }
-}
-
-// ============================================================
-// 21. التحميل الأولي
+// 20. التحميل الأولي
 // ============================================================
 loadFromLocalStorage();
 loadParticipantsFromSheet();
 
-// التحقق من وضع البث
-if (window.location.search.includes('mode=broadcast')) {
-    // إخفاء شريط التنقل في وضع البث
-    document.querySelector('nav').style.display = 'none';
-    document.querySelector('.ticker').style.display = 'none';
-    document.querySelector('footer').style.display = 'none';
-    document.querySelector('#page-home').style.display = 'none';
-    document.getElementById('page-lottery').classList.add('active');
-    document.getElementById('page-lottery').style.paddingTop = '20px';
-}
-
+// التحقق من Firebase
 setTimeout(() => {
-    checkLiveModeAndUpdate();
-    setInterval(checkLiveModeAndUpdate, 5000);
+    if (isFirebaseReady) {
+        checkFirebaseLiveStatus();
+        console.log('✅ Firebase جاهز ومراقب');
+    } else {
+        console.log('⚠️ Firebase غير جاهز، يرجى تحديث الصفحة');
+    }
 }, 1000);
 
+// التحقق من حالة Firebase بشكل دوري
 setInterval(() => {
-    fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
-        .then(r => r.json())
-        .then(data => {
-            document.getElementById('btnWatchLive').style.display = data.live === 'true' ? 'inline-block' : 'none';
-        })
-        .catch(() => {});
+    if (isFirebaseReady) {
+        database.ref('live').once('value').then((snapshot) => {
+            const data = snapshot.val();
+            if (data && data.active === true) {
+                document.getElementById('btnWatchLive').style.display = 'inline-block';
+            }
+        }).catch(() => {});
+    }
 }, 5000);
-
-// دالة لزر التحديث في صفحة البث
-window.reloadIframe = reloadIframe;
-window.toggleAutoRefresh = toggleAutoRefresh;
 </script>
 </body>
 </html>
