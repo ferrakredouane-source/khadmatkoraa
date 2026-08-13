@@ -307,6 +307,45 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     .win-item-sm.reserve { border-right: 4px solid #f7b633 !important; }
     #page-lottery .lot-wrap { padding-top: 20px !important; }
 }
+
+/* طبقة التجميد */
+.freeze-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    border-radius: 18px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    font-size: 28px;
+    font-weight: 900;
+    color: #f7b633;
+    backdrop-filter: blur(2px);
+}
+.freeze-overlay.show {
+    display: flex;
+    animation: freezePulse 0.5s infinite alternate;
+}
+@keyframes freezePulse {
+    0% { opacity: 0.7; transform: scale(0.98); }
+    100% { opacity: 1; transform: scale(1.02); }
+}
+.top-name-box {
+    position: relative;
+}
+
+/* تأثير وميض الفائز */
+.winner-flash {
+    animation: winnerFlash 0.5s ease 3;
+}
+@keyframes winnerFlash {
+    0%, 100% { color: #f7b633; }
+    50% { color: #2ec4b6; text-shadow: 0 0 20px rgba(46,196,182,0.5); }
+}
 </style>
 </head>
 <body>
@@ -511,7 +550,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
         <div style="text-align:center;color:#6a8aaa;padding:18px" id="loadingMsg">⏳ جاري تحميل المشاركين من Google Sheets...</div>
     </div>
     <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-        <input id="newName" placeholder="اسم جديد + Enter (للإضافة يدوياً)" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white;min-width:100px">
+        <input id="newName" placeholder="اسم جديد + Enter" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white;min-width:100px">
         <button onclick="addPerson()" style="background:#1b6ca8;border:none;color:white;padding:7px 10px;border-radius:8px;font-weight:800;cursor:pointer">+</button>
         <button onclick="document.getElementById('fileInput').click()" class="upload-btn" style="padding:7px 10px;font-size:12px">📂 تحميل Excel</button>
         <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="uploadParticipantsExcel(event)">
@@ -520,10 +559,15 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 
 <!-- القسم الأوسط - القرعة -->
 <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;width:100%">
-<div class="top-name-box" style="width:100%">
+<div class="top-name-box" style="width:100%;position:relative">
     <div id="liveIndicator" style="display:none;margin-bottom:8px">
         <span class="live-badge" style="background:#ff4444;color:white;">🔴 بث مباشر (Firebase)</span>
         <span style="color:#8ecaff;font-size:12px">🔥 تحديث فوري</span>
+    </div>
+    
+    <!-- طبقة التجميد -->
+    <div class="freeze-overlay" id="freezeOverlay">
+        <span>⏳ تم الاختيار! جاري التثبيت...</span>
     </div>
     
     <div class="lot-controls" id="lotControls">
@@ -648,6 +692,9 @@ let isLotteryRunning = false;
 const STORAGE_KEY = 'lottery_data';
 let isLiveActive = false;
 let firebaseListener = null;
+let dataLoaded = false;
+let isFrozen = false;
+let lotteryInterval = null;
 
 // ============================================================
 // 3. دوال التخزين المحلي
@@ -708,12 +755,10 @@ if(p==='register') resetFormSilent();
 if(p==='lottery') {
     resetLotteryDisplay();
     checkLiveModeAndUpdate();
-    // تحميل المشاركين من Google Sheets عند فتح صفحة القرعة
-    loadParticipantsFromSheet();
     loadFromLocalStorage();
     renderAllLists();
-    // تطبيق الفلتر بعد تحميل البيانات
-    setTimeout(filterParticipants, 500);
+    // تحميل المشاركين من Google Sheets عند فتح صفحة القرعة
+    loadParticipantsFromSheet();
 }
 if(p==='dashboard') loadDashboard();
 
@@ -831,14 +876,38 @@ function checkFirebaseLiveStatus() {
             document.getElementById('liveIndicator').style.display = 'block';
             document.getElementById('firebaseSync').style.display = 'block';
             
-            // عرض البيانات الحية
+            // عرض البيانات الحية - تم الإصلاح: قراءة الفائزين والاحتياط معا
             if (data.currentName) {
-                document.getElementById('slotName').innerText = data.currentName;
+                let el = document.getElementById('slotName');
+                if(el) el.innerText = data.currentName;
             }
             if (data.status) {
-                document.getElementById('slotStatus').innerText = data.status;
+                let el2 = document.getElementById('slotStatus');
+                if(el2) el2.innerText = data.status;
             }
-            if (data.winners && data.winners.length > 0) {
+            // ✅ إصلاح مشكلة الاحتياط الفارغ - نقرأ الفائزين والاحتياط منفصلين
+            if (data.winners || data.reserves) {
+                if (data.winners && Array.isArray(data.winners)) {
+                    finalWinners = data.winners.map(w => ({
+                        name: w.name || w.nom || '',
+                        trip: w.trip || '',
+                        etab: w.etab || '',
+                        time: w.time || new Date().toLocaleTimeString('ar-DZ')
+                    }));
+                }
+                if (data.reserves && Array.isArray(data.reserves)) {
+                    finalReserves = data.reserves.map(w => ({
+                        name: w.name || w.nom || '',
+                        trip: w.trip || '',
+                        etab: w.etab || '',
+                        time: w.time || new Date().toLocaleTimeString('ar-DZ')
+                    }));
+                }
+                renderAllLists();
+                filterParticipants();
+                console.log('✅ تم تحديث القوائم من Firebase - فائزين:', finalWinners.length, 'احتياط:', finalReserves.length);
+            } else if (data.winners && data.winners.length > 0) {
+                // توافق قديم
                 updateWinnersLists(data.winners);
             }
             
@@ -1068,28 +1137,30 @@ function updateWinnersLists(winnersData) {
 }
 
 // ============================================================
-// 10. دوال القرعة
+// 10. دوال القرعة - بطيئة (0.7 ثانية بين الأسماء، تجميد 1 ثانية عند الفائز)
 // ============================================================
+
 function startLottery(){
     if(isLotteryRunning) return;
     
     if(participants.length === 0){
-        alert('⚠️ لا يوجد مشاركين! يرجى تحميل البيانات أولاً.');
+        alert('⚠️ لا يوجد مشاركين! يرجى تحميل البيانات أولاً من Excel أو Google Sheets.');
         return;
     }
     
     if(filteredParticipants.length === 0){
-        alert('⚠️ لا يوجد مشاركين للقرعة!');
+        alert('⚠️ لا يوجد مشاركين للقرعة في هذا الفلتر!');
         return;
     }
     
+    // حساب المتاحين (استبعاد الفائزين السابقين)
     let available = filteredParticipants.filter(p => 
         !finalWinners.find(w => w.name === p.nom && w.trip === p.trip) && 
         !finalReserves.find(w => w.name === p.nom && w.trip === p.trip)
     );
     
     if(available.length === 0){
-        alert('⚠️ لا يوجد مشاركين متاحين للقرعة!');
+        alert('⚠️ لا يوجد مشاركين متاحين للقرعة! كل المشاركين فازوا سابقا.');
         return;
     }
     
@@ -1098,13 +1169,14 @@ function startLottery(){
     let totalNeeded = winnersCount + reserveCount;
     
     if(totalNeeded > available.length){
-        alert(`⚠️ عدد المشاركين المتاحين (${available.length}) أقل من المطلوب (${totalNeeded})!`);
+        alert(`⚠️ عدد المشاركين المتاحين (${available.length}) أقل من المطلوب (${totalNeeded})!\nعدد الفائزين: ${winnersCount} + الاحتياط: ${reserveCount}`);
         return;
     }
     
     isLotteryRunning = true;
-    document.getElementById('startLotteryBtn').disabled = true;
-    document.getElementById('startLotteryBtn').innerText = '⏳ جاري السحب...';
+    let btn = document.getElementById('startLotteryBtn');
+    btn.disabled = true;
+    btn.innerText = '⏳ جاري السحب...';
     document.getElementById('winnerCard').style.display = 'none';
     
     let slotName = document.getElementById('slotName');
@@ -1112,282 +1184,212 @@ function startLottery(){
     let progressBar = document.getElementById('progressBar');
     let progressFill = document.getElementById('progressFill');
     let progressText = document.getElementById('progressText');
+    let freezeOverlay = document.getElementById('freezeOverlay');
     
     progressBar.style.display = 'block';
     progressFill.style.width = '0%';
     
-    let availablePool = [...available];
-    let selectedWinners = [];
-    let selectedReserves = [];
-    let currentStep = 0;
-    let totalSteps = winnersCount + reserveCount;
-    
-    updateFirebaseStatus('🏆 بداية اختيار الفائزين...');
-    
+    // خلط عشوائي
     function shuffleArray(arr){
-        for(let i = arr.length - 1; i > 0; i--){
+        let a = [...arr];
+        for(let i = a.length - 1; i > 0; i--){
             let j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
+            [a[i], a[j]] = [a[j], a[i]];
         }
-        return arr;
+        return a;
     }
     
-    function pickOneName(callback, isReserve = false){
-        if(availablePool.length === 0){
-            callback(null);
-            return;
-        }
-        
-        let spinCount = 0;
-        let maxSpins = 40 + Math.floor(Math.random() * 15);
-        let spinInterval = 120 + Math.floor(Math.random() * 60);
-        let tempPool = shuffleArray([...availablePool]);
-        
-        let spinTimer = setInterval(() => {
-            let randomIndex = Math.floor(Math.random() * tempPool.length);
-            let randomPerson = tempPool[randomIndex];
-            slotName.innerText = randomPerson.nom;
-            slotName.className = 'slot-animation';
-            spinCount++;
-            
-            updateFirebaseCurrentName(randomPerson.nom);
-            updateFirebaseStatus(slotStatus.innerText);
-            
-            if(spinCount >= maxSpins){
-                clearInterval(spinTimer);
-                
-                let finalIndex = Math.floor(Math.random() * availablePool.length);
-                let finalPerson = availablePool[finalIndex];
-                availablePool.splice(finalIndex, 1);
-                
-                slotName.innerText = finalPerson.nom;
-                slotName.className = 'winner-reveal';
-                slotName.style.color = isReserve ? '#f7b633' : '#2ec4b6';
-                
-                slotStatus.innerText = isReserve ? 
-                    `📋 الاحتياط ${selectedReserves.length + 1}/${reserveCount}` : 
-                    `🏆 الفائز ${selectedWinners.length + 1}/${winnersCount}`;
-                
-                updateFirebaseCurrentName(finalPerson.nom);
-                updateFirebaseStatus(slotStatus.innerText);
-                
-                currentStep++;
-                let progress = (currentStep / totalSteps) * 100;
-                progressFill.style.width = progress + '%';
-                progressText.innerText = `جاري الاختيار ${currentStep}/${totalSteps}`;
-                
-                if(isReserve){
-                    selectedReserves.push(finalPerson);
-                } else {
-                    selectedWinners.push(finalPerson);
-                }
-                
-                updateFirebaseWinners(
-                    selectedWinners.map(p => ({name: p.nom, trip: p.trip})),
-                    selectedReserves.map(p => ({name: p.nom, trip: p.trip}))
-                );
-                
-                let waitTime = 1200 + Math.floor(Math.random() * 600);
-                setTimeout(() => {
-                    callback(finalPerson);
-                }, waitTime);
-            }
-        }, spinInterval);
+    let shuffled = shuffleArray(available);
+    
+    // اختيار الفائزين والاحتياط
+    let selectedWinners = shuffled.slice(0, winnersCount);
+    let selectedReserves = shuffled.slice(winnersCount, winnersCount + reserveCount);
+    
+    console.log('🏆 الفائزون:', selectedWinners);
+    console.log('📋 الاحتياط:', selectedReserves);
+    
+    // قائمة جميع المختارين (الفائزين + الاحتياط)
+    let allSelected = [...selectedWinners, ...selectedReserves];
+    let totalSelected = allSelected.length;
+    let currentIndex = 0;
+    let spinCount = 0;
+    const SPINS_PER_PERSON = 8; // عدد اللفات لكل شخص
+    
+    // عرض الاسم الأول كبداية
+    if (allSelected.length > 0) {
+        slotName.innerText = allSelected[0].nom;
+        slotName.style.color = '#f7b633';
+        slotStatus.innerText = `🎯 جاري اختيار الفائزين... 1/${totalSelected}`;
     }
     
-    function pickWinners(index){
-        if(index >= winnersCount){
-            slotStatus.innerText = '📋 بداية اختيار الاحتياط...';
-            updateFirebaseStatus(slotStatus.innerText);
-            setTimeout(() => {
-                pickReserves(0);
-            }, 1500);
-            return;
-        }
-        
-        pickOneName((person) => {
-            if(person){
-                document.getElementById('batchWinnersList').innerHTML = 
-                    selectedWinners.map((w, i) => 
-                        `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.nom} (${w.trip})</div>`
-                    ).join('');
-            }
-            pickWinners(index + 1);
-        }, false);
-    }
-    
-    function pickReserves(index){
-        if(index >= reserveCount){
+    // دالة السحب خطوة بخطوة - بطيئة (0.7 ثانية)
+    function drawNext() {
+        if (currentIndex >= totalSelected) {
+            // انتهى السحب - عرض النتائج النهائية
             finishLottery(selectedWinners, selectedReserves);
             return;
         }
         
-        pickOneName((person) => {
-            if(person){
-                document.getElementById('batchReserveList').innerHTML = 
-                    selectedReserves.map((w, i) => 
-                        `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.nom} (${w.trip})</div>`
-                    ).join('');
+        let currentPerson = allSelected[currentIndex];
+        let isWinner = currentIndex < winnersCount;
+        let label = isWinner ? '🏆 فائز' : '📋 احتياط';
+        let personIndex = currentIndex + 1;
+        
+        // مرحلة الدوران البطيء (0.7 ثانية بين كل اسم)
+        let spinCount = 0;
+        let spinInterval = setInterval(() => {
+            if (spinCount < SPINS_PER_PERSON) {
+                // اختيار اسم عشوائي من المتاحين
+                let rnd = shuffled[Math.floor(Math.random() * shuffled.length)];
+                slotName.innerText = rnd.nom;
+                slotName.style.color = '#f7b633';
+                // تحديث الحالة للبث المباشر
+                updateFirebaseCurrentName(rnd.nom);
+                updateFirebaseStatus(`${label} ${personIndex}/${totalSelected} ... ${spinCount+1}/${SPINS_PER_PERSON}`);
+                slotStatus.innerText = `${label} ${personIndex}/${totalSelected} ... ${spinCount+1}/${SPINS_PER_PERSON}`;
+                progressFill.style.width = ((currentIndex * SPINS_PER_PERSON + spinCount + 1) / (totalSelected * SPINS_PER_PERSON) * 100) + '%';
+                progressText.innerText = `جاري السحب... ${Math.round((currentIndex * SPINS_PER_PERSON + spinCount + 1) / (totalSelected * SPINS_PER_PERSON) * 100)}%`;
+                spinCount++;
+            } else {
+                clearInterval(spinInterval);
+                
+                // ✅ توقف عند الاسم المختار مع تأثير وميض
+                slotName.innerText = currentPerson.nom;
+                slotName.style.color = '#2ec4b6';
+                slotName.classList.add('winner-flash');
+                slotStatus.innerText = `✅ تم اختيار ${label} ${personIndex}/${totalSelected}`;
+                
+                // تحديث Firebase بالاسم الفائز
+                updateFirebaseCurrentName(`🏆 ${currentPerson.nom} - ${label}`);
+                updateFirebaseStatus(`${label} ${personIndex}/${totalSelected} - تم التثبيت`);
+                
+                // ✅ تجميد لمدة 1 ثانية (تجميد أقصر للمشاهدين)
+                isFrozen = true;
+                freezeOverlay.classList.add('show');
+                freezeOverlay.innerHTML = `<span>🎯 ${label} ${personIndex}/${totalSelected}: ${currentPerson.nom}</span>`;
+                
+                // إضافة الفائز أو الاحتياط فوراً إلى القوائم النهائية
+                if (isWinner) {
+                    // إضافة إلى الفائزين فوراً
+                    if(!finalWinners.find(w => w.name === currentPerson.nom && w.trip === currentPerson.trip)){
+                        finalWinners.push({
+                            name: currentPerson.nom,
+                            etab: currentPerson.etab || '',
+                            trip: currentPerson.trip || '',
+                            time: new Date().toLocaleTimeString('ar-DZ')
+                        });
+                        // حفظ فوراً
+                        saveToLocalStorage();
+                        renderAllLists();
+                        filterParticipants();
+                        // تحديث Firebase
+                        updateFirebaseWinners(
+                            finalWinners.map(w => ({name: w.name, trip: w.trip})),
+                            finalReserves.map(w => ({name: w.name, trip: w.trip}))
+                        );
+                    }
+                } else {
+                    // إضافة إلى الاحتياط فوراً
+                    if(!finalReserves.find(w => w.name === currentPerson.nom && w.trip === currentPerson.trip)){
+                        finalReserves.push({
+                            name: currentPerson.nom,
+                            etab: currentPerson.etab || '',
+                            trip: currentPerson.trip || '',
+                            time: new Date().toLocaleTimeString('ar-DZ')
+                        });
+                        // حفظ فوراً
+                        saveToLocalStorage();
+                        renderAllLists();
+                        filterParticipants();
+                        // تحديث Firebase
+                        updateFirebaseWinners(
+                            finalWinners.map(w => ({name: w.name, trip: w.trip})),
+                            finalReserves.map(w => ({name: w.name, trip: w.trip}))
+                        );
+                    }
+                }
+                
+                // عرض الألعاب النارية للفائزين فقط
+                if (isWinner && typeof fireworks === 'function') {
+                    fireworks(currentPerson.nom);
+                }
+                
+                // بعد 1 ثانية نكمل
+                setTimeout(() => {
+                    freezeOverlay.classList.remove('show');
+                    slotName.classList.remove('winner-flash');
+                    isFrozen = false;
+                    currentIndex++;
+                    drawNext();
+                }, 1000); // 1 ثانية تجميد
             }
-            pickReserves(index + 1);
-        }, true);
+        }, 150); // 0.15 ثانية بين كل اسم (0.7 ثانية لكل 5 أسماء تقريباً)
     }
     
-    function finishLottery(winners, reserves){
-        isLotteryRunning = false;
-        document.getElementById('startLotteryBtn').disabled = false;
-        document.getElementById('startLotteryBtn').innerText = '🎰 بدء القرعة';
-        progressText.innerText = '✅ تم الانتهاء من القرعة!';
-        
+    // بدء السحب
+    drawNext();
+    
+    function finishLottery(winners, reserves) {
         batchWinners = winners;
         batchReserves = reserves;
         
         document.getElementById('batchWinnersList').innerHTML = 
             winners.map((w, i) => 
-                `<div style="padding:4px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8">${i+1}- ${w.nom} (${w.trip})</div>`
+                `<div style="padding:6px 0;border-bottom:1px solid #e2ecf7;color:#1b6ca8;display:flex;justify-content:space-between"><span>${i+1}- ${w.nom}</span><small style="color:#5a7a9a">${w.trip}</small></div>`
             ).join('');
+        
         document.getElementById('batchReserveList').innerHTML = 
+            reserves.length > 0 ? 
             reserves.map((w, i) => 
-                `<div style="padding:4px 0;border-bottom:1px solid #fff0d6;color:#7a5a00">${i+1}- ${w.nom} (${w.trip})</div>`
-            ).join('');
+                `<div style="padding:6px 0;border-bottom:1px solid #fff0d6;color:#7a5a00;display:flex;justify-content:space-between"><span>${i+1}- ${w.nom}</span><small style="color:#8a6d00">${w.trip}</small></div>`
+            ).join('') 
+            : '<div style="color:#999;padding:8px">لا يوجد احتياط</div>';
         
         document.getElementById('winnerCard').style.display = 'block';
-        slotName.style.color = '#f7b633';
+        slotName.style.color = '#2ec4b6';
         slotName.innerText = '🎉 تمت القرعة بنجاح!';
         slotStatus.innerText = `🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`;
+        progressFill.style.width = '100%';
+        progressText.innerText = '✅ تم الانتهاء!';
         
-        updateFirebaseCurrentName('🎉 تمت القرعة بنجاح!');
-        updateFirebaseStatus(`🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`);
-        updateFirebaseWinners(
-            winners.map(p => ({name: p.nom, trip: p.trip})),
-            reserves.map(p => ({name: p.nom, trip: p.trip}))
-        );
+        if (typeof updateFirebaseWinners === 'function') {
+            updateFirebaseWinners(
+                winners.map(p => ({name: p.nom, trip: p.trip})),
+                reserves.map(p => ({name: p.nom, trip: p.trip}))
+            );
+        }
+        if (typeof updateFirebaseCurrentName === 'function') {
+            updateFirebaseCurrentName('🎉 تمت القرعة بنجاح!');
+            updateFirebaseStatus(`🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`);
+        }
         
-        setTimeout(() => {
-            document.getElementById('progressBar').style.display = 'none';
-        }, 1500);
+        isLotteryRunning = false;
+        document.getElementById('startLotteryBtn').disabled = false;
+        document.getElementById('startLotteryBtn').innerText = '🎰 بدء القرعة';
         
-        if(winners.length > 0){
-            fireworks(winners[0].nom);
+        setTimeout(() => { progressBar.style.display = 'none'; }, 1500);
+        
+        // ألعاب نارية إضافية للفائزين
+        if(winners.length > 0 && typeof fireworks === 'function'){
+            setTimeout(() => {
+                winners.forEach((w, i) => {
+                    setTimeout(() => fireworks(w.nom), i * 500);
+                });
+            }, 500);
         }
     }
-    
-    slotStatus.innerText = '🏆 بداية اختيار الفائزين...';
-    updateFirebaseStatus(slotStatus.innerText);
-    setTimeout(() => {
-        pickWinners(0);
-    }, 400);
 }
 
-// ============================================================
-// 11. دوال تصدير النتائج بصيغة Excel
-// ============================================================
-function exportWinnersExcel() {
-    if (finalWinners.length === 0 && finalReserves.length === 0) {
-        alert('⚠️ لا يوجد فائزين أو احتياط لتصديرهم!');
-        return;
-    }
 
-    if (typeof XLSX === 'undefined') {
-        alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
-        return;
-    }
 
-    try {
-        const excelData = [
-            ['النوع', 'الاسم واللقب', 'رقم الحساب الجاري (CCP)', 'المفتاح (Clé)', 'الرحلة']
-        ];
-
-        finalWinners.forEach(w => {
-            const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
-            excelData.push([
-                'فائز',
-                w.name || '',
-                participant ? participant.ccp || '' : '',
-                participant ? participant.cle || '' : '',
-                w.trip || ''
-            ]);
-        });
-
-        finalReserves.forEach(w => {
-            const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
-            excelData.push([
-                'احتياط',
-                w.name || '',
-                participant ? participant.ccp || '' : '',
-                participant ? participant.cle || '' : '',
-                w.trip || ''
-            ]);
-        });
-
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.aoa_to_sheet(excelData);
-
-        ws['!cols'] = [
-            { wch: 12 },
-            { wch: 30 },
-            { wch: 20 },
-            { wch: 15 },
-            { wch: 20 }
-        ];
-
-        XLSX.utils.book_append_sheet(wb, ws, 'نتائج القرعة');
-
-        const now = new Date();
-        const dateStr = now.getFullYear() + '-' + 
-                       String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-                       String(now.getDate()).padStart(2, '0');
-        const fileName = `نتائج_القرعة_أم_البواقي_${dateStr}.xlsx`;
-
-        XLSX.writeFile(wb, fileName);
-
-        const totalWinners = finalWinners.length;
-        const totalReserves = finalReserves.length;
-        alert(`✅ تم تصدير النتائج بنجاح!\n🏆 الفائزين: ${totalWinners}\n📋 الاحتياط: ${totalReserves}`);
-        
-    } catch (error) {
-        console.error('❌ خطأ في تصدير النتائج:', error);
-        alert('❌ حدث خطأ أثناء تصدير النتائج. تأكد من أن البيانات صحيحة.');
-    }
-}
-
-// ============================================================
-// 12. دوال التأكيد والإضافة للقوائم
-// ============================================================
 function confirmWinners(){
-    if(batchWinners.length === 0 && batchReserves.length === 0){
+    // تم الإضافة تلقائياً أثناء السحب، لكن نحتفظ بهذه الدالة للتأكيد اليدوي
+    if(finalWinners.length === 0 && finalReserves.length === 0){
         alert('⚠️ لا يوجد فائزين لتأكيدهم!');
         return;
     }
     
-    batchWinners.forEach(p => {
-        if(!finalWinners.find(w => w.name === p.nom && w.trip === p.trip)){
-            finalWinners.push({
-                name: p.nom,
-                etab: p.etab || '',
-                trip: p.trip || '',
-                time: new Date().toLocaleTimeString('ar-DZ')
-            });
-        }
-    });
-    
-    batchReserves.forEach(p => {
-        if(!finalReserves.find(w => w.name === p.nom && w.trip === p.trip)){
-            finalReserves.push({
-                name: p.nom,
-                etab: p.etab || '',
-                trip: p.trip || '',
-                time: new Date().toLocaleTimeString('ar-DZ')
-            });
-        }
-    });
-    
-    let allSelected = [...batchWinners, ...batchReserves];
-    allSelected.forEach(p => {
-        fetch(GOOGLE_SHEET_URL + '?action=addWinner&name=' + encodeURIComponent(p.nom) + '&etab=' + encodeURIComponent(p.etab || '') + '&trip=' + encodeURIComponent(p.trip || ''))
-            .catch(e => console.log('⚠️ خطأ في حفظ الفائز:', e));
-    });
-    
+    // تحديث Firebase
     updateFirebaseWinners(
         finalWinners.map(w => ({name: w.name, trip: w.trip})),
         finalReserves.map(w => ({name: w.name, trip: w.trip}))
@@ -1398,33 +1400,42 @@ function confirmWinners(){
     filterParticipants();
     
     document.getElementById('winnerCard').style.display = 'none';
-    document.getElementById('slotName').innerText = `✅ تم إضافة ${allSelected.length} إلى القوائم`;
+    document.getElementById('slotName').innerText = `✅ تم تأكيد الفائزين (${finalWinners.length}) والاحتياط (${finalReserves.length})`;
     document.getElementById('slotName').style.color = '#2ec4b6';
     document.getElementById('slotStatus').innerText = 'تم الحفظ بنجاح!';
     
-    updateFirebaseCurrentName(`✅ تم إضافة ${allSelected.length} إلى القوائم`);
+    updateFirebaseCurrentName(`✅ تم تأكيد ${finalWinners.length} فائز و ${finalReserves.length} احتياط`);
     updateFirebaseStatus('تم الحفظ بنجاح!');
-    
-    batchWinners = [];
-    batchReserves = [];
-    
-    if(allSelected.length > 0){
-        fireworks(allSelected[0].nom);
-    }
 }
 
 function rejectWinners(){
-    batchWinners = [];
-    batchReserves = [];
-    document.getElementById('winnerCard').style.display = 'none';
-    document.getElementById('batchWinnersList').innerHTML = '';
-    document.getElementById('batchReserveList').innerHTML = '';
-    document.getElementById('slotName').innerText = '🔄 تم إلغاء النتائج';
-    document.getElementById('slotName').style.color = '#8ecaff';
-    document.getElementById('slotStatus').innerText = 'يمكنك إعادة المحاولة';
+    // في الوضع الجديد، يتم إضافة الفائزين فوراً، لذلك نقدم خيار مسح آخر فائز
+    if(finalWinners.length === 0 && finalReserves.length === 0){
+        alert('⚠️ لا يوجد فائزين لإلغائهم!');
+        return;
+    }
     
-    updateFirebaseCurrentName('🔄 تم إلغاء النتائج');
-    updateFirebaseStatus('يمكنك إعادة المحاولة');
+    if(confirm('⚠️ هل تريد حذف آخر فائز تم إضافته؟')){
+        // حذف آخر فائز
+        if(finalWinners.length > 0){
+            finalWinners.pop();
+        } else if(finalReserves.length > 0){
+            finalReserves.pop();
+        }
+        
+        saveToLocalStorage();
+        renderAllLists();
+        filterParticipants();
+        
+        updateFirebaseWinners(
+            finalWinners.map(w => ({name: w.name, trip: w.trip})),
+            finalReserves.map(w => ({name: w.name, trip: w.trip}))
+        );
+        
+        document.getElementById('slotName').innerText = '🔄 تم إلغاء آخر فائز';
+        document.getElementById('slotName').style.color = '#8ecaff';
+        document.getElementById('slotStatus').innerText = 'تم الحذف';
+    }
 }
 
 // ============================================================
@@ -1469,6 +1480,9 @@ function renderAllLists(){
 function resetLotteryDisplay() {
     batchWinners = [];
     batchReserves = [];
+    
+    document.getElementById('freezeOverlay').classList.remove('show');
+    isFrozen = false;
     
     document.getElementById('slotName').innerText = 'اضبط الأعداد واضغط "بدء القرعة"';
     document.getElementById('slotName').style.color = '#8ecaff';
@@ -1700,107 +1714,165 @@ document.getElementById('baladiya').value='';
 }
 
 // ============================================================
-// 18. دوال المشاركين - تحميل من Google Sheets
+// 18. ✅ دوال المشاركين - تحميل من Google Sheets فقط (بدون بيانات افتراضية)
+// ============================================================
+
+// ============================================================
+// 6b. تحميل المشاركين من Google Sheets - النسخة المدمجة (من الملف الثاني + Firebase)
 // ============================================================
 function loadParticipantsFromSheet() {
+    let list = document.getElementById('plist');
+    if (!list) return;
+    
     let loadingMsg = document.getElementById('loadingMsg');
-    if (loadingMsg) {
+    if (!loadingMsg) {
+        list.innerHTML = '<div style="text-align:center;color:#6a8aaa;padding:18px" id="loadingMsg">⏳ جاري تحميل المشاركين من Google Sheets...</div>';
+        loadingMsg = document.getElementById('loadingMsg');
+    } else {
+        loadingMsg.style.display = 'block';
         loadingMsg.innerText = '⏳ جاري تحميل المشاركين من Google Sheets...';
     }
     
-    // تحديث قائمة المشاركين من Google Sheets
+    console.log('🔄 جاري تحميل المشاركين من Google Sheets...');
+    
     fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
         .then(r => {
-            if (!r.ok) {
-                throw new Error('خطأ في الاتصال: ' + r.status);
-            }
+            console.log('📡 استجابة من الخادم:', r.status);
+            if (!r.ok) throw new Error('خطأ في الاتصال: ' + r.status);
             return r.json();
         })
         .then(data => {
+            console.log('📊 البيانات المستلمة:', data);
+            
+            if (loadingMsg) loadingMsg.remove();
+            
             if (data.participants && data.participants.length > 0) {
-                participants = data.participants;
+                // ✅ تخزين المشاركين من Google Sheets
+                participants = data.participants.map(p => ({
+                    nom: p.nom || p.name || p['الاسم'] || '',
+                    matricule: p.matricule || '',
+                    etab: p.etab || '',
+                    tel: p.tel || '',
+                    ccp: p.ccp || '',
+                    cle: p.cle || '',
+                    trip: p.trip || p['الرحلة'] || 'جيجل'
+                }));
+                
+                if (typeof backupParticipants === 'function') {
+                    backupParticipants(participants);
+                }
+                
+                dataLoaded = true;
                 console.log('✅ تم تحميل ' + participants.length + ' مشارك من Google Sheets');
-                if (loadingMsg) {
-                    loadingMsg.innerText = `✅ تم تحميل ${participants.length} مشارك`;
-                    setTimeout(() => {
-                        if (loadingMsg) loadingMsg.innerText = '';
-                    }, 2000);
-                }
+                filterParticipants();
+                
+                // رسالة نجاح مؤقتة
+                let successMsg = document.createElement('div');
+                successMsg.style.cssText = 'text-align:center;color:#2ec4b6;padding:10px;font-weight:bold;background:rgba(46,196,182,0.1);border-radius:8px;margin-bottom:8px';
+                successMsg.innerText = '✅ تم تحميل ' + participants.length + ' مشارك من Google Sheets';
+                list.prepend(successMsg);
+                setTimeout(() => { if(successMsg.parentNode) successMsg.remove(); }, 3000);
+                
             } else {
-                // في حالة عدم وجود بيانات، نترك القائمة فارغة
                 participants = [];
+                dataLoaded = true;
                 console.log('⚠️ لا يوجد مشاركين في Google Sheets');
-                if (loadingMsg) {
-                    loadingMsg.innerText = '📭 لا يوجد مشاركين مسجلين حالياً';
-                }
+                filterParticipants();
             }
-            // تطبيق الفلتر وعرض البيانات
-            filterParticipants();
         })
         .catch(error => {
             console.error('❌ خطأ في تحميل المشاركين:', error);
-            // محاولة تحميل البيانات من التخزين المحلي كنسخة احتياطية
-            const savedParticipants = localStorage.getItem('participants_backup');
-            if (savedParticipants) {
-                try {
-                    participants = JSON.parse(savedParticipants);
-                    console.log('✅ تم تحميل ' + participants.length + ' مشارك من التخزين المحلي (نسخة احتياطية)');
-                    if (loadingMsg) {
-                        loadingMsg.innerText = `⚠️ تم التحميل من النسخة الاحتياطية (${participants.length} مشارك)`;
-                    }
-                    filterParticipants();
-                } catch(e) {
-                    console.log('⚠️ فشل تحميل النسخة الاحتياطية');
-                }
-            } else {
-                participants = [];
-                if (loadingMsg) {
-                    loadingMsg.innerText = '❌ خطأ في تحميل البيانات، تأكد من اتصال الإنترنت';
-                }
-                filterParticipants();
-            }
+            
+            if (loadingMsg) loadingMsg.remove();
+            
+            participants = [];
+            dataLoaded = true;
+            
+            let errorMsg = document.createElement('div');
+            errorMsg.style.cssText = 'text-align:center;color:#ff4444;padding:18px;background:rgba(255,68,68,0.1);border-radius:8px';
+            errorMsg.innerHTML = '❌ خطأ في تحميل البيانات من Google Sheets<br><small style="font-size:11px">' + error.message + '</small><br><button onclick="loadParticipantsFromSheet()" style="margin-top:8px;background:#ff4444;color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer">🔄 إعادة المحاولة</button>';
+            list.appendChild(errorMsg);
+            
+            document.getElementById('count').innerText = '0';
         });
 }
 
-// دالة لحفظ نسخة احتياطية من المشاركين محلياً
-function backupParticipants(data) {
-    try {
-        localStorage.setItem('participants_backup', JSON.stringify(data));
-        console.log('✅ تم حفظ نسخة احتياطية من المشاركين');
-    } catch(e) {
-        console.log('⚠️ فشل حفظ النسخة الاحتياطية');
-    }
-}
-
 function filterParticipants() {
-    let f = document.getElementById('filterTrip').value;
+    let filterEl = document.getElementById('filterTrip');
+    if (!filterEl) return;
+    let f = filterEl.value;
     let list = document.getElementById('plist');
+    if (!list) return;
+    
+    // الاحتفاظ برسائل النجاح فقط مؤقتا
+    let tempMessages = [];
+    Array.from(list.children).forEach(child => {
+        if (child.style && child.style.color === 'rgb(46, 196, 182)' || child.style.color === '#2ec4b6') {
+            if (child.innerText.includes('تم تحميل')) {
+                tempMessages.push(child.cloneNode(true));
+            }
+        }
+    });
+    
     list.innerHTML = '';
+    tempMessages.forEach(m => list.appendChild(m));
     
     let filtered = participants.filter(p => f === 'الكل' || p.trip === f);
     filteredParticipants = filtered;
     
-    document.getElementById('count').innerText = filtered.length;
+    let countEl = document.getElementById('count');
+    if (countEl) countEl.innerText = filtered.length;
     
     if (filtered.length === 0) {
         let msg = document.createElement('div');
         msg.style.cssText = 'text-align:center;color:#6a8aaa;padding:18px';
         if (participants.length === 0) {
-            msg.innerText = '📭 لا يوجد مشاركين مسجلين في Google Sheets';
+            msg.innerHTML = '📭 لا يوجد مشاركين مسجلين في Google Sheets<br><small>سيتم التحديث تلقائيا عند التسجيل</small>';
         } else {
-            msg.innerText = '📭 لا يوجد مشاركين لهذه الرحلة';
+            msg.innerText = '📭 لا يوجد مشاركين لهذه الرحلة: ' + f;
         }
         list.appendChild(msg);
         return;
     }
     
+    // عرض المشاركين - من الملف الثاني مع تحسينات
     filtered.forEach(p => {
         let d = document.createElement('div');
-        d.className = 'person' + ((finalWinners.find(w => w.name === p.nom && w.trip === p.trip) || finalReserves.find(w => w.name === p.nom && w.trip === p.trip)) ? ' winner' : '');
-        d.innerHTML = `<span><b>${p.nom}</b><br><small style="opacity:0.6">${p.trip}</small></span><span>${(finalWinners.find(w => w.name === p.nom && w.trip === p.trip) || finalReserves.find(w => w.name === p.nom && w.trip === p.trip)) ? '🏆' : ''}</span>`;
+        let isWinner = finalWinners.find(w => w.name === p.nom && w.trip === p.trip);
+        let isReserve = finalReserves.find(r => r.name === p.nom && r.trip === p.trip);
+        
+        d.className = 'person' + (isWinner || isReserve ? ' winner' : '');
+        d.style.cssText += ';display:flex;justify-content:space-between;align-items:center;padding:8px 10px;margin-bottom:6px;background:rgba(255,255,255,0.06);border-radius:8px;border:1px solid rgba(255,255,255,0.08);';
+        if (isWinner) d.style.borderRight = '4px solid #2ec4b6';
+        if (isReserve) d.style.borderRight = '4px solid #f7b633';
+        
+        d.innerHTML = `
+            <span style="flex:1">
+                <b style="color:white">${p.nom}</b><br>
+                <small style="opacity:0.7;color:#8ecaff">${p.trip || 'غير محدد'} ${p.etab ? '• ' + p.etab : ''}</small>
+            </span>
+            <span style="font-size:16px">${isWinner ? '🏆' : isReserve ? '📋' : ''}</span>
+        `;
+        d.title = `${p.nom} - ${p.matricule || ''} - ${p.etab || ''} - ${p.tel || ''}`;
         list.appendChild(d);
     });
 }
+
+function backupParticipants(list) {
+    try {
+        localStorage.setItem('participants_backup', JSON.stringify(list));
+    } catch(e) {}
+}
+function restoreParticipants() {
+    try {
+        let saved = localStorage.getItem('participants_backup');
+        if (saved) return JSON.parse(saved);
+    } catch(e) {}
+    return [];
+}
+
+
+// ✅ إضافة مشارك جديد يدوياً
 
 function addPerson(){
     let inp = document.getElementById('newName');
@@ -1808,7 +1880,6 @@ function addPerson(){
     if(!v) return;
     participants.push({nom:v, matricule:"", etab:"مؤسسة جديدة", tel:"", ccp:"", cle:"", trip:"جيجل"});
     inp.value = '';
-    // حفظ نسخة احتياطية
     backupParticipants(participants);
     filterParticipants();
 }
@@ -1821,7 +1892,6 @@ document.getElementById('newName').addEventListener('keydown', function(e) {
 // 19. دوال تصدير المشاركين إلى Excel (في لوحة التحكم)
 // ============================================================
 function exportParticipantsExcel(){
-    // البحث عن الزر
     let btn = document.querySelector('.excel-btn');
     if (!btn) {
         const btns = document.querySelectorAll('.excel-btn');
@@ -1844,14 +1914,12 @@ function exportParticipantsExcel(){
         return;
     }
     
-    // جلب البيانات من Google Sheets مباشرة
     fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
         .then(r => r.json())
         .then(data => {
             let participantsList = [];
             if (data.participants && data.participants.length > 0) {
                 participantsList = data.participants;
-                // تحديث القائمة المحلية
                 participants = data.participants;
                 backupParticipants(participants);
             }
@@ -1920,69 +1988,139 @@ function exportParticipantsExcel(){
 }
 
 // دالة رفع ملف Excel للمشاركين
+
+// ============================================================
+// 📂 تحميل المشاركين من ملف Excel - محلي مباشرة (بدون Google Sheets)
+// ============================================================
 function uploadParticipantsExcel(event) {
     const file = event.target.files[0];
     if (!file) return;
     
+    let list = document.getElementById('plist');
+    let countEl = document.getElementById('count');
+    
+    // رسالة تحميل
+    list.innerHTML = '<div style="text-align:center;color:#f7b633;padding:18px">⏳ جاري قراءة ملف Excel: ' + file.name + '...</div>';
+    
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-            
-            if (jsonData.length === 0) {
-                alert('⚠️ الملف فارغ!');
+            if (typeof XLSX === 'undefined') {
+                alert('⚠️ مكتبة XLSX غير محملة! تأكد من اتصال الإنترنت');
+                list.innerHTML = '<div style="text-align:center;color:#ff4444;padding:18px">❌ مكتبة Excel غير محملة</div>';
                 return;
             }
             
-            let addedCount = 0;
-            jsonData.forEach(row => {
-                // محاولة استخراج البيانات من الأعمدة المختلفة
-                const nom = row['الاسم'] || row['اسم'] || row['name'] || row['Name'] || '';
-                const trip = row['الرحلة'] || row['رحلة'] || row['trip'] || row['Trip'] || 'جيجل';
-                const etab = row['المؤسسة'] || row['مؤسسة'] || row['etab'] || '';
-                const tel = row['الهاتف'] || row['هاتف'] || row['tel'] || '';
-                const ccp = row['CCP'] || row['ccp'] || '';
-                const cle = row['المفتاح'] || row['مفتاح'] || row['cle'] || '';
-                const matricule = row['الرقم الوظيفي'] || row['رقم وظيفي'] || row['matricule'] || '';
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const firstSheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet, {defval: ''});
+            
+            console.log('📊 Excel raw:', jsonData);
+            
+            if (!jsonData || jsonData.length === 0) {
+                alert('⚠️ الملف فارغ!');
+                list.innerHTML = '<div style="text-align:center;color:#6a8aaa;padding:18px">📭 الملف فارغ</div>';
+                return;
+            }
+            
+            let newParticipants = [];
+            let skipped = 0;
+            
+            jsonData.forEach((row, idx) => {
+                // دعم جميع أسماء الأعمدة المحتملة عربي/فرنسي/انجليزي
+                const nom = (row['الاسم'] || row['الإسم'] || row['اسم'] || row['الاسم الكامل'] || row['name'] || row['Name'] || row['NOM'] || row['nom'] || row['Nom'] || row['الاسم واللقب'] || '').toString().trim();
+                const trip = (row['الرحلة'] || row['رحلة'] || row['الوجهة'] || row['trip'] || row['Trip'] || row['TRIP'] || row['Destination'] || 'جيجل').toString().trim();
+                const etab = (row['المؤسسة'] || row['مؤسسة'] || row['etablissement'] || row['Etab'] || row['etab'] || row['المدرسة'] || '').toString().trim();
+                const matricule = (row['الرقم الوظيفي'] || row['رقم وظيفي'] || row['matricule'] || row['Matricule'] || row['رقم'] || '').toString().trim();
+                const tel = (row['الهاتف'] || row['هاتف'] || row['tel'] || row['Tel'] || row['رقم الهاتف'] || '').toString().trim();
+                const ccp = (row['CCP'] || row['ccp'] || row['رقم الحساب'] || '').toString().trim();
+                const cle = (row['المفتاح'] || row['مفتاح'] || row['cle'] || row['Cle'] || '').toString().trim();
                 
-                if (nom && nom.trim() !== '') {
-                    // التحقق من عدم تكرار الاسم
-                    if (!participants.find(p => p.nom === nom.trim() && p.trip === trip)) {
-                        participants.push({
-                            nom: nom.trim(),
-                            matricule: String(matricule || ''),
-                            etab: String(etab || 'مؤسسة'),
-                            tel: String(tel || ''),
-                            ccp: String(ccp || ''),
-                            cle: String(cle || ''),
-                            trip: trip
-                        });
-                        addedCount++;
-                    }
+                if (nom && nom !== '') {
+                    newParticipants.push({
+                        nom: nom,
+                        matricule: matricule,
+                        etab: etab || 'غير محدد',
+                        tel: tel,
+                        ccp: ccp,
+                        cle: cle,
+                        trip: trip || 'جيجل'
+                    });
+                } else {
+                    skipped++;
                 }
             });
             
-            if (addedCount > 0) {
-                backupParticipants(participants);
-                filterParticipants();
-                alert(`✅ تم إضافة ${addedCount} مشارك جديد من الملف!`);
-            } else {
-                alert('⚠️ لم يتم إضافة أي مشارك جديد (قد تكون البيانات مكررة أو غير صالحة)');
+            if (newParticipants.length === 0) {
+                alert('⚠️ لم يتم العثور على أسماء! تأكد أن الملف يحتوي على عمود اسمه "الاسم" أو "name"');
+                list.innerHTML = '<div style="text-align:center;color:#ff4444;padding:18px">❌ لم يتم العثور على عمود الاسم<br><small>يجب أن يحتوي الملف على عمود "الاسم"</small></div>';
+                return;
             }
             
-            // إعادة تعيين input
-            event.target.value = '';
+            // استبدال القائمة الحالية بالجديدة من Excel (أو دمج؟ نستبدل)
+            participants = newParticipants;
+            filteredParticipants = [...participants];
+            dataLoaded = true;
+            
+            if (typeof backupParticipants === 'function') {
+                backupParticipants(participants);
+            }
+            
+            // عرض المشاركين
+            filterParticipants();
+            
+            // رسالة نجاح
+            alert(`✅ تم تحميل ${newParticipants.length} مشارك من ملف Excel بنجاح!` + (skipped > 0 ? `\n⚠️ تم تجاهل ${skipped} صف فارغ` : ''));
+            
+            console.log(`✅ تم تحميل ${newParticipants.length} مشارك من Excel`);
+            
         } catch (error) {
-            console.error('❌ خطأ في قراءة الملف:', error);
-            alert('❌ حدث خطأ في قراءة الملف. تأكد من أن الملف بصيغة Excel صحيحة.');
-            event.target.value = '';
+            console.error('❌ خطأ في قراءة Excel:', error);
+            alert('❌ خطأ في قراءة الملف: ' + error.message + '\nتأكد أن الملف بصيغة .xlsx أو .xls');
+            list.innerHTML = '<div style="text-align:center;color:#ff4444;padding:18px">❌ خطأ في قراءة الملف</div>';
         }
+        // تنظيف input
+        event.target.value = '';
     };
+    
+    reader.onerror = function() {
+        alert('❌ فشل في قراءة الملف');
+        event.target.value = '';
+    };
+    
     reader.readAsArrayBuffer(file);
 }
+
+// دعم السحب والإفلات لملف Excel
+document.addEventListener('DOMContentLoaded', function() {
+    let plist = document.getElementById('plist');
+    if (plist) {
+        plist.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.background = 'rgba(247,182,51,0.1)';
+            this.style.border = '2px dashed #f7b633';
+        });
+        plist.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.style.background = '';
+            this.style.border = '';
+        });
+        plist.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.background = '';
+            this.style.border = '';
+            let files = e.dataTransfer.files;
+            if (files.length > 0) {
+                let fakeEvent = { target: { files: files, value: '' } };
+                uploadParticipantsExcel(fakeEvent);
+            }
+        });
+    }
+});
+
+
 
 // ============================================================
 // 20. دوال الألعاب النارية
@@ -2065,8 +2203,8 @@ function exportAllData() {
 // ============================================================
 loadFromLocalStorage();
 
-// تحميل المشاركين عند بدء الصفحة
-setTimeout(() => {
+// تحميل المشاركين من Google Sheets فقط
+setTimeout(function() {
     loadParticipantsFromSheet();
 }, 500);
 
