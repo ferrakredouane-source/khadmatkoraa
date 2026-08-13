@@ -6,47 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8683179294620438" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<!-- Firebase SDKs -->
-<script type="importmap">
-{
-  "imports": {
-    "firebase/app": "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js",
-    "firebase/database": "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js"
-  }
-}
-</script>
-<script type="module">
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, set, get } from "firebase/database";
-
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyD_7lnWrK6BD7H83Grt9RrgditltpcD3v4",
-  authDomain: "oeb-lottery-live.firebaseapp.com",
-  databaseURL: "https://oeb-lottery-live-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "oeb-lottery-live",
-  storageBucket: "oeb-lottery-live.firebasestorage.app",
-  messagingSenderId: "580944313069",
-  appId: "1:580944313069:web:2444d01691eeb5c3b1aae4"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-// Make db and functions globally available
-window.db = db;
-window.ref = ref;
-window.onValue = onValue;
-window.set = set;
-window.get = get;
-window.firebaseInitialized = true;
-
-console.log('✅ Firebase initialized successfully');
-
-// إشارة إلى أن Firebase جاهز
-window.dispatchEvent(new Event('firebase-ready'));
-</script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <title>اللجنة الولائية لعمال التربية - أم البواقي | الملف النهائي</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -277,6 +239,47 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 .upload-btn{background:#8b5cf6;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px}
 .upload-btn:hover{background:#6d28d9}
 
+/* ===== وضع المشاهد ===== */
+.viewer-mode .lot-controls,
+.viewer-mode #startLotteryBtn,
+.viewer-mode .winner-card-lot button,
+.viewer-mode .lot-grid .lpanel:first-child .upload-btn,
+.viewer-mode .lot-grid .lpanel:first-child > div > button,
+.viewer-mode .lot-grid .lpanel:first-child input[type="text"],
+.viewer-mode .lot-grid .lpanel:first-child .btn-gold,
+.viewer-mode .lot-grid .lpanel:first-child #filterTrip,
+.viewer-mode .lot-grid .lpanel:first-child .llist,
+.viewer-mode .lot-grid .lpanel:first-child .person,
+.viewer-mode .lot-grid .lpanel:first-child .person.winner {
+    display: none !important;
+}
+
+.viewer-mode .lot-grid .top-name-box + div + div button,
+.viewer-mode .lot-grid .top-name-box + div + div .btn,
+.viewer-mode .lot-grid .top-name-box + div + div .print-btn,
+.viewer-mode .lot-grid .top-name-box + div + div .excel-btn,
+.viewer-mode .lot-grid .top-name-box + div + div .upload-btn,
+.viewer-mode .lot-grid > div:last-child .lot-right-panel + div button,
+.viewer-mode .lot-grid > div:last-child .lot-right-panel + div .btn,
+.viewer-mode .lot-grid > div:last-child .lot-right-panel + div .print-btn {
+    display: none !important;
+}
+
+.viewer-mode #liveIndicator {
+    display: block !important;
+}
+.viewer-mode .lot-grid .lpanel:first-child h3::after {
+    content: " (عرض فقط)";
+    color: #8ecaff;
+    font-size: 12px;
+}
+.viewer-mode .top-name-box .lot-controls {
+    display: none !important;
+}
+.viewer-mode .top-name-box .winner-card-lot .btn-gold {
+    display: none !important;
+}
+
 @media print {
     nav, .ticker, .btns, .lot-controls, #winnerCard, #fireworks, #mabrouk,
     .dash-actions, .lot-grid .lpanel:first-child, .lot-grid .lpanel:last-child,
@@ -347,11 +350,12 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <section class="section" id="trips">
 <h2>🏖️ وجهات الرحلات</h2><div class="line"></div>
 <div class="cards">
-<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"><div class="card-body"><span class="tag">الأكثر طلبا</span><h3>جيجل - المنار</h3><p>5 أيام / إقامة كاملة</p><b>18,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"><div class="card-body"><span class="tag">الأكثر طلبا</span><h3>جيجل</h3><p>5 أيام / إقامة كاملة</p><b>18,000 دج</b></div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=600"><div class="card-body"><span class="tag">عائلات</span><h3>القالة</h3><p>شقق مجهزة</p><b>22,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تونس - سوسة</h3><p>7 أيام منظمة</p><b>55,000 دج</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1627728734379-a5f8c099763e"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة المباركة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🇪🇬 خارج الوطن</span><h3>مصر - القاهرة</h3><p>7 أيام / الأهرامات والنيل</p><b>65,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600"><div class="card-body"><span class="tag">خارج الوطن</span><h3>تونس</h3><p>7 أيام منظمة</p><b>55,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1627728734379-a5f8c099763e"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🕋 عمرة</span><h3>العمرة</h3><p>14 يوم مكة والمدينة</p><b>قرعة خاصة</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600"><div class="card-body"><span class="tag" style="background:#fff4d6;color:#7a4e00">🇪🇬 خارج الوطن</span><h3>مصر</h3><p>7 أيام / الأهرامات والنيل</p><b>65,000 دج</b></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=600"><div class="card-body"><span class="tag" style="background:#e6f7ff;color:#1b6ca8">🇹🇷 خارج الوطن</span><h3>تركيا</h3><p>7 أيام / اسطنبول وكبادوكيا</p><b>75,000 دج</b></div></div>
 </div>
 </section>
 <footer>© 2026 اللجنة الولائية لعمال التربية -أم البواقي- بجانب ابتدائية اليازيد محمد الصالح</footer>
@@ -449,14 +453,15 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div class="dashboard-grid" id="dashboardStats">
 <div class="dash-card"><span class="icon">👥</span><span class="num" id="totalRegistered">0</span><span class="label">إجمالي المسجلين</span></div>
 <div class="dash-card"><span class="icon">🏆</span><span class="num" id="totalWinners">0</span><span class="label">عدد الفائزين</span></div>
-<div class="dash-card"><span class="icon">✈️</span><span class="num" id="totalTrips">5</span><span class="label">عدد الرحلات</span></div>
+<div class="dash-card"><span class="icon">✈️</span><span class="num" id="totalTrips">6</span><span class="label">عدد الرحلات</span></div>
 <div class="dash-card"><span class="icon">📅</span><span class="num" id="daysLeft">--</span><span class="label">الأيام المتبقية</span></div>
 </div>
 
 <div style="border-top:2px solid #e2ecf7;margin:20px 0;padding-top:16px">
-<h4 style="color:#0f2c4a;text-align:center;margin-bottom:12px">⚙️ إدارة البث المباشر</h4>
+<h4 style="color:#0f2c4a;text-align:center;margin-bottom:12px">🔥 إدارة البث المباشر (Firebase)</h4>
 <div style="text-align:center">
-<div id="liveStatusDashboard" style="color:#f7b633;font-weight:800;margin-bottom:10px;display:none">🟢 البث المباشر مفعل حالياً</div>
+<div id="liveStatusDashboard" style="color:#2ec4b6;font-weight:800;margin-bottom:10px;display:none">🟢 البث المباشر مفعل</div>
+<div id="firebaseStatus" style="color:#8ecaff;font-size:13px;margin-bottom:8px;">✅ متصل بـ Firebase</div>
 <button class="btn" id="dashStartLive" onclick="startLiveMode()" style="background:#ff4444;color:white;padding:12px 30px;margin:5px">🔴 تفعيل البث المباشر</button>
 <button class="btn" id="dashStopLive" onclick="stopLiveMode()" style="background:#666;color:white;padding:12px 30px;margin:5px;display:none">⏹️ إيقاف البث المباشر</button>
 </div>
@@ -488,6 +493,10 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div class="lot-grid">
 <!-- الجهة اليسرى: المشاركون -->
 <div class="lpanel">
+    <div id="viewerModeMsg" style="display:none;background:rgba(255,255,255,0.1);color:#ff6b35;padding:8px;border-radius:8px;font-size:13px;text-align:center;margin-bottom:8px;border:1px solid rgba(255,255,255,0.1)">
+        <span style="display:inline-block;width:10px;height:10px;background:#ff4444;border-radius:50%;animation:blink 0.8s infinite;margin-left:8px;vertical-align:middle;"></span>
+        📺 أنت تشاهد البث المباشر للقرعة
+    </div>
     <h3>👥 المشاركون (<span id="count">0</span>)</h3>
     <select id="filterTrip" onchange="filterParticipants()" style="width:100%;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);color:white;padding:7px;border-radius:8px;margin-bottom:8px">
     <option value="الكل">كل الرحلات</option>
@@ -499,10 +508,10 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     <option value="العمرة">العمرة</option>
     </select>
     <div class="llist" id="plist">
-        <div style="text-align:center;color:#6a8aaa;padding:18px" id="loadingMsg">⏳ جاري تحميل المشاركين...</div>
+        <div style="text-align:center;color:#6a8aaa;padding:18px" id="loadingMsg">⏳ جاري تحميل المشاركين من Google Sheets...</div>
     </div>
     <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-        <input id="newName" placeholder="اسم جديد + Enter" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white;min-width:100px">
+        <input id="newName" placeholder="اسم جديد + Enter (للإضافة يدوياً)" style="flex:1;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);padding:7px;border-radius:8px;color:white;min-width:100px">
         <button onclick="addPerson()" style="background:#1b6ca8;border:none;color:white;padding:7px 10px;border-radius:8px;font-weight:800;cursor:pointer">+</button>
         <button onclick="document.getElementById('fileInput').click()" class="upload-btn" style="padding:7px 10px;font-size:12px">📂 تحميل Excel</button>
         <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="uploadParticipantsExcel(event)">
@@ -513,8 +522,8 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;width:100%">
 <div class="top-name-box" style="width:100%">
     <div id="liveIndicator" style="display:none;margin-bottom:8px">
-        <span class="live-badge">🔴 بث مباشر</span>
-        <span style="color:#8ecaff;font-size:12px">يتحدث تلقائياً كل 3 ثوانٍ</span>
+        <span class="live-badge" style="background:#ff4444;color:white;">🔴 بث مباشر (Firebase)</span>
+        <span style="color:#8ecaff;font-size:12px">🔥 تحديث فوري</span>
     </div>
     
     <div class="lot-controls" id="lotControls">
@@ -530,6 +539,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     <div id="slotDisplay" style="width:100%;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:10px">
         <div id="slotName" style="font-size:48px;font-weight:900;color:#f7b633;min-height:60px;transition:all 0.1s">اضغط "بدء القرعة"</div>
         <div id="slotStatus" style="font-size:18px;color:#8ecaff;margin-top:6px;min-height:30px">🔮 سيبدأ الاختيار...</div>
+        <div id="firebaseSync" style="font-size:12px;color:#2ec4b6;margin-top:4px;display:none;">🔥 متزامن مع Firebase</div>
     </div>
     
     <div style="width:100%;max-width:400px;background:rgba(255,255,255,0.05);border-radius:10px;height:8px;overflow:hidden;display:none" id="progressBar">
@@ -590,12 +600,43 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 
 <script>
 // ============================================================
-// 0. تعريف GOOGLE_SHEET_URL
+// 0. تهيئة Firebase
+// ============================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyD_7lnWrK6BD7H83Grt9RrgditltpcD3v4",
+    authDomain: "oeb-lottery-live.firebaseapp.com",
+    databaseURL: "https://oeb-lottery-live-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "oeb-lottery-live",
+    storageBucket: "oeb-lottery-live.firebasestorage.app",
+    messagingSenderId: "580944313069",
+    appId: "1:580944313069:web:2444d01691eeb5c3b1aae4"
+};
+
+// تهيئة Firebase
+let firebaseApp;
+let database;
+let isFirebaseReady = false;
+
+try {
+    firebaseApp = firebase.initializeApp(firebaseConfig);
+    database = firebase.database();
+    isFirebaseReady = true;
+    console.log('✅ Firebase متصل بنجاح');
+    document.getElementById('firebaseStatus').innerHTML = '✅ متصل بـ Firebase';
+    document.getElementById('firebaseStatus').style.color = '#2ec4b6';
+} catch (error) {
+    console.error('❌ خطأ في تهيئة Firebase:', error);
+    document.getElementById('firebaseStatus').innerHTML = '❌ خطأ في الاتصال بـ Firebase';
+    document.getElementById('firebaseStatus').style.color = '#ff4444';
+}
+
+// ============================================================
+// 1. تعريف GOOGLE_SHEET_URL
 // ============================================================
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwuH4XCvwI4PDlrH96yMb6lcKKgYbt_Z1Lb2D308OEmSmHtztxyEsMlk2j9oz_CoCN6Kg/exec";
 
 // ============================================================
-// 1. المتغيرات العامة
+// 2. المتغيرات العامة
 // ============================================================
 let participants = [];
 let filteredParticipants = [];
@@ -605,11 +646,11 @@ let batchWinners = [];
 let batchReserves = [];
 let isLotteryRunning = false;
 const STORAGE_KEY = 'lottery_data';
-let firebaseInitialized = false;
-let db = null;
+let isLiveActive = false;
+let firebaseListener = null;
 
 // ============================================================
-// 2. دوال التخزين المحلي
+// 3. دوال التخزين المحلي
 // ============================================================
 function saveToLocalStorage() {
     try {
@@ -652,7 +693,7 @@ function clearLocalStorage() {
 }
 
 // ============================================================
-// 3. دوال التنقل
+// 4. دوال التنقل
 // ============================================================
 function showPage(p){
 try{
@@ -667,10 +708,12 @@ if(p==='register') resetFormSilent();
 if(p==='lottery') {
     resetLotteryDisplay();
     checkLiveModeAndUpdate();
+    // تحميل المشاركين من Google Sheets عند فتح صفحة القرعة
     loadParticipantsFromSheet();
     loadFromLocalStorage();
     renderAllLists();
-    filterParticipants();
+    // تطبيق الفلتر بعد تحميل البيانات
+    setTimeout(filterParticipants, 500);
 }
 if(p==='dashboard') loadDashboard();
 
@@ -679,7 +722,7 @@ window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ============================================================
-// 4. دوال المديرين
+// 5. دوال المديرين
 // ============================================================
 function handleAdminClick(){
     if(sessionStorage.getItem('adminLoggedIn') === 'true'){
@@ -713,9 +756,10 @@ showPage('dashboard');
 }
 
 // ============================================================
-// 5. دوال لوحة التحكم
+// 6. دوال لوحة التحكم
 // ============================================================
 function loadDashboard(){
+// جلب الإحصائيات من Google Sheets
 fetch(GOOGLE_SHEET_URL + '?action=getStats')
 .then(r=>r.json())
 .then(data=>{
@@ -734,6 +778,10 @@ document.getElementById('totalRegistered').innerText = '--';
 document.getElementById('totalWinners').innerText = '--';
 });
 
+// التحقق من حالة البث من Firebase
+checkFirebaseLiveStatus();
+
+// جلب آخر المسجلين
 fetch(GOOGLE_SHEET_URL + '?action=getRecent')
 .then(r=>r.json())
 .then(data=>{
@@ -752,366 +800,256 @@ container.innerHTML = '<div style="text-align:center;color:#5a7a9a;padding:10px"
 .catch(()=>{
 document.getElementById('recentRegistrations').innerHTML = '<div style="text-align:center;color:#5a7a9a;padding:10px">لا يمكن تحميل البيانات</div>';
 });
-
-// تحقق من حالة البث من Firebase
-checkFirebaseLiveStatus();
-}
-
-function exportAllData(){
-alert('📥 سيتم تصدير جميع البيانات قريباً...');
 }
 
 // ============================================================
-// 6. دوال تحميل المشاركين بصيغة Excel
+// 7. دوال Firebase - البث المباشر
 // ============================================================
-function exportParticipantsExcel(){
-    const btn = document.querySelector('.excel-btn');
-    const originalText = btn.textContent;
-    btn.textContent = '⏳ جاري التحميل...';
-    btn.disabled = true;
-    
-    if (typeof XLSX === 'undefined') {
-        alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
-        btn.textContent = originalText;
-        btn.disabled = false;
-        return;
-    }
-    
-    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
-        .then(r => r.json())
-        .then(data => {
-            btn.textContent = originalText;
-            btn.disabled = false;
-            
-            let participantsList = [];
-            if (data.participants && data.participants.length > 0) {
-                participantsList = data.participants;
-            } else {
-                participantsList = [
-                    {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
-                    {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
-                    {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
-                    {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
-                    {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
-                ];
-            }
-            
-            if (participantsList.length === 0) {
-                alert('⚠️ لا يوجد مشاركين لتصديرهم!');
-                return;
-            }
-            
-            const excelData = [
-                ['الاسم', 'الرقم الوظيفي', 'المؤسسة', 'الهاتف', 'CCP', 'المفتاح', 'الرحلة']
-            ];
-            
-            participantsList.forEach(p => {
-                excelData.push([
-                    p.nom || p.name || '',
-                    p.matricule || '',
-                    p.etab || '',
-                    p.tel || '',
-                    p.ccp || '',
-                    p.cle || '',
-                    p.trip || ''
-                ]);
-            });
-            
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.aoa_to_sheet(excelData);
-            
-            ws['!cols'] = [
-                { wch: 25 },
-                { wch: 18 },
-                { wch: 30 },
-                { wch: 18 },
-                { wch: 18 },
-                { wch: 15 },
-                { wch: 20 }
-            ];
-            
-            XLSX.utils.book_append_sheet(wb, ws, 'المشاركون');
-            
-            const now = new Date();
-            const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-            const fileName = `المشاركون_${dateStr}.xlsx`;
-            
-            XLSX.writeFile(wb, fileName);
-            
-            alert(`✅ تم تحميل ${participantsList.length} مشارك بنجاح!`);
-        })
-        .catch(error => {
-            console.error('❌ خطأ في تحميل المشاركين:', error);
-            btn.textContent = originalText;
-            btn.disabled = false;
-            alert('❌ حدث خطأ في تحميل البيانات، تأكد من اتصال الإنترنت');
-        });
-}
-
-// ============================================================
-// 7. دوال تحميل المشاركين من ملف Excel
-// ============================================================
-function uploadParticipantsExcel(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-            
-            if (!jsonData || jsonData.length === 0) {
-                alert('⚠️ الملف فارغ أو لا يحتوي على بيانات!');
-                return;
-            }
-            
-            const newParticipants = [];
-            jsonData.forEach(row => {
-                const name = row['الاسم'] || row['name'] || row['Name'] || row['nom'] || row['Nom'] || '';
-                const etab = row['المؤسسة'] || row['etab'] || row['Etab'] || row['مؤسسة'] || '';
-                const trip = row['الرحلة'] || row['trip'] || row['Trip'] || row['رحلة'] || '';
-                const matricule = row['الرقم الوظيفي'] || row['matricule'] || row['Matricule'] || row['رقم'] || '';
-                const tel = row['الهاتف'] || row['tel'] || row['Tel'] || '';
-                const ccp = row['CCP'] || row['ccp'] || '';
-                const cle = row['المفتاح'] || row['cle'] || row['Cle'] || '';
-                
-                if (name && name.toString().trim() !== '') {
-                    newParticipants.push({
-                        nom: name.toString().trim(),
-                        matricule: matricule ? matricule.toString().trim() : '',
-                        etab: etab ? etab.toString().trim() : '',
-                        tel: tel ? tel.toString().trim() : '',
-                        ccp: ccp ? ccp.toString().trim() : '',
-                        cle: cle ? cle.toString().trim() : '',
-                        trip: trip ? trip.toString().trim() : ''
-                    });
-                }
-            });
-            
-            if (newParticipants.length === 0) {
-                alert('⚠️ لم يتم العثور على أسماء في الملف. تأكد من وجود عمود "الاسم"');
-                return;
-            }
-            
-            const existingNames = new Set(participants.map(p => p.nom));
-            let addedCount = 0;
-            newParticipants.forEach(p => {
-                if (!existingNames.has(p.nom)) {
-                    participants.push(p);
-                    existingNames.add(p.nom);
-                    addedCount++;
-                }
-            });
-            
-            filterParticipants();
-            alert(`✅ تم تحميل ${newParticipants.length} مشارك، تم إضافة ${addedCount} مشارك جديد`);
-            
-        } catch(error) {
-            console.error('خطأ في قراءة الملف:', error);
-            alert('❌ حدث خطأ في قراءة الملف. تأكد من أن الملف بصيغة Excel صحيحة.');
-        }
-    };
-    reader.readAsArrayBuffer(file);
-    event.target.value = '';
-}
-
-// ============================================================
-// 8. دوال البث المباشر (Firebase)
-// ============================================================
-let liveInterval = null;
-let firebaseListeners = [];
-
-function initializeFirebase() {
-    // انتظار تحميل Firebase من الوحدة
-    if (typeof window.firebaseInitialized !== 'undefined' && window.firebaseInitialized) {
-        db = window.db;
-        firebaseInitialized = true;
-        console.log('✅ Firebase ready for use');
-        checkFirebaseLiveStatus();
-        return true;
-    }
-    
-    // إذا لم يتم التحميل بعد، انتظر
-    window.addEventListener('firebase-ready', function() {
-        db = window.db;
-        firebaseInitialized = true;
-        console.log('✅ Firebase ready (event)');
-        checkFirebaseLiveStatus();
-    });
-    
-    // محاولة مرة أخرى بعد 2 ثانية
-    setTimeout(function() {
-        if (window.db) {
-            db = window.db;
-            firebaseInitialized = true;
-            console.log('✅ Firebase ready (timeout)');
-            checkFirebaseLiveStatus();
-        }
-    }, 2000);
-    
-    return false;
-}
-
 function checkFirebaseLiveStatus() {
-    if (!firebaseInitialized || !db) {
-        console.log('⚠️ Firebase غير مهيأ');
+    if (!isFirebaseReady) {
+        console.log('⚠️ Firebase غير جاهز');
         return;
     }
     
-    try {
-        // الاستماع لحالة البث
-        const statusRef = window.ref(db, 'live/status');
-        window.onValue(statusRef, (snapshot) => {
-            const isLive = snapshot.val() === true;
-            updateLiveUI(isLive);
-        });
-        
-        // الاستماع للاسم الحالي
-        const nameRef = window.ref(db, 'live/currentName');
-        window.onValue(nameRef, (snapshot) => {
-            const name = snapshot.val();
-            if (name) {
-                document.getElementById('slotName').innerText = name;
+    // إزالة المستمع القديم إذا وجد
+    if (firebaseListener) {
+        database.ref('live').off('value', firebaseListener);
+        firebaseListener = null;
+    }
+    
+    // إنشاء مستمع جديد
+    firebaseListener = database.ref('live').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data && data.active === true) {
+            isLiveActive = true;
+            document.getElementById('liveStatusDashboard').style.display = 'block';
+            document.getElementById('dashStartLive').style.display = 'none';
+            document.getElementById('dashStopLive').style.display = 'inline-block';
+            document.getElementById('btnWatchLive').style.display = 'inline-block';
+            
+            // تحديث واجهة القرعة
+            document.getElementById('liveIndicator').style.display = 'block';
+            document.getElementById('firebaseSync').style.display = 'block';
+            
+            // عرض البيانات الحية
+            if (data.currentName) {
+                document.getElementById('slotName').innerText = data.currentName;
             }
-        });
-        
-        // الاستماع لقائمة الفائزين
-        const winnersRef = window.ref(db, 'live/winners');
-        window.onValue(winnersRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data && data.length > 0) {
-                updateWinnersLists(data);
+            if (data.status) {
+                document.getElementById('slotStatus').innerText = data.status;
             }
-        });
+            if (data.winners && data.winners.length > 0) {
+                updateWinnersLists(data.winners);
+            }
+            
+            // إخفاء أزرار التحكم للمشاهدين
+            var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+            if (!isAdmin) {
+                document.getElementById('lotControls').style.display = 'none';
+                document.getElementById('startLotteryBtn').style.display = 'none';
+                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
+                document.getElementById('page-lottery').classList.add('viewer-mode');
+                enableViewerMode(true);
+            } else {
+                document.getElementById('lotControls').style.display = 'flex';
+                document.getElementById('startLotteryBtn').style.display = 'block';
+                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+                document.getElementById('page-lottery').classList.remove('viewer-mode');
+                enableViewerMode(false);
+            }
+            
+        } else {
+            isLiveActive = false;
+            document.getElementById('liveStatusDashboard').style.display = 'none';
+            document.getElementById('dashStartLive').style.display = 'inline-block';
+            document.getElementById('dashStopLive').style.display = 'none';
+            document.getElementById('btnWatchLive').style.display = 'none';
+            document.getElementById('liveIndicator').style.display = 'none';
+            document.getElementById('firebaseSync').style.display = 'none';
+            
+            var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+            if (isAdmin) {
+                document.getElementById('lotControls').style.display = 'flex';
+                document.getElementById('startLotteryBtn').style.display = 'block';
+                document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
+                document.getElementById('page-lottery').classList.remove('viewer-mode');
+                enableViewerMode(false);
+            }
+        }
+    }, (error) => {
+        console.error('خطأ في الاستماع لـ Firebase:', error);
+    });
+}
+
+// دالة تبديل وضع المشاهد
+function enableViewerMode(isViewer) {
+    const page = document.getElementById('page-lottery');
+    if (isViewer) {
+        page.classList.add('viewer-mode');
+        document.getElementById('viewerModeMsg').style.display = 'block';
+        document.querySelector('.lot-grid .lpanel:first-child h3').innerHTML = '👥 المشاركون (عرض فقط)';
         
-        console.log('✅ Firebase listeners تم تفعيلها');
-    } catch(e) {
-        console.warn('⚠️ خطأ في Firebase listeners:', e);
+        // إخفاء جميع أزرار التحكم للمشاهدين
+        document.querySelectorAll('.lot-grid .top-name-box + div + div button').forEach(b => {
+            b.style.display = 'none';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .btn').forEach(b => {
+            b.style.display = 'none';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .print-btn').forEach(b => {
+            b.style.display = 'none';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .excel-btn').forEach(b => {
+            b.style.display = 'none';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .upload-btn').forEach(b => {
+            b.style.display = 'none';
+        });
+    } else {
+        page.classList.remove('viewer-mode');
+        document.getElementById('viewerModeMsg').style.display = 'none';
+        document.querySelector('.lot-grid .lpanel:first-child h3').innerHTML = '👥 المشاركون';
+        
+        // إظهار أزرار التحكم للمدير
+        document.querySelectorAll('.lot-grid .top-name-box + div + div button').forEach(b => {
+            b.style.display = 'inline-block';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .btn').forEach(b => {
+            b.style.display = 'inline-block';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .print-btn').forEach(b => {
+            b.style.display = 'inline-block';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .excel-btn').forEach(b => {
+            b.style.display = 'inline-block';
+        });
+        document.querySelectorAll('.lot-grid .top-name-box + div + div .upload-btn').forEach(b => {
+            b.style.display = 'inline-block';
+        });
     }
 }
 
-function updateLiveUI(isLive) {
-    const isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+// دالة بدء البث المباشر عبر Firebase
+function startLiveMode() {
+    if (!isFirebaseReady) {
+        alert('❌ Firebase غير متصل، يرجى تحديث الصفحة');
+        return;
+    }
     
-    if (isLive) {
-        document.getElementById('liveIndicator').style.display = 'block';
-        document.getElementById('btnWatchLive').style.display = 'inline-block';
+    const liveRef = database.ref('live');
+    liveRef.set({
+        active: true,
+        currentName: '⏳ جاري البث...',
+        status: '🔮 في انتظار بدء القرعة',
+        winners: [],
+        reserves: [],
+        startedAt: new Date().toISOString()
+    }).then(() => {
         document.getElementById('dashStartLive').style.display = 'none';
         document.getElementById('dashStopLive').style.display = 'inline-block';
         document.getElementById('liveStatusDashboard').style.display = 'block';
-        
-        if (!isAdmin) {
-            document.getElementById('lotControls').style.display = 'none';
-            document.getElementById('startLotteryBtn').style.display = 'none';
-            document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'none');
-        } else {
-            document.getElementById('lotControls').style.display = 'flex';
-            document.getElementById('startLotteryBtn').style.display = 'block';
-            document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
-        }
-    } else {
-        document.getElementById('liveIndicator').style.display = 'none';
-        document.getElementById('btnWatchLive').style.display = 'none';
+        document.getElementById('btnWatchLive').style.display = 'inline-block';
+        document.getElementById('liveIndicator').style.display = 'block';
+        document.getElementById('firebaseSync').style.display = 'block';
+        alert('✅ تم تفعيل البث المباشر عبر Firebase!');
+    }).catch((error) => {
+        console.error('خطأ في تفعيل البث:', error);
+        alert('❌ حدث خطأ في تفعيل البث: ' + error.message);
+    });
+}
+
+// دالة إيقاف البث المباشر
+function stopLiveMode() {
+    if (!isFirebaseReady) {
+        alert('❌ Firebase غير متصل');
+        return;
+    }
+    
+    const liveRef = database.ref('live');
+    liveRef.update({
+        active: false
+    }).then(() => {
         document.getElementById('dashStartLive').style.display = 'inline-block';
         document.getElementById('dashStopLive').style.display = 'none';
         document.getElementById('liveStatusDashboard').style.display = 'none';
-        
-        if (isAdmin) {
-            document.getElementById('lotControls').style.display = 'flex';
-            document.getElementById('startLotteryBtn').style.display = 'block';
-            document.querySelector('.winner-card-lot').querySelectorAll('button').forEach(b => b.style.display = 'inline-block');
-        }
-    }
-}
-
-function startLiveMode() {
-    if (!firebaseInitialized || !db) {
-        alert('⚠️ Firebase غير مهيأ. يرجى تحديث الصفحة.');
-        return;
-    }
-    
-    try {
-        window.set(window.ref(db, 'live/status'), true);
-        window.set(window.ref(db, 'live/currentName'), 'البث المباشر مفعل');
-        alert('✅ تم تفعيل البث المباشر للقرعة!');
-    } catch(e) {
-        alert('❌ حدث خطأ في تفعيل البث: ' + e.message);
-    }
-}
-
-function stopLiveMode() {
-    if (!firebaseInitialized || !db) {
-        alert('⚠️ Firebase غير مهيأ.');
-        return;
-    }
-    
-    try {
-        window.set(window.ref(db, 'live/status'), false);
-        window.set(window.ref(db, 'live/currentName'), '');
+        document.getElementById('btnWatchLive').style.display = 'none';
+        document.getElementById('liveIndicator').style.display = 'none';
+        document.getElementById('firebaseSync').style.display = 'none';
         alert('⏹️ تم إيقاف البث المباشر');
-    } catch(e) {
-        alert('❌ حدث خطأ في إيقاف البث: ' + e.message);
-    }
+    }).catch((error) => {
+        console.error('خطأ في إيقاف البث:', error);
+        alert('❌ حدث خطأ في إيقاف البث: ' + error.message);
+    });
 }
 
-function checkLiveModeAndUpdate() {
-    if (firebaseInitialized && db) {
-        try {
-            window.get(window.ref(db, 'live/status')).then((snapshot) => {
-                const isLive = snapshot.val() === true;
-                updateLiveUI(isLive);
-            }).catch(() => {
-                checkGoogleSheetsLive();
-            });
-        } catch(e) {
-            checkGoogleSheetsLive();
-        }
-    } else {
-        checkGoogleSheetsLive();
-    }
+// دالة تحديث الاسم الحالي في Firebase
+function updateFirebaseCurrentName(name) {
+    if (!isLiveActive || !isFirebaseReady) return;
+    database.ref('live').update({ currentName: name }).catch((error) => {
+        console.error('خطأ في تحديث الاسم:', error);
+    });
 }
 
-function checkGoogleSheetsLive() {
-    fetch(GOOGLE_SHEET_URL + '?action=getLiveStatus')
-        .then(r => r.json())
-        .then(data => {
-            if (data.live === 'true') {
-                updateLiveUI(true);
-            }
-        })
-        .catch(() => {});
+// دالة تحديث الحالة في Firebase
+function updateFirebaseStatus(status) {
+    if (!isLiveActive || !isFirebaseReady) return;
+    database.ref('live').update({ status: status }).catch((error) => {
+        console.error('خطأ في تحديث الحالة:', error);
+    });
+}
+
+// دالة تحديث الفائزين في Firebase
+function updateFirebaseWinners(winnersList, reservesList) {
+    if (!isLiveActive || !isFirebaseReady) return;
+    const data = {};
+    if (winnersList) data.winners = winnersList;
+    if (reservesList) data.reserves = reservesList;
+    database.ref('live').update(data).catch((error) => {
+        console.error('خطأ في تحديث الفائزين:', error);
+    });
+}
+
+// ============================================================
+// 8. دوال البث المباشر (التوافق مع النظام القديم)
+// ============================================================
+function checkLiveModeAndUpdate(){
+    // فقط للتحقق من Firebase
+    if (isFirebaseReady) {
+        // المستمع موجود بالفعل في checkFirebaseLiveStatus
+        return;
+    }
 }
 
 // ============================================================
 // 9. دوال تحديث القوائم
 // ============================================================
-function updateWinnersLists(winnersData){
+function updateWinnersLists(winnersData) {
     let winnersList = document.getElementById('finalWinnersList');
-    let winnersCount = 0;
-    winnersList.innerHTML = '';
-    
     let reserveList = document.getElementById('finalReserveList');
-    let reserveCount = 0;
+    
+    winnersList.innerHTML = '';
     reserveList.innerHTML = '';
     
+    let winnersCount = 0;
+    let reserveCount = 0;
+    
+    let winnersNum = parseInt(document.getElementById('winnersCount').value) || 3;
+    
     if (winnersData && winnersData.length > 0) {
-        let winnersNum = parseInt(document.getElementById('winnersCount').value) || 1;
+        let actualWinnersNum = Math.min(winnersNum, winnersData.length);
         
         winnersData.forEach((w, index) => {
             let item = document.createElement('div');
             item.className = 'win-item-sm';
             
-            if (index < winnersNum) {
+            if (index < actualWinnersNum) {
                 item.classList.add('winner-item');
-                item.innerHTML = `<span class="name">${index+1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
+                item.innerHTML = `<span class="name">${index + 1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
                 winnersList.appendChild(item);
                 winnersCount++;
             } else {
                 item.classList.add('reserve');
-                item.innerHTML = `<span class="name">${index+1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
+                item.innerHTML = `<span class="name">${index + 1}- ${w.name}</span><span class="trip">${w.trip}</span>`;
                 reserveList.appendChild(item);
                 reserveCount++;
             }
@@ -1130,10 +1068,20 @@ function updateWinnersLists(winnersData){
 }
 
 // ============================================================
-// 10. دوال القرعة - مع حركة بطيئة
+// 10. دوال القرعة
 // ============================================================
 function startLottery(){
     if(isLotteryRunning) return;
+    
+    if(participants.length === 0){
+        alert('⚠️ لا يوجد مشاركين! يرجى تحميل البيانات أولاً.');
+        return;
+    }
+    
+    if(filteredParticipants.length === 0){
+        alert('⚠️ لا يوجد مشاركين للقرعة!');
+        return;
+    }
     
     let available = filteredParticipants.filter(p => 
         !finalWinners.find(w => w.name === p.nom && w.trip === p.trip) && 
@@ -1174,6 +1122,8 @@ function startLottery(){
     let currentStep = 0;
     let totalSteps = winnersCount + reserveCount;
     
+    updateFirebaseStatus('🏆 بداية اختيار الفائزين...');
+    
     function shuffleArray(arr){
         for(let i = arr.length - 1; i > 0; i--){
             let j = Math.floor(Math.random() * (i + 1));
@@ -1200,6 +1150,9 @@ function startLottery(){
             slotName.className = 'slot-animation';
             spinCount++;
             
+            updateFirebaseCurrentName(randomPerson.nom);
+            updateFirebaseStatus(slotStatus.innerText);
+            
             if(spinCount >= maxSpins){
                 clearInterval(spinTimer);
                 
@@ -1215,23 +1168,24 @@ function startLottery(){
                     `📋 الاحتياط ${selectedReserves.length + 1}/${reserveCount}` : 
                     `🏆 الفائز ${selectedWinners.length + 1}/${winnersCount}`;
                 
+                updateFirebaseCurrentName(finalPerson.nom);
+                updateFirebaseStatus(slotStatus.innerText);
+                
                 currentStep++;
                 let progress = (currentStep / totalSteps) * 100;
                 progressFill.style.width = progress + '%';
                 progressText.innerText = `جاري الاختيار ${currentStep}/${totalSteps}`;
-                
-                // تحديث Firebase بالاسم الحالي
-                if (firebaseInitialized && db) {
-                    try {
-                        window.set(window.ref(db, 'live/currentName'), finalPerson.nom);
-                    } catch(e) {}
-                }
                 
                 if(isReserve){
                     selectedReserves.push(finalPerson);
                 } else {
                     selectedWinners.push(finalPerson);
                 }
+                
+                updateFirebaseWinners(
+                    selectedWinners.map(p => ({name: p.nom, trip: p.trip})),
+                    selectedReserves.map(p => ({name: p.nom, trip: p.trip}))
+                );
                 
                 let waitTime = 1200 + Math.floor(Math.random() * 600);
                 setTimeout(() => {
@@ -1244,6 +1198,7 @@ function startLottery(){
     function pickWinners(index){
         if(index >= winnersCount){
             slotStatus.innerText = '📋 بداية اختيار الاحتياط...';
+            updateFirebaseStatus(slotStatus.innerText);
             setTimeout(() => {
                 pickReserves(0);
             }, 1500);
@@ -1301,14 +1256,12 @@ function startLottery(){
         slotName.innerText = '🎉 تمت القرعة بنجاح!';
         slotStatus.innerText = `🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`;
         
-        // تحديث Firebase بالنتائج
-        if (firebaseInitialized && db) {
-            try {
-                const allWinners = [...winners.map(w => ({name: w.nom, trip: w.trip})), ...reserves.map(w => ({name: w.nom, trip: w.trip}))];
-                window.set(window.ref(db, 'live/winners'), allWinners);
-                window.set(window.ref(db, 'live/currentName'), '🎉 تمت القرعة!');
-            } catch(e) {}
-        }
+        updateFirebaseCurrentName('🎉 تمت القرعة بنجاح!');
+        updateFirebaseStatus(`🏆 ${winners.length} فائز و 📋 ${reserves.length} احتياط`);
+        updateFirebaseWinners(
+            winners.map(p => ({name: p.nom, trip: p.trip})),
+            reserves.map(p => ({name: p.nom, trip: p.trip}))
+        );
         
         setTimeout(() => {
             document.getElementById('progressBar').style.display = 'none';
@@ -1320,36 +1273,32 @@ function startLottery(){
     }
     
     slotStatus.innerText = '🏆 بداية اختيار الفائزين...';
+    updateFirebaseStatus(slotStatus.innerText);
     setTimeout(() => {
         pickWinners(0);
     }, 400);
 }
 
 // ============================================================
-// 11. ✅ دوال تصدير النتائج بصيغة Excel مع دعم العربية
+// 11. دوال تصدير النتائج بصيغة Excel
 // ============================================================
 function exportWinnersExcel() {
-    // التحقق من وجود فائزين
     if (finalWinners.length === 0 && finalReserves.length === 0) {
         alert('⚠️ لا يوجد فائزين أو احتياط لتصديرهم!');
         return;
     }
 
-    // التحقق من وجود مكتبة XLSX
     if (typeof XLSX === 'undefined') {
         alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
         return;
     }
 
     try {
-        // إعداد البيانات للتصدير
         const excelData = [
             ['النوع', 'الاسم واللقب', 'رقم الحساب الجاري (CCP)', 'المفتاح (Clé)', 'الرحلة']
         ];
 
-        // إضافة الفائزين
         finalWinners.forEach(w => {
-            // البحث عن معلومات الحساب الجاري والمفتاح من قائمة المشاركين
             const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
             excelData.push([
                 'فائز',
@@ -1360,7 +1309,6 @@ function exportWinnersExcel() {
             ]);
         });
 
-        // إضافة الاحتياط
         finalReserves.forEach(w => {
             const participant = participants.find(p => p.nom === w.name && p.trip === w.trip);
             excelData.push([
@@ -1372,33 +1320,27 @@ function exportWinnersExcel() {
             ]);
         });
 
-        // إنشاء مصنف Excel
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.aoa_to_sheet(excelData);
 
-        // ضبط عرض الأعمدة
         ws['!cols'] = [
-            { wch: 12 },  // النوع
-            { wch: 30 },  // الاسم واللقب
-            { wch: 20 },  // رقم الحساب الجاري
-            { wch: 15 },  // المفتاح
-            { wch: 20 }   // الرحلة
+            { wch: 12 },
+            { wch: 30 },
+            { wch: 20 },
+            { wch: 15 },
+            { wch: 20 }
         ];
 
-        // إضافة الورقة إلى المصنف
         XLSX.utils.book_append_sheet(wb, ws, 'نتائج القرعة');
 
-        // إنشاء اسم الملف مع التاريخ
         const now = new Date();
         const dateStr = now.getFullYear() + '-' + 
                        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
                        String(now.getDate()).padStart(2, '0');
         const fileName = `نتائج_القرعة_أم_البواقي_${dateStr}.xlsx`;
 
-        // تحميل الملف
         XLSX.writeFile(wb, fileName);
 
-        // إظهار رسالة نجاح
         const totalWinners = finalWinners.length;
         const totalReserves = finalReserves.length;
         alert(`✅ تم تصدير النتائج بنجاح!\n🏆 الفائزين: ${totalWinners}\n📋 الاحتياط: ${totalReserves}`);
@@ -1446,13 +1388,10 @@ function confirmWinners(){
             .catch(e => console.log('⚠️ خطأ في حفظ الفائز:', e));
     });
     
-    // تحديث Firebase بالفائزين النهائيين
-    if (firebaseInitialized && db) {
-        try {
-            const allWinners = [...finalWinners, ...finalReserves];
-            window.set(window.ref(db, 'live/winners'), allWinners);
-        } catch(e) {}
-    }
+    updateFirebaseWinners(
+        finalWinners.map(w => ({name: w.name, trip: w.trip})),
+        finalReserves.map(w => ({name: w.name, trip: w.trip}))
+    );
     
     saveToLocalStorage();
     renderAllLists();
@@ -1462,6 +1401,9 @@ function confirmWinners(){
     document.getElementById('slotName').innerText = `✅ تم إضافة ${allSelected.length} إلى القوائم`;
     document.getElementById('slotName').style.color = '#2ec4b6';
     document.getElementById('slotStatus').innerText = 'تم الحفظ بنجاح!';
+    
+    updateFirebaseCurrentName(`✅ تم إضافة ${allSelected.length} إلى القوائم`);
+    updateFirebaseStatus('تم الحفظ بنجاح!');
     
     batchWinners = [];
     batchReserves = [];
@@ -1480,6 +1422,9 @@ function rejectWinners(){
     document.getElementById('slotName').innerText = '🔄 تم إلغاء النتائج';
     document.getElementById('slotName').style.color = '#8ecaff';
     document.getElementById('slotStatus').innerText = 'يمكنك إعادة المحاولة';
+    
+    updateFirebaseCurrentName('🔄 تم إلغاء النتائج');
+    updateFirebaseStatus('يمكنك إعادة المحاولة');
 }
 
 // ============================================================
@@ -1545,16 +1490,15 @@ function clearAllWinners(){
         finalWinners = [];
         finalReserves = [];
         clearLocalStorage();
-        if (firebaseInitialized && db) {
-            try {
-                window.set(window.ref(db, 'live/winners'), []);
-            } catch(e) {}
-        }
         renderAllLists();
         filterParticipants();
         document.getElementById('slotName').innerText = '🗑️ تم مسح جميع الفائزين';
         document.getElementById('slotName').style.color = '#ff6666';
         document.getElementById('slotStatus').innerText = 'قائمة فارغة';
+        
+        updateFirebaseWinners([], []);
+        updateFirebaseCurrentName('🗑️ تم مسح جميع الفائزين');
+        updateFirebaseStatus('قائمة فارغة');
     }
 }
 
@@ -1756,43 +1700,76 @@ document.getElementById('baladiya').value='';
 }
 
 // ============================================================
-// 18. دوال المشاركين
+// 18. دوال المشاركين - تحميل من Google Sheets
 // ============================================================
 function loadParticipantsFromSheet() {
     let loadingMsg = document.getElementById('loadingMsg');
     if (loadingMsg) {
-        loadingMsg.innerText = '⏳ جاري تحميل المشاركين...';
+        loadingMsg.innerText = '⏳ جاري تحميل المشاركين من Google Sheets...';
     }
     
+    // تحديث قائمة المشاركين من Google Sheets
     fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
-        .then(r => r.json())
+        .then(r => {
+            if (!r.ok) {
+                throw new Error('خطأ في الاتصال: ' + r.status);
+            }
+            return r.json();
+        })
         .then(data => {
             if (data.participants && data.participants.length > 0) {
                 participants = data.participants;
                 console.log('✅ تم تحميل ' + participants.length + ' مشارك من Google Sheets');
+                if (loadingMsg) {
+                    loadingMsg.innerText = `✅ تم تحميل ${participants.length} مشارك`;
+                    setTimeout(() => {
+                        if (loadingMsg) loadingMsg.innerText = '';
+                    }, 2000);
+                }
             } else {
-                participants = [
-                    {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
-                    {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
-                    {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
-                    {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
-                    {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
-                ];
-                console.log('⚠️ تم استخدام القائمة الافتراضية');
+                // في حالة عدم وجود بيانات، نترك القائمة فارغة
+                participants = [];
+                console.log('⚠️ لا يوجد مشاركين في Google Sheets');
+                if (loadingMsg) {
+                    loadingMsg.innerText = '📭 لا يوجد مشاركين مسجلين حالياً';
+                }
             }
+            // تطبيق الفلتر وعرض البيانات
             filterParticipants();
         })
         .catch(error => {
             console.error('❌ خطأ في تحميل المشاركين:', error);
-            participants = [
-                {nom:"أحمد بوزيد", matricule:"123456", etab:"ابتدائية ابن باديس", tel:"0555123456", ccp:"12345678", cle:"12", trip:"جيجل"},
-                {nom:"فاطمة الزهراء", matricule:"789012", etab:"متوسطة 8 ماي", tel:"0666123456", ccp:"23456789", cle:"34", trip:"القالة"},
-                {nom:"محمد لمين", matricule:"345678", etab:"ثانوية زيغود يوسف", tel:"0777123456", ccp:"34567890", cle:"56", trip:"العمرة"},
-                {nom:"خديجة بن عيسى", matricule:"901234", etab:"ابتدائية الشهيد عميروش", tel:"0555987654", ccp:"45678901", cle:"78", trip:"تونس"},
-                {nom:"يوسف قاسمي", matricule:"567890", etab:"متوسطة العقيد عميروش", tel:"0666876543", ccp:"56789012", cle:"90", trip:"جيجل"}
-            ];
-            filterParticipants();
+            // محاولة تحميل البيانات من التخزين المحلي كنسخة احتياطية
+            const savedParticipants = localStorage.getItem('participants_backup');
+            if (savedParticipants) {
+                try {
+                    participants = JSON.parse(savedParticipants);
+                    console.log('✅ تم تحميل ' + participants.length + ' مشارك من التخزين المحلي (نسخة احتياطية)');
+                    if (loadingMsg) {
+                        loadingMsg.innerText = `⚠️ تم التحميل من النسخة الاحتياطية (${participants.length} مشارك)`;
+                    }
+                    filterParticipants();
+                } catch(e) {
+                    console.log('⚠️ فشل تحميل النسخة الاحتياطية');
+                }
+            } else {
+                participants = [];
+                if (loadingMsg) {
+                    loadingMsg.innerText = '❌ خطأ في تحميل البيانات، تأكد من اتصال الإنترنت';
+                }
+                filterParticipants();
+            }
         });
+}
+
+// دالة لحفظ نسخة احتياطية من المشاركين محلياً
+function backupParticipants(data) {
+    try {
+        localStorage.setItem('participants_backup', JSON.stringify(data));
+        console.log('✅ تم حفظ نسخة احتياطية من المشاركين');
+    } catch(e) {
+        console.log('⚠️ فشل حفظ النسخة الاحتياطية');
+    }
 }
 
 function filterParticipants() {
@@ -1808,7 +1785,11 @@ function filterParticipants() {
     if (filtered.length === 0) {
         let msg = document.createElement('div');
         msg.style.cssText = 'text-align:center;color:#6a8aaa;padding:18px';
-        msg.innerText = participants.length === 0 ? '📭 لا يوجد مشاركين مسجلين' : '📭 لا يوجد مشاركين لهذه الرحلة';
+        if (participants.length === 0) {
+            msg.innerText = '📭 لا يوجد مشاركين مسجلين في Google Sheets';
+        } else {
+            msg.innerText = '📭 لا يوجد مشاركين لهذه الرحلة';
+        }
         list.appendChild(msg);
         return;
     }
@@ -1827,6 +1808,8 @@ function addPerson(){
     if(!v) return;
     participants.push({nom:v, matricule:"", etab:"مؤسسة جديدة", tel:"", ccp:"", cle:"", trip:"جيجل"});
     inp.value = '';
+    // حفظ نسخة احتياطية
+    backupParticipants(participants);
     filterParticipants();
 }
 
@@ -1835,7 +1818,174 @@ document.getElementById('newName').addEventListener('keydown', function(e) {
 });
 
 // ============================================================
-// 19. دوال الألعاب النارية
+// 19. دوال تصدير المشاركين إلى Excel (في لوحة التحكم)
+// ============================================================
+function exportParticipantsExcel(){
+    // البحث عن الزر
+    let btn = document.querySelector('.excel-btn');
+    if (!btn) {
+        const btns = document.querySelectorAll('.excel-btn');
+        if (btns.length > 0) btn = btns[0];
+    }
+    
+    let originalText = '';
+    if (btn) {
+        originalText = btn.textContent;
+        btn.textContent = '⏳ جاري التحميل...';
+        btn.disabled = true;
+    }
+    
+    if (typeof XLSX === 'undefined') {
+        alert('⚠️ المكتبة غير محملة، يرجى تحديث الصفحة');
+        if (btn) {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+        return;
+    }
+    
+    // جلب البيانات من Google Sheets مباشرة
+    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
+        .then(r => r.json())
+        .then(data => {
+            let participantsList = [];
+            if (data.participants && data.participants.length > 0) {
+                participantsList = data.participants;
+                // تحديث القائمة المحلية
+                participants = data.participants;
+                backupParticipants(participants);
+            }
+            
+            if (participantsList.length === 0) {
+                alert('⚠️ لا يوجد مشاركين لتصديرهم!');
+                if (btn) {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
+                return;
+            }
+            
+            const excelData = [
+                ['الاسم', 'الرقم الوظيفي', 'المؤسسة', 'الهاتف', 'CCP', 'المفتاح', 'الرحلة']
+            ];
+            
+            participantsList.forEach(p => {
+                excelData.push([
+                    p.nom || p.name || '',
+                    p.matricule || '',
+                    p.etab || '',
+                    p.tel || '',
+                    p.ccp || '',
+                    p.cle || '',
+                    p.trip || ''
+                ]);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            ws['!cols'] = [
+                { wch: 25 },
+                { wch: 18 },
+                { wch: 30 },
+                { wch: 18 },
+                { wch: 18 },
+                { wch: 15 },
+                { wch: 20 }
+            ];
+            
+            XLSX.utils.book_append_sheet(wb, ws, 'المشاركون');
+            
+            const now = new Date();
+            const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+            const fileName = `المشاركون_${dateStr}.xlsx`;
+            
+            XLSX.writeFile(wb, fileName);
+            
+            alert(`✅ تم تحميل ${participantsList.length} مشارك بنجاح!`);
+            
+            if (btn) {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('❌ خطأ في تحميل المشاركين:', error);
+            alert('❌ حدث خطأ في تحميل البيانات، تأكد من اتصال الإنترنت');
+            if (btn) {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+}
+
+// دالة رفع ملف Excel للمشاركين
+function uploadParticipantsExcel(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+            
+            if (jsonData.length === 0) {
+                alert('⚠️ الملف فارغ!');
+                return;
+            }
+            
+            let addedCount = 0;
+            jsonData.forEach(row => {
+                // محاولة استخراج البيانات من الأعمدة المختلفة
+                const nom = row['الاسم'] || row['اسم'] || row['name'] || row['Name'] || '';
+                const trip = row['الرحلة'] || row['رحلة'] || row['trip'] || row['Trip'] || 'جيجل';
+                const etab = row['المؤسسة'] || row['مؤسسة'] || row['etab'] || '';
+                const tel = row['الهاتف'] || row['هاتف'] || row['tel'] || '';
+                const ccp = row['CCP'] || row['ccp'] || '';
+                const cle = row['المفتاح'] || row['مفتاح'] || row['cle'] || '';
+                const matricule = row['الرقم الوظيفي'] || row['رقم وظيفي'] || row['matricule'] || '';
+                
+                if (nom && nom.trim() !== '') {
+                    // التحقق من عدم تكرار الاسم
+                    if (!participants.find(p => p.nom === nom.trim() && p.trip === trip)) {
+                        participants.push({
+                            nom: nom.trim(),
+                            matricule: String(matricule || ''),
+                            etab: String(etab || 'مؤسسة'),
+                            tel: String(tel || ''),
+                            ccp: String(ccp || ''),
+                            cle: String(cle || ''),
+                            trip: trip
+                        });
+                        addedCount++;
+                    }
+                }
+            });
+            
+            if (addedCount > 0) {
+                backupParticipants(participants);
+                filterParticipants();
+                alert(`✅ تم إضافة ${addedCount} مشارك جديد من الملف!`);
+            } else {
+                alert('⚠️ لم يتم إضافة أي مشارك جديد (قد تكون البيانات مكررة أو غير صالحة)');
+            }
+            
+            // إعادة تعيين input
+            event.target.value = '';
+        } catch (error) {
+            console.error('❌ خطأ في قراءة الملف:', error);
+            alert('❌ حدث خطأ في قراءة الملف. تأكد من أن الملف بصيغة Excel صحيحة.');
+            event.target.value = '';
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+// ============================================================
+// 20. دوال الألعاب النارية
 // ============================================================
 const canvas = document.getElementById('fireworks');
 const ctx = canvas.getContext('2d');
@@ -1904,43 +2054,41 @@ function createFirework(x, y){
 }
 
 // ============================================================
-// 20. التحميل الأولي
+// 21. دوال أخرى
+// ============================================================
+function exportAllData() {
+    alert('📥 سيتم تصدير جميع البيانات قريباً...');
+}
+
+// ============================================================
+// 22. التحميل الأولي
 // ============================================================
 loadFromLocalStorage();
-loadParticipantsFromSheet();
 
-// تهيئة Firebase
-setTimeout(function() {
-    initializeFirebase();
+// تحميل المشاركين عند بدء الصفحة
+setTimeout(() => {
+    loadParticipantsFromSheet();
 }, 500);
 
-// محاولة تهيئة Firebase بشكل دوري
-let initAttempts = 0;
-let initInterval = setInterval(function() {
-    if (window.db) {
-        db = window.db;
-        firebaseInitialized = true;
-        console.log('✅ Firebase ready (interval)');
+// التحقق من Firebase
+setTimeout(() => {
+    if (isFirebaseReady) {
         checkFirebaseLiveStatus();
-        clearInterval(initInterval);
+        console.log('✅ Firebase جاهز ومراقب');
+    } else {
+        console.log('⚠️ Firebase غير جاهز، يرجى تحديث الصفحة');
     }
-    initAttempts++;
-    if (initAttempts > 20) {
-        clearInterval(initInterval);
-        console.log('⚠️ Firebase initialization timeout, using fallback');
-        checkLiveModeAndUpdate();
-    }
-}, 500);
+}, 1000);
 
+// التحقق من حالة Firebase بشكل دوري
 setInterval(() => {
-    // التحقق من حالة البث من Firebase
-    if (firebaseInitialized && db) {
-        try {
-            window.get(window.ref(db, 'live/status')).then((snapshot) => {
-                const isLive = snapshot.val() === true;
-                updateLiveUI(isLive);
-            }).catch(() => {});
-        } catch(e) {}
+    if (isFirebaseReady) {
+        database.ref('live').once('value').then((snapshot) => {
+            const data = snapshot.val();
+            if (data && data.active === true) {
+                document.getElementById('btnWatchLive').style.display = 'inline-block';
+            }
+        }).catch(() => {});
     }
 }, 5000);
 </script>
