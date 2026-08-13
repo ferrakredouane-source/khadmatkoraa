@@ -255,11 +255,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 }
 
 /* إخفاء أزرار التحكم السفلية للمشاهدين */
-.viewer-mode .lot-grid .top-name-box + div + div button,
-.viewer-mode .lot-grid .top-name-box + div + div .btn,
-.viewer-mode .lot-grid .top-name-box + div + div .print-btn,
-.viewer-mode .lot-grid .top-name-box + div + div .excel-btn,
-.viewer-mode .lot-grid .top-name-box + div + div .upload-btn {
+.viewer-mode #controlButtons {
     display: none !important;
 }
 
@@ -617,8 +613,8 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     </div>
 </div>
 
-<!-- الأزرار السفلية - سيتم إخفاؤها للمشاهدين عبر CSS -->
-<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%" id="controlButtons">
+<!-- الأزرار السفلية - تم إضافة id للتحكم بها -->
+<div id="controlButtons" style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%">
     <button onclick="exportWinnersExcel()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📥 تصدير النتائج Excel</button>
     <button onclick="clearAllWinners()" style="flex:1;background:rgba(255,50,50,0.15);border:1px solid rgba(255,50,50,0.2);color:#ff6666;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">🗑️ مسح الكل</button>
     <button onclick="showPage('dashboard')" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#8ecaff;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📊 العودة للوحة التحكم</button>
@@ -983,6 +979,10 @@ function enableViewerMode(isViewer) {
         document.querySelectorAll('.lot-grid .top-name-box + div + div .upload-btn').forEach(b => {
             b.style.display = 'none';
         });
+        
+        // ✅ إخفاء أزرار التحكم السفلية للمشاهدين
+        document.getElementById('controlButtons').style.display = 'none';
+        
     } else {
         page.classList.remove('viewer-mode');
         document.getElementById('viewerModeMsg').style.display = 'none';
@@ -1004,6 +1004,9 @@ function enableViewerMode(isViewer) {
         document.querySelectorAll('.lot-grid .top-name-box + div + div .upload-btn').forEach(b => {
             b.style.display = 'inline-block';
         });
+        
+        // ✅ إظهار أزرار التحكم السفلية للمدير
+        document.getElementById('controlButtons').style.display = 'flex';
     }
 }
 
