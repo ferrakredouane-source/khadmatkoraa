@@ -254,14 +254,12 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     display: none !important;
 }
 
+/* إخفاء أزرار التحكم السفلية للمشاهدين */
 .viewer-mode .lot-grid .top-name-box + div + div button,
 .viewer-mode .lot-grid .top-name-box + div + div .btn,
 .viewer-mode .lot-grid .top-name-box + div + div .print-btn,
 .viewer-mode .lot-grid .top-name-box + div + div .excel-btn,
-.viewer-mode .lot-grid .top-name-box + div + div .upload-btn,
-.viewer-mode .lot-grid > div:last-child .lot-right-panel + div button,
-.viewer-mode .lot-grid > div:last-child .lot-right-panel + div .btn,
-.viewer-mode .lot-grid > div:last-child .lot-right-panel + div .print-btn {
+.viewer-mode .lot-grid .top-name-box + div + div .upload-btn {
     display: none !important;
 }
 
@@ -315,24 +313,31 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.5);
     border-radius: 18px;
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 900;
     color: #f7b633;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
+    flex-direction: column;
+    gap: 10px;
 }
 .freeze-overlay.show {
     display: flex;
-    animation: freezePulse 0.5s infinite alternate;
+    animation: freezePulse 0.8s infinite alternate;
 }
 @keyframes freezePulse {
     0% { opacity: 0.7; transform: scale(0.98); }
     100% { opacity: 1; transform: scale(1.02); }
+}
+.freeze-overlay .sub-text {
+    font-size: 18px;
+    color: #8ecaff;
+    font-weight: 700;
 }
 .top-name-box {
     position: relative;
@@ -340,11 +345,11 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 
 /* تأثير وميض الفائز */
 .winner-flash {
-    animation: winnerFlash 0.5s ease 3;
+    animation: winnerFlash 0.6s ease 3;
 }
 @keyframes winnerFlash {
     0%, 100% { color: #f7b633; }
-    50% { color: #2ec4b6; text-shadow: 0 0 20px rgba(46,196,182,0.5); }
+    50% { color: #2ec4b6; text-shadow: 0 0 30px rgba(46,196,182,0.6); }
 }
 </style>
 </head>
@@ -381,9 +386,9 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 </div>
 </section>
 <div class="stats">
-<div><b>1,500+</b><span>مستفيد</span></div>
-<div><b>12</b><span>وجهة</span></div>
-<div><b>100</b><span>عمرة</span></div>
+<div><b>الكثير من</b><span>مستفيد</span></div>
+<div><b>6</b><span>وجهات سياحية</span></div>
+<div><b>العمرة</b><span>رحلة خاصة</span></div>
 <div><b>01-09-2026</b><span>آخر أجل</span></div>
 </div>
 <section class="section" id="trips">
@@ -512,6 +517,7 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
 <button class="btn btn-gold" onclick="showPage('lottery')">🎰 إجراء القرعة</button>
 <button class="btn btn-white" style="border:2px solid #e2ecf7" onclick="exportAllData()">📥 تصدير كل البيانات</button>
 <button class="btn excel-btn" onclick="exportParticipantsExcel()">📊 تحميل المشاركين Excel</button>
+<button class="btn" onclick="exportWinnersExcel()" style="background:#f7b633;color:#3a2400;font-weight:800;padding:12px;border-radius:30px;border:none;cursor:pointer;box-shadow:0 6px 18px rgba(247,182,51,0.4)">📥 تصدير الفائزين Excel</button>
 </div>
 </div>
 
@@ -567,7 +573,8 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     
     <!-- طبقة التجميد -->
     <div class="freeze-overlay" id="freezeOverlay">
-        <span>⏳ تم الاختيار! جاري التثبيت...</span>
+        <span>🎯 تم الاختيار!</span>
+        <span class="sub-text" id="freezeName">جاري التثبيت...</span>
     </div>
     
     <div class="lot-controls" id="lotControls">
@@ -610,12 +617,14 @@ footer{background:#0a1e36;color:#b8d4ee;text-align:center;padding:24px 16px;marg
     </div>
 </div>
 
-<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%">
+<!-- الأزرار السفلية - سيتم إخفاؤها للمشاهدين عبر CSS -->
+<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%" id="controlButtons">
     <button onclick="exportWinnersExcel()" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📥 تصدير النتائج Excel</button>
     <button onclick="clearAllWinners()" style="flex:1;background:rgba(255,50,50,0.15);border:1px solid rgba(255,50,50,0.2);color:#ff6666;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">🗑️ مسح الكل</button>
     <button onclick="showPage('dashboard')" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#8ecaff;padding:8px;border-radius:8px;cursor:pointer;font-size:12px">📊 العودة للوحة التحكم</button>
     <button onclick="printWinnersLists()" class="print-btn" style="flex:1">🖨️ طباعة القوائم</button>
 </div>
+
 </div>
 
 <!-- الجهة اليمنى: قوائم الفائزين والاحتياط -->
@@ -1137,7 +1146,7 @@ function updateWinnersLists(winnersData) {
 }
 
 // ============================================================
-// 10. دوال القرعة - بطيئة (0.7 ثانية بين الأسماء، تجميد 1 ثانية عند الفائز)
+// 10. دوال القرعة - سرعة 0.9 ثانية بين الأسماء
 // ============================================================
 
 function startLottery(){
@@ -1185,6 +1194,7 @@ function startLottery(){
     let progressFill = document.getElementById('progressFill');
     let progressText = document.getElementById('progressText');
     let freezeOverlay = document.getElementById('freezeOverlay');
+    let freezeName = document.getElementById('freezeName');
     
     progressBar.style.display = 'block';
     progressFill.style.width = '0%';
@@ -1213,7 +1223,7 @@ function startLottery(){
     let totalSelected = allSelected.length;
     let currentIndex = 0;
     let spinCount = 0;
-    const SPINS_PER_PERSON = 8; // عدد اللفات لكل شخص
+    const SPINS_PER_PERSON = 10; // عدد اللفات لكل شخص
     
     // عرض الاسم الأول كبداية
     if (allSelected.length > 0) {
@@ -1222,7 +1232,7 @@ function startLottery(){
         slotStatus.innerText = `🎯 جاري اختيار الفائزين... 1/${totalSelected}`;
     }
     
-    // دالة السحب خطوة بخطوة - بطيئة (0.7 ثانية)
+    // دالة السحب خطوة بخطوة - سرعة 0.9 ثانية بين الأسماء
     function drawNext() {
         if (currentIndex >= totalSelected) {
             // انتهى السحب - عرض النتائج النهائية
@@ -1235,7 +1245,7 @@ function startLottery(){
         let label = isWinner ? '🏆 فائز' : '📋 احتياط';
         let personIndex = currentIndex + 1;
         
-        // مرحلة الدوران البطيء (0.7 ثانية بين كل اسم)
+        // مرحلة الدوران البطيء (0.9 ثانية بين كل اسم)
         let spinCount = 0;
         let spinInterval = setInterval(() => {
             if (spinCount < SPINS_PER_PERSON) {
@@ -1261,12 +1271,12 @@ function startLottery(){
                 
                 // تحديث Firebase بالاسم الفائز
                 updateFirebaseCurrentName(`🏆 ${currentPerson.nom} - ${label}`);
-                updateFirebaseStatus(`${label} ${personIndex}/${totalSelected} - تم التثبيت`);
+                updateFirebaseStatus(`${label} ${personIndex}/${totalSelected} - جاري التثبيت...`);
                 
-                // ✅ تجميد لمدة 1 ثانية (تجميد أقصر للمشاهدين)
+                // ✅ تجميد لمدة 2 ثانية
                 isFrozen = true;
                 freezeOverlay.classList.add('show');
-                freezeOverlay.innerHTML = `<span>🎯 ${label} ${personIndex}/${totalSelected}: ${currentPerson.nom}</span>`;
+                freezeName.innerText = `${label} ${personIndex}/${totalSelected}: ${currentPerson.nom}`;
                 
                 // إضافة الفائز أو الاحتياط فوراً إلى القوائم النهائية
                 if (isWinner) {
@@ -1314,16 +1324,16 @@ function startLottery(){
                     fireworks(currentPerson.nom);
                 }
                 
-                // بعد 1 ثانية نكمل
+                // بعد 2 ثانية نكمل
                 setTimeout(() => {
                     freezeOverlay.classList.remove('show');
                     slotName.classList.remove('winner-flash');
                     isFrozen = false;
                     currentIndex++;
                     drawNext();
-                }, 1000); // 1 ثانية تجميد
+                }, 2000);
             }
-        }, 150); // 0.15 ثانية بين كل اسم (0.7 ثانية لكل 5 أسماء تقريباً)
+        }, 900); // 0.9 ثانية بين كل اسم (900 مللي ثانية)
     }
     
     // بدء السحب
@@ -2192,14 +2202,120 @@ function createFirework(x, y){
 }
 
 // ============================================================
-// 21. دوال أخرى
+// 21. دوال تصدير الفائزين إلى Excel
+// ============================================================
+function exportWinnersExcel() {
+    if (typeof XLSX === 'undefined') {
+        alert('⚠️ مكتبة Excel غير محملة، يرجى تحديث الصفحة');
+        return;
+    }
+    
+    if (finalWinners.length === 0 && finalReserves.length === 0) {
+        alert('⚠️ لا يوجد فائزين أو احتياط لتصديرهم!');
+        return;
+    }
+    
+    // جلب البيانات الكاملة للمشاركين من Google Sheets للحصول على المعلومات الإضافية
+    fetch(GOOGLE_SHEET_URL + '?action=getAllParticipantsFull')
+        .then(r => r.json())
+        .then(data => {
+            let allParticipants = data.participants || [];
+            
+            // إنشاء بيانات Excel
+            const excelData = [
+                ['الاسم', 'الرقم الوظيفي', 'الحساب الجاري CCP', 'المفتاح Clé', 'الرحلة', 'النوع (فائز/احتياط)']
+            ];
+            
+            // إضافة الفائزين
+            finalWinners.forEach(w => {
+                // البحث عن معلومات إضافية من قائمة المشاركين
+                const participant = allParticipants.find(p => 
+                    (p.nom === w.name || p.name === w.name) && 
+                    (p.trip === w.trip)
+                );
+                excelData.push([
+                    w.name || '',
+                    participant ? (participant.matricule || participant['الرقم الوظيفي'] || '') : '',
+                    participant ? (participant.ccp || participant['CCP'] || participant['رقم الحساب'] || '') : '',
+                    participant ? (participant.cle || participant['المفتاح'] || participant['Clé'] || '') : '',
+                    w.trip || '',
+                    'فائز'
+                ]);
+            });
+            
+            // إضافة الاحتياط
+            finalReserves.forEach(w => {
+                const participant = allParticipants.find(p => 
+                    (p.nom === w.name || p.name === w.name) && 
+                    (p.trip === w.trip)
+                );
+                excelData.push([
+                    w.name || '',
+                    participant ? (participant.matricule || participant['الرقم الوظيفي'] || '') : '',
+                    participant ? (participant.ccp || participant['CCP'] || participant['رقم الحساب'] || '') : '',
+                    participant ? (participant.cle || participant['المفتاح'] || participant['Clé'] || '') : '',
+                    w.trip || '',
+                    'احتياط'
+                ]);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            ws['!cols'] = [
+                { wch: 25 },
+                { wch: 18 },
+                { wch: 20 },
+                { wch: 15 },
+                { wch: 20 },
+                { wch: 15 }
+            ];
+            
+            XLSX.utils.book_append_sheet(wb, ws, 'النتائج');
+            
+            const now = new Date();
+            const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+            const fileName = `نتائج_القرعة_${dateStr}.xlsx`;
+            
+            XLSX.writeFile(wb, fileName);
+            
+            alert(`✅ تم تصدير ${finalWinners.length} فائز و ${finalReserves.length} احتياط بنجاح!`);
+        })
+        .catch(error => {
+            console.error('❌ خطأ في جلب بيانات المشاركين:', error);
+            // محاولة التصدير بالبيانات المتوفرة فقط
+            const excelData = [
+                ['الاسم', 'الرحلة', 'النوع (فائز/احتياط)']
+            ];
+            finalWinners.forEach(w => {
+                excelData.push([w.name || '', w.trip || '', 'فائز']);
+            });
+            finalReserves.forEach(w => {
+                excelData.push([w.name || '', w.trip || '', 'احتياط']);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            XLSX.utils.book_append_sheet(wb, ws, 'النتائج');
+            
+            const now = new Date();
+            const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+            const fileName = `نتائج_القرعة_${dateStr}.xlsx`;
+            
+            XLSX.writeFile(wb, fileName);
+            alert(`✅ تم تصدير ${finalWinners.length} فائز و ${finalReserves.length} احتياط بنجاح (بدون معلومات إضافية)`);
+        });
+}
+
+// ============================================================
+// 22. دوال أخرى
 // ============================================================
 function exportAllData() {
     alert('📥 سيتم تصدير جميع البيانات قريباً...');
 }
 
 // ============================================================
-// 22. التحميل الأولي
+// 23. التحميل الأولي
 // ============================================================
 loadFromLocalStorage();
 
